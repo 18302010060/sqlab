@@ -1,5 +1,6 @@
 package fudan.se.lab2.domain;
 
+import fudan.se.lab2.service.AuthService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +22,12 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String username;
-
     private String password;
     private String fullname;
+    private String email;
+    private String district;
+    private String workUnit;
+
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
@@ -36,6 +40,17 @@ public class User implements UserDetails {
         this.fullname = fullname;
         this.authorities = authorities;
     }
+    public User(String username, String password, String fullname, String email,String district,String workUnit,Set<Authority> authorities) {
+        this.username = username;
+        this.password= password;
+        this.fullname = fullname;
+        this.authorities = authorities;
+        this.email=email;
+        this.district=district;
+        this.workUnit=workUnit;
+    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,6 +65,21 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public String getDistrict() {
+        return district;
+    }
+
+
+    public String getWorkUnit() {
+        return workUnit;
     }
 
     @Override
@@ -94,6 +124,18 @@ public class User implements UserDetails {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setWorkUnit(String workUnit) {
+        this.workUnit = workUnit;
     }
 
     public void setAuthorities(Set<Authority> authorities) {

@@ -18,11 +18,12 @@ import java.util.Map;
  * @author LBW
  */
 @RestController
+@RequestMapping
 public class AuthController {
 
     private AuthService authService;
 
-    Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     public AuthController(AuthService authService) {
@@ -32,14 +33,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        logger.debug("RegistrationForm: " + request.toString());
+        logger.info("RegistrationForm: " + request.toString());
 
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(authService.register(request).getUsername());
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        logger.debug("LoginForm: " + request.toString());
+        //logger.debug("LoginForm: " + request.toString());
+        logger.info("username: " + request.getUsername());
+        logger.info("password: " + request.getPassword());
 
         return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
     }
@@ -50,7 +53,15 @@ public class AuthController {
     @GetMapping("/welcome")
     public ResponseEntity<?> welcome() {
         Map<String, String> response = new HashMap<>();
-        String message = "Welcome to 2020 Software Engineering Lab2. ";
+        String message = "Welcome to 2020 Software Engineering Lab2 xxx. ";
+        response.put("message", message);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/index")
+    public ResponseEntity<?> index() {
+        Map<String, String> response = new HashMap<>();
+        String message = "this is an index ";
         response.put("message", message);
         return ResponseEntity.ok(response);
     }

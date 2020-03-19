@@ -1,11 +1,15 @@
 package fudan.se.lab2.service;
 
+import fudan.se.lab2.domain.Authority;
 import fudan.se.lab2.domain.User;
 import fudan.se.lab2.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * @author LBW
@@ -21,6 +25,15 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO: Implement the function.
-        throw new UsernameNotFoundException("User: '" + username + "' not found.");
+        Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
+        if(!users.isPresent()) {
+            throw new UsernameNotFoundException("User: '" + username + "' not found.");
+        }
+        Set<Authority> authorities = new HashSet<>();
+        //authList.add(new SimpleAu);
+        authorities.add(new Authority("user"));
+        UserDetails userDetail = new User(users.get().getUsername(), users.get().getPassword(),users.get().getFullname(),authorities);
+        return userDetail;
+
     }
 }

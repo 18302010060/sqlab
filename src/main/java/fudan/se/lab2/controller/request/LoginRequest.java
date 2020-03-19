@@ -1,13 +1,19 @@
 package fudan.se.lab2.controller.request;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 /**
  * @author LBW
  */
+
+
 public class LoginRequest {
     private String username;
     private String password;
 
-    public LoginRequest() {}
+    //public LoginRequest() {}
 
 
     public String getUsername() {

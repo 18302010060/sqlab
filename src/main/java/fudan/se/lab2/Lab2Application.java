@@ -1,14 +1,19 @@
 package fudan.se.lab2;
 
+import fudan.se.lab2.controller.AuthController;
 import fudan.se.lab2.domain.Authority;
 import fudan.se.lab2.domain.User;
 import fudan.se.lab2.repository.AuthorityRepository;
 import fudan.se.lab2.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +25,10 @@ import java.util.HashSet;
  *
  * @author LBW
  */
+//@SpringBootApplication
+
 @SpringBootApplication
+
 public class Lab2Application {
 
     public static void main(String[] args) {
@@ -37,6 +45,7 @@ public class Lab2Application {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
+                Logger logger = LoggerFactory.getLogger(AuthController.class);
                 // Create authorities if not exist.
                 Authority adminAuthority = getOrCreateAuthority("Admin", authorityRepository);
                 Authority contributorAuthority = getOrCreateAuthority("Contributor", authorityRepository);
@@ -44,14 +53,17 @@ public class Lab2Application {
 
                 // Create an admin if not exists.
                 if (userRepository.findByUsername("admin") == null) {
+                    logger.info("no admin");
                     User admin = new User(
                             "admin",
-                            passwordEncoder.encode("password"),
+                            "password",
                             "libowen",
                             new HashSet<>(Collections.singletonList(adminAuthority))
                     );
                     userRepository.save(admin);
+                    logger.info("save admin");
                 }
+
             }
 
             private Authority getOrCreateAuthority(String authorityText, AuthorityRepository authorityRepository) {

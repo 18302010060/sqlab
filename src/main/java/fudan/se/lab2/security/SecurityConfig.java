@@ -3,8 +3,11 @@ package fudan.se.lab2.security;
 import fudan.se.lab2.security.jwt.JwtRequestFilter;
 import fudan.se.lab2.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtUserDetailsService userDetailsService;
@@ -42,17 +46,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO: you need to configure your http security. Remember to read the JavaDoc carefully.
 
         // We dont't need CSRF for this project.
-        http.csrf().disable()
+        http.csrf().disable();
                 // Make sure we use stateless session; session won't be used to store user's state.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/welcome").permitAll()
-                .anyRequest().authenticated();
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
+               //     .antMatchers("/welcome").permitAll()
+        http.authorizeRequests()
+               .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST).permitAll()
+               .antMatchers("/api/**").permitAll();
+
+
+
+
+
+
 
 //      Here we use JWT(Json Web Token) to authenticate the user.
 //      You need to write your code in the class 'JwtRequestFilter' to make it works.
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+       // http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

@@ -9,15 +9,21 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String fullname;
-    private Set<String> authorities;
+    private String email;
+    private String district;
+    private String workUnit;
+    //private Set<String> authorities;
 
     public RegisterRequest() {}
 
-    public RegisterRequest(String username, String password, String fullname, Set<String> authorities) {
+    public RegisterRequest(String username, String password, String fullname,String email,String district,String workUnit) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
-        this.authorities = authorities;
+        this.email=email;
+        this.district=district;
+        this.workUnit=workUnit;
+
     }
 
     public String getUsername() {
@@ -44,12 +50,36 @@ public class RegisterRequest {
         this.fullname = fullname;
     }
 
-    public Set<String> getAuthorities() {
-        return authorities;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAuthorities(Set<String> authorities) {
-        this.authorities = authorities;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getWorkUnit() {
+        return workUnit;
+    }
+
+    public void setWorkUnit(String workUnit) {
+        this.workUnit = workUnit;
+    }
+
+   // public Set<String> getAuthorities() {
+    //    return authorities;
+   // }
+
+   // public void setAuthorities(Set<String> authorities) {
+    //    this.authorities = authorities;
+   // }
 }
 

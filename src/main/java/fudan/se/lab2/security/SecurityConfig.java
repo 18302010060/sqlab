@@ -46,15 +46,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO: you need to configure your http security. Remember to read the JavaDoc carefully.
 
         // We dont't need CSRF for this project.
-        http.csrf().disable();
+       // http.csrf().disable();
                 // Make sure we use stateless session; session won't be used to store user's state.
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
                //     .antMatchers("/welcome").permitAll()
+        http.cors().and().csrf().disable();
         http.authorizeRequests()
-               .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers(HttpMethod.POST).permitAll()
-               .antMatchers("/api/**").permitAll();
+                //.antMatchers("/user").authenticated()
+                .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST).permitAll();
+
+
+
+                //.authorizeRequests()
+               // .antMatchers("/").permitAll()
+               // .antMatchers("/login").permitAll()
+               // .antMatchers("/index").permitAll()
+               // .antMatchers("/user").permitAll()
+               // .anyRequest().authenticated();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //http.addFilter(jwtRequestFilter);
+
+
+
+
 
 
 
@@ -70,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // Hint: Now you can view h2-console page at `http://IP-Address:<port>/h2-console` without authentication.
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/h2-console/**","/login","/register","/error");
     }
 
     @Bean

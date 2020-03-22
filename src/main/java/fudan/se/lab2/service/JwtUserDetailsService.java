@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         Set<Authority> authorities = new HashSet<>();
         //authList.add(new SimpleAu);
-        authorities.add(new Authority("user"));
+        authorities.add(new Authority("admin"));
         UserDetails userDetail = new User(users.get().getUsername(), users.get().getPassword(),users.get().getFullname(),authorities);
         return userDetail;
 

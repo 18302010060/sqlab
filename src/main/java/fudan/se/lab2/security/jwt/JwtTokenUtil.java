@@ -23,14 +23,15 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -3839549913040578986L;
+    //private static JwtConfigProperties jwtConfigProperties;
 
-    private JwtConfigProperties jwtConfigProperties;
+    private static JwtConfigProperties jwtConfigProperties;
 
     public JwtTokenUtil(JwtConfigProperties jwtConfigProperties) {
         this.jwtConfigProperties = jwtConfigProperties;
     }
 
-    public String generateToken(User user) {
+    public static String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder().addClaims(claims)
                 .setSubject(user.getUsername())
@@ -43,7 +44,7 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(jwtToken, Claims::getSubject);
     }
 
-    public boolean validateToken(String jwtToken, UserDetails userDetails) {
+    public  boolean validateToken(String jwtToken, UserDetails userDetails) {
         final String username = getUsernameFromToken(jwtToken);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
     }

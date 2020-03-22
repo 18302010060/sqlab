@@ -35,6 +35,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         logger.info("RegistrationForm: " + request.toString());
 
+
         return ResponseEntity.ok(authService.register(request).getUsername());
     }
 

@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author LBW
@@ -80,6 +77,10 @@ public class AuthService {
         if(!password.equals(user.getPassword())){
             return "登陆失败";
         }else {
+            String jwt = JwtTokenUtil.generateToken((User)user);
+            //return new HashMap<String,String>(){{
+           //     put("token", jwt);
+           // }};
             return "登陆成功";
         }
 

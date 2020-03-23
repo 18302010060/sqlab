@@ -57,7 +57,6 @@ public class Lab2Application {
                     User admin = new User(
                             "admin",
                             "password",
-                            "libowen",
                             new HashSet<>(Collections.singletonList(adminAuthority))
                     );
                     userRepository.save(admin);

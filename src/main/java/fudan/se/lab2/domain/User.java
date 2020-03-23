@@ -11,6 +11,7 @@ import java.util.*;
 /**
  * @author LBW
  */
+//18302010071陈淼'Part + 18302010077张超'Part
 @Entity
 public class User implements UserDetails {
 
@@ -23,35 +24,34 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
-    private String fullname;
     private String email;
-    private String district;
-    private String workUnit;
+    private String unit;
+    private String area;
 
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-
+    //User的构造方法
+    //（username + password + authorities） 用于登录
+    //（username + password + unit + area + authorities ） 用于注册
     public User() {}
-    public User(String username, String password, String fullname, Set<Authority> authorities) {
+    public User(String username, String password,  Set<Authority> authorities) {
         this.username = username;
         this.password= password;
-        this.fullname = fullname;
         this.authorities = authorities;
     }
-    public User(String username, String password, String fullname, String email,String district,String workUnit,Set<Authority> authorities) {
+    public User(String username, String password, String email,String unit,String area,Set<Authority> authorities) {
         this.username = username;
         this.password= password;
-        this.fullname = fullname;
         this.authorities = authorities;
         this.email=email;
-        this.district=district;
-        this.workUnit=workUnit;
+        this.area=area;
+        this.unit=unit;
     }
 
 
-
+    //对应的GET SET方法
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -73,13 +73,13 @@ public class User implements UserDetails {
     }
 
 
-    public String getDistrict() {
-        return district;
+    public String getArea() {
+        return area;
     }
 
 
-    public String getWorkUnit() {
-        return workUnit;
+    public String getUnit() {
+        return unit;
     }
 
     @Override
@@ -118,24 +118,16 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public void setWorkUnit(String workUnit) {
-        this.workUnit = workUnit;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public void setAuthorities(Set<Authority> authorities) {

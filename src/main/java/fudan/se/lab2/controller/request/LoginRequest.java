@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author LBW
  */
 
-
+//18302010071陈淼'part
 public class LoginRequest {
     private String username;
     private String password;
 
-    //public LoginRequest() {}
-
+    //LoginRequest的构造方法（username + password）
+    public LoginRequest() {}
+    public LoginRequest(String username,String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

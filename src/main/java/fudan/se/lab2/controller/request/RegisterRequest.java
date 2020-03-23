@@ -5,27 +5,26 @@ import java.util.Set;
 /**
  * @author LBW
  */
+//18302010077张超'Part
 public class RegisterRequest {
+    //定义五个参数
     private String username;
     private String password;
-    private String fullname;
     private String email;
-    private String district;
-    private String workUnit;
-    //private Set<String> authorities;
+    private String area;
+    private String unit;
 
+    //RegisterRequest的构造函数（username + password + email + area + unit）
     public RegisterRequest() {}
-
-    public RegisterRequest(String username, String password, String fullname,String email,String district,String workUnit) {
+    public RegisterRequest(String username, String password, String email,String area,String unit) {
         this.username = username;
         this.password = password;
-        this.fullname = fullname;
         this.email=email;
-        this.district=district;
-        this.workUnit=workUnit;
-
+        this.area=area;
+        this.unit=unit;
     }
 
+    //对应的GET SET方法
     public String getUsername() {
         return username;
     }
@@ -42,14 +41,6 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -58,28 +49,20 @@ public class RegisterRequest {
         this.email = email;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getArea() {
+        return area;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public String getWorkUnit() {
-        return workUnit;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setWorkUnit(String workUnit) {
-        this.workUnit = workUnit;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
-
-   // public Set<String> getAuthorities() {
-    //    return authorities;
-   // }
-
-   // public void setAuthorities(Set<String> authorities) {
-    //    this.authorities = authorities;
-   // }
 }
 

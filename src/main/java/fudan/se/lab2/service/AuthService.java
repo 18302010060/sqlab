@@ -71,6 +71,7 @@ public class AuthService {
         if(!password.equals(user.getPassword())){
             throw new WrongPasswordException();
         }else {
+
             return "登陆成功";
         }
 

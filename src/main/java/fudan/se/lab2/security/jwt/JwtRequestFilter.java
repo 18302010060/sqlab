@@ -24,6 +24,7 @@ import java.io.IOException;
  *
  * @author LBW
  */
+// 18302010070 许辉'Part
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -35,26 +36,36 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // TODO: Implement the filter.
-        logger.info("jwtrequestfilter");
-        String authHeader = request.getHeader("Authorization");
-        String tokenHead = "Bearer ";
-        if (authHeader != null && authHeader.startsWith(tokenHead)) {
-            logger.info("check token");
-            String authToken = authHeader.substring(tokenHead.length());
-            String username = jwtTokenUtil.getUsernameFromToken(authToken);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-                if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+        final String requestTokenHeader = request.getHeader("Authorization");
+        String username = null;
+        String jwtToken = null;
+        // JWT报文表头的格式是"Bearer token". 去除"Bearer ",直接获取token
+        // only the Token
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
+            username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+
+        }
+        // Once we get the token validate it.
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+            // if token is valid configure Spring Security to manually set
+            // authentication
+            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken
+                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
         filterChain.doFilter(request, response);
+
     }
 
 }

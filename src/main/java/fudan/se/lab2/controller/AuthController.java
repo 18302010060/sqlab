@@ -38,6 +38,7 @@ public class AuthController {
         logger.info("email: " + request.getEmail());
         logger.info("area: " + request.getArea());
         logger.info("unit: " + request.getUnit());
+        logger.info("fullname: " + request.getFullname());
         //进入authService中的register函数进行处理登录请求
         return ResponseEntity.ok(authService.register(request).getUsername());
     }

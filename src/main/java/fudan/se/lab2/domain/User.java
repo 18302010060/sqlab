@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String email;
     private String unit;
     private String area;
+    private String fullname;
 
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -41,13 +42,14 @@ public class User implements UserDetails {
         this.password= password;
         this.authorities = authorities;
     }
-    public User(String username, String password, String email,String unit,String area,Set<Authority> authorities) {
+    public User(String username, String password, String email,String unit,String area,String fullname,Set<Authority> authorities) {
         this.username = username;
         this.password= password;
         this.authorities = authorities;
         this.email=email;
         this.area=area;
         this.unit=unit;
+        this.fullname=fullname;
     }
 
 
@@ -80,6 +82,14 @@ public class User implements UserDetails {
 
     public String getUnit() {
         return unit;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     @Override

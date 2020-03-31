@@ -40,6 +40,7 @@ public class AuthService {
         String email = request.getEmail();
         String area = request.getArea();
         String unit = request.getUnit();
+        String fullname=request.getFullname();
 
         //对于authority属性的处理
         Authority authority = authorityRepository.findByAuthority("admin");
@@ -55,7 +56,7 @@ public class AuthService {
         }
 
         //根据输入的五个参数以及authority构造USER新用户
-        User user = new User(username, password, email, area, unit, new HashSet<>(Collections.singletonList(authority)));
+        User user = new User(username, password, email, area, unit, fullname,new HashSet<>(Collections.singletonList(authority)));
         //在数据库中进行保存
         userRepository.save(user);
         return user;

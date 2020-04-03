@@ -39,25 +39,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // TODO: Configure your auth here. Remember to read the JavaDoc carefully.
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // TODO: you need to configure your http security. Remember to read the JavaDoc carefully.
-
-        http.cors().and().csrf().disable();
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers(HttpMethod.POST).permitAll();
         // We dont't need CSRF for this project.
-        /*http.csrf().disable()
+        http.csrf().disable()
                 // Make sure we use stateless session; session won't be used to store user's state.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/welcome","#/login","#/register").permitAll()
-                .anyRequest().authenticated();*/
+                .anyRequest().authenticated();
 
 //      Here we use JWT(Json Web Token) to authenticate the user.
 //      You need to write your code in the class 'JwtRequestFilter' to make it works.

@@ -27,15 +27,18 @@ import java.io.IOException;
 // 18302010070 许辉'Part
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
+    @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
+    private JwtConfigProperties jwtConfigProperties=new JwtConfigProperties();
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(jwtConfigProperties);
+    /*@Autowired
     public JwtRequestFilter(JwtUserDetailsService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
-    }
+    }*/
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

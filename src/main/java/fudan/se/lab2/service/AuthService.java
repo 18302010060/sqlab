@@ -3,6 +3,7 @@ package fudan.se.lab2.service;
 import fudan.se.lab2.domain.Authority;
 import fudan.se.lab2.exception.UsernameHasBeenRegisteredException;
 import fudan.se.lab2.exception.WrongPasswordException;
+import fudan.se.lab2.security.jwt.JwtConfigProperties;
 import fudan.se.lab2.security.jwt.JwtTokenUtil;
 import fudan.se.lab2.domain.User;
 import fudan.se.lab2.repository.AuthorityRepository;
@@ -72,8 +73,10 @@ public class AuthService {
         if(!password.equals(user.getPassword())){
             throw new WrongPasswordException();
         }else {
+            JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(new JwtConfigProperties());
+            String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username));
 
-            return "登陆成功";
+            return token;
         }
 
 

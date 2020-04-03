@@ -73,6 +73,7 @@ public class AuthService {
         if(!password.equals(user.getPassword())){
             throw new WrongPasswordException();
         }else {
+            
             JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(new JwtConfigProperties());
             String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username));
 

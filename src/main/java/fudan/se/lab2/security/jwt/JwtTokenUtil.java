@@ -24,7 +24,6 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -3839549913040578986L;
 
-    //private static JwtConfigProperties jwtConfigProperties;
 
     private JwtConfigProperties jwtConfigProperties;
 

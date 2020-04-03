@@ -34,11 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtConfigProperties jwtConfigProperties=new JwtConfigProperties();
     @Autowired
     private JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(jwtConfigProperties);
-    /*@Autowired
-    public JwtRequestFilter(JwtUserDetailsService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
-        this.jwtUserDetailsService = jwtUserDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }*/
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

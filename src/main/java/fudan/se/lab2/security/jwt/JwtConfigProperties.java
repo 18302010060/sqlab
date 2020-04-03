@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "jwt.token")
 public class JwtConfigProperties {
+
     private int validity=18000000;
     private String secret="FdseFdse2020";
 

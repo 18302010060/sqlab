@@ -33,7 +33,7 @@ public class AuthService {
     }
 
     //注册功能 18302010071陈淼'Part + 18302010077张超'Part
-    public User register(RegisterRequest request)throws UsernameHasBeenRegisteredException {
+   /* public User register(RegisterRequest request)throws UsernameHasBeenRegisteredException {
         // TODO: Implement the function.
         //从request中获取用户注册信息的基本参数
         String username = request.getUsername();
@@ -61,7 +61,38 @@ public class AuthService {
         //在数据库中进行保存
         userRepository.save(user);
         return user;
+    }*/
+
+    public Boolean register(RegisterRequest request) {
+        // TODO: Implement the function.
+        //从request中获取用户注册信息的基本参数
+        String username = request.getUsername();
+        String password = request.getPassword();
+        String email = request.getEmail();
+        String area = request.getArea();
+        String unit = request.getUnit();
+        String fullname=request.getFullname();
+
+        //对于authority属性的处理
+        Authority authority = authorityRepository.findByAuthority("admin");
+        if (authority == null) {
+            authority = new Authority("admin");
+            authorityRepository.save(authority);
+        }
+
+        //判断注册用户是否已经存在，若存在则进入用户已存在异常处理程序
+        Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
+        if(users.isPresent()) {
+            return false;
+        }
+
+        //根据输入的五个参数以及authority构造USER新用户
+        User user = new User(username, password, email, area, unit, fullname,new HashSet<>(Collections.singletonList(authority)));
+        //在数据库中进行保存
+        userRepository.save(user);
+        return true;
     }
+
 
     //登录功能 18302010071陈淼'Part
     public String login(String username, String password)throws WrongPasswordException {

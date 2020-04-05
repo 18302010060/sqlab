@@ -6,10 +6,11 @@ import java.util.Date;
 public class ApplyRequest {
     private String shortname;
     private String fullname;
-    private Date time;
     private String place;
+    private Date time;
     private Date deadline;
     private Date releasetime;
+    private String token;
 
 
     public ApplyRequest() {}
@@ -60,4 +61,9 @@ public class ApplyRequest {
     public void setReleasetime(Date releasetime) {
         this.releasetime = releasetime;
     }
+
+    public String getToken(){
+        return this.token;
+    }
+
 }

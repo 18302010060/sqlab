@@ -25,6 +25,8 @@ public class Meeting  {
     private Date deadline;
     private String place;
     private String fullname;
+    private String state;
+    private String chair="";
 
     //@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     //private Set<Authority> authorities = new HashSet<>();
@@ -38,6 +40,7 @@ public class Meeting  {
         this.deadline=deadline;
         this.releasetime=releasetime;
         this.time=time;
+        this.state="审核中 ";
 
     }
 
@@ -95,5 +98,21 @@ public class Meeting  {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getState(){
+        return this.state;
+    }
+
+    public void setState(String state){
+        this.state=state;
+    }
+
+    public String getChair(){
+        return  this.chair;
+    }
+
+    public void setChair(String chair){
+        this.chair=chair;
     }
 }

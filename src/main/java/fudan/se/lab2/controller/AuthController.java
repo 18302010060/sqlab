@@ -40,7 +40,7 @@ public class AuthController {
         logger.info("unit: " + request.getUnit());
         logger.info("fullname: " + request.getFullname());
         //进入authService中的register函数进行处理登录请求
-        return ResponseEntity.ok(authService.register(request).getUsername());
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")

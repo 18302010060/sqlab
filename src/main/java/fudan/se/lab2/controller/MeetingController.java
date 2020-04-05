@@ -20,6 +20,7 @@ import java.util.Map;
  * @author LBW
  */
 @RestController
+@RequestMapping
 public class MeetingController {
 
     private MeetingService meetingService;
@@ -56,6 +57,7 @@ public class MeetingController {
         logger.info("time:"+request.getTime());
         logger.info("deadline:"+request.getDeadline());
         logger.info("releasetime:"+request.getReleasetime());
+        logger.info("token: "+request.getToken());
 
         return ResponseEntity.ok(meetingService.apply(request));
     }

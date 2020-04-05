@@ -1,28 +1,23 @@
 package fudan.se.lab2.service;
 
+import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.exception.UsernameHasBeenRegisteredException;
 import fudan.se.lab2.repository.MeetingRepository;
+import fudan.se.lab2.security.jwt.JwtConfigProperties;
 import fudan.se.lab2.security.jwt.JwtTokenUtil;
-import fudan.se.lab2.domain.User;
-import fudan.se.lab2.repository.AuthorityRepository;
-import fudan.se.lab2.repository.UserRepository;
-import fudan.se.lab2.controller.request.RegisterRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 //18302010060 黄怡清'part
 @Service
 public class MeetingService {
+    Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
     private MeetingRepository meetingRepository;
 
@@ -32,7 +27,7 @@ public class MeetingService {
         this.meetingRepository = meetingRepository;
     }
 
-    public Meeting apply(ApplyRequest request) {
+    public Boolean apply(ApplyRequest request) {
 
         String fullname = request.getFullname();
         String shortname = request.getShortname();
@@ -40,12 +35,29 @@ public class MeetingService {
         String place = request.getPlace();
         Date releasetime = request.getReleasetime();
         Date time = request.getTime();
-        Meeting meeting = new Meeting(shortname,fullname,time,place,deadline,releasetime);
+        String token = request.getToken();
 
-        meetingRepository.save(meeting);
+        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime);
 
-        return meeting;
+        Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname));
+        if (meeting2.isPresent()) {
+            logger.info("注册失败 "     );
+            return false;
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Meeting has existed!" );
+        } else {
+            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
+            String chair = jwtTokenUtil.getUsernameFromToken(token);
+
+            logger.info("chair: " + chair);
+            meeting.setChair(chair);
+
+            meetingRepository.save(meeting);
+            logger.info("注册成功 " );
+            return true;
+        }
     }
+
    /* public Meeting get(ApplyRequest request){
         String fullname = request.getFullname();
         return meetingRepository.findByFullname(fullname);

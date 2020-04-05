@@ -2,6 +2,7 @@ package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ApplyRequest;
+import fudan.se.lab2.controller.request.AuditRequest;
 import fudan.se.lab2.domain.Meeting;
 import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.security.jwt.JwtConfigProperties;
@@ -57,12 +58,16 @@ public class MeetingService {
             return true;
         }
     }
-
-   /* public Meeting get(ApplyRequest request){
-        String fullname = request.getFullname();
-        return meetingRepository.findByFullname(fullname);
+    public boolean audit(AuditRequest request){
+        int id = request.getId();
+        String state = request.getState();
+        Meeting meeting = meetingRepository.findById(id);
+        meeting.setState(state);
+        meetingRepository.save(meeting);
+        return true;
     }
-*/
+
+
 
 
 }

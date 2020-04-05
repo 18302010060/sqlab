@@ -1,6 +1,7 @@
 package fudan.se.lab2.controller;
 
 import fudan.se.lab2.controller.request.ApplyRequest;
+import fudan.se.lab2.controller.request.AuditRequest;
 import fudan.se.lab2.service.AuthService;
 import fudan.se.lab2.service.JwtUserDetailsService;
 import fudan.se.lab2.controller.request.LoginRequest;
@@ -60,6 +61,12 @@ public class MeetingController {
         logger.info("token: "+request.getToken());
 
         return ResponseEntity.ok(meetingService.apply(request));
+    }
+    @ResponseBody
+    public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){
+        logger.info("会议id"+request.getId());
+        logger.info("会议状态"+request.getState());
+        return ResponseEntity.ok(meetingService.audit(request));
     }
 
     /**

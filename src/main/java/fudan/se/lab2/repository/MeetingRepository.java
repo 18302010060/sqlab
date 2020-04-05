@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeetingRepository extends CrudRepository<Meeting, Long>{
     Meeting findByFullname(String fullname);
+    Meeting findById(int id);
+    Meeting findByState(String state);
 }

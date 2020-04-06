@@ -4,7 +4,9 @@ import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.User;
 import fudan.se.lab2.repository.MeetingRepository;
+import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.security.jwt.JwtConfigProperties;
 import fudan.se.lab2.security.jwt.JwtTokenUtil;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ public class MeetingService {
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
     private MeetingRepository meetingRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public MeetingService(MeetingRepository meetingRepository) {
@@ -59,9 +62,15 @@ public class MeetingService {
         }
     }
     public boolean audit(AuditRequest request){
-        int id = request.getId();
+        String fullname = request.getFullname();
         String state = request.getState();
-        Meeting meeting = meetingRepository.findById(id);
+        /*String token = request.getToken();
+        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userRepository.findByUsername(username);
+        long id = user.getId();*/
+
+        Meeting meeting = meetingRepository.findByFullname(fullname);
         meeting.setState(state);
         meetingRepository.save(meeting);
         return true;

@@ -1,34 +1,31 @@
 package fudan.se.lab2.domain;
 
-import fudan.se.lab2.service.AuthService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.*;
 
 /**
  * @author LBW
  */
 @Entity
+@Table(name="INVITATIONS")
 public class Invitations{
 
     private static final long serialVersionUID = -6140085056226164016L;
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Column(unique = true)
     private String chair = "";
-    private String meetingName;
+    private String fullname;
     private String username;
     private String inviteState;
 
 
 
     public Invitations() {}
-    public Invitations( String meetingName,String username) {
+    public Invitations(String fullname, String username) {
 
-        this.meetingName = meetingName;
+        this.fullname = fullname;
         this.username=username;
         this.inviteState = "已邀请";
     }
@@ -46,12 +43,12 @@ public class Invitations{
         this.chair = chair;
     }
 
-    public String getMeetingName() {
-        return meetingName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getUsername() {

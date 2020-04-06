@@ -1,19 +1,19 @@
 package fudan.se.lab2.controller.request;
 
 public class InviteRequest {
-    private String meetingName;
+    private String fullname;
     private String userName;
     private String inviteState;
     private String token;
 
     public InviteRequest() { }
 
-    public String getMeetingName() {
-        return meetingName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getUserName() {

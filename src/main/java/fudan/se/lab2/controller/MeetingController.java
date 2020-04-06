@@ -62,9 +62,11 @@ public class MeetingController {
 
         return ResponseEntity.ok(meetingService.apply(request));
     }
+    @PostMapping(value="/auditmeeting")
     @ResponseBody
     public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){
-        logger.info("会议id"+request.getId());
+        logger.debug(request.toString());
+        logger.info("会议id"+request.getFullname());
         logger.info("会议状态"+request.getState());
         return ResponseEntity.ok(meetingService.audit(request));
     }

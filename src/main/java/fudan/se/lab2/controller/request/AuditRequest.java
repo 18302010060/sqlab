@@ -1,23 +1,25 @@
 package fudan.se.lab2.controller.request;
 
 public class AuditRequest {
-    private int id;
+
+    private String fullname;
     private String state;
+    private String token;
 
     public AuditRequest(){
     }
 
-    public AuditRequest(int id, String state) {
-        this.id = id;
+    public AuditRequest(int id, String state,String fullname) {
+        this.fullname = fullname;
         this.state = state;
     }
 
-    public int getId() {
-        return id;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getState() {
@@ -28,5 +30,7 @@ public class AuditRequest {
         this.state = state;
     }
 
-
+    public String getToken() {
+        return token;
+    }
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InvitationRepository extends CrudRepository<Invitations, Long> {
-    Invitations findByMeetingNameaAndAndUsername(String meetingName,String username);
+    Invitations findByUsernameAndAndFullname(String username,String fullname);
 }

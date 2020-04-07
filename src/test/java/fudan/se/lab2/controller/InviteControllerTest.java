@@ -3,7 +3,9 @@ package fudan.se.lab2.controller;
 import fudan.se.lab2.controller.request.InviteRequest;
 import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.InvitationRepository;
+import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.service.InviteService;
 import org.junit.jupiter.api.Test;
@@ -145,7 +147,68 @@ class InviteControllerTest {
 
         }
     };
-    InviteService inviteService = new InviteService(meetingRepository,invitationRepository);
+    private MeetingAuthorityRepository meetingAuthorityRepository = new MeetingAuthorityRepository() {
+        @Override
+        public MeetingAuthority findByUsernameAndAndFullname(String username, String fullname) {
+            return null;
+        }
+
+        @Override
+        public <S extends MeetingAuthority> S save(S s) {
+            return null;
+        }
+
+        @Override
+        public <S extends MeetingAuthority> Iterable<S> saveAll(Iterable<S> iterable) {
+            return null;
+        }
+
+        @Override
+        public Optional<MeetingAuthority> findById(Long aLong) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean existsById(Long aLong) {
+            return false;
+        }
+
+        @Override
+        public Iterable<MeetingAuthority> findAll() {
+            return null;
+        }
+
+        @Override
+        public Iterable<MeetingAuthority> findAllById(Iterable<Long> iterable) {
+            return null;
+        }
+
+        @Override
+        public long count() {
+            return 0;
+        }
+
+        @Override
+        public void deleteById(Long aLong) {
+
+        }
+
+        @Override
+        public void delete(MeetingAuthority meetingAuthority) {
+
+        }
+
+        @Override
+        public void deleteAll(Iterable<? extends MeetingAuthority> iterable) {
+
+        }
+
+        @Override
+        public void deleteAll() {
+
+        }
+    };
+    InviteService inviteService = new InviteService(meetingRepository,invitationRepository,meetingAuthorityRepository);
     InviteController inviteController = new InviteController(inviteService);
 
     @Test

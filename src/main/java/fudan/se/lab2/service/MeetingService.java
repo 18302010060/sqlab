@@ -4,7 +4,9 @@ import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.domain.User;
+import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.security.jwt.JwtConfigProperties;
@@ -24,11 +26,13 @@ public class MeetingService {
 
     private MeetingRepository meetingRepository;
     private UserRepository userRepository;
+    private MeetingAuthorityRepository meetingAuthorityRepository;
 
     @Autowired
-    public MeetingService(MeetingRepository meetingRepository) {
+    public MeetingService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository) {
 
         this.meetingRepository = meetingRepository;
+        this.meetingAuthorityRepository = meetingAuthorityRepository;
     }
 
     public Boolean apply(ApplyRequest request) {
@@ -78,6 +82,8 @@ public class MeetingService {
         else {
             meeting.setState(state);
             meetingRepository.save(meeting);
+            String chair = meeting.getChair();
+            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"CHAIR");
             return true;
         }
     }

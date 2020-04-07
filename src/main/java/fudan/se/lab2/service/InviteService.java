@@ -5,7 +5,9 @@ import fudan.se.lab2.controller.request.AcceptInviteRequest;
 import fudan.se.lab2.controller.request.InviteRequest;
 import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.InvitationRepository;
+import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.security.jwt.JwtConfigProperties;
 import fudan.se.lab2.security.jwt.JwtTokenUtil;
@@ -23,12 +25,14 @@ public class InviteService {
 
     private MeetingRepository meetingRepository;
     private InvitationRepository invitationRepository;
+    private MeetingAuthorityRepository meetingAuthorityRepository;
 
     @Autowired
-    public InviteService(MeetingRepository meetingRepository,InvitationRepository invitationRepository) {
+    public InviteService(MeetingRepository meetingRepository,InvitationRepository invitationRepository,MeetingAuthorityRepository meetingAuthorityRepository) {
 
         this.meetingRepository = meetingRepository;
         this.invitationRepository = invitationRepository;
+        this.meetingAuthorityRepository = meetingAuthorityRepository;
     }
 
 
@@ -73,6 +77,8 @@ public class InviteService {
             }
             else if(inviteState=="接受邀请"){
                 logger.info("接受邀请成功");
+                MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PC Member");
+                meetingAuthorityRepository.save(meetingAuthority);
             }
         }
         invitation.setInviteState(inviteState);

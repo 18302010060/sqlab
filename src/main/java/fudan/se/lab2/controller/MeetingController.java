@@ -2,6 +2,8 @@ package fudan.se.lab2.controller;
 
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
+import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.service.AuthService;
 import fudan.se.lab2.service.JwtUserDetailsService;
 import fudan.se.lab2.controller.request.LoginRequest;
@@ -10,21 +12,25 @@ import fudan.se.lab2.service.MeetingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author LBW
  */
 @RestController
-@RequestMapping
+@RequestMapping("/meeting")
 public class MeetingController {
 
     private MeetingService meetingService;
+    private MeetingRepository meetingRepository;
 
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
@@ -74,6 +80,19 @@ public class MeetingController {
     /**
      * This is a function to test your connectivity. (健康测试时，可能会用到它）.
      */
+    @PostMapping("/findAll/{page}/{size}")
+    public Meeting findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        //PageRequest request = PageRequest.of(page,size);
+        return (Meeting) meetingRepository.findAll();
+    }
+
+
+
+    @PostMapping("/findByState/{state}")
+    public Meeting findByState(@PathVariable("state") String state){//查找以通过和待审核会议
+        return meetingRepository.findByState(state);
+    }
+
 
 
 }

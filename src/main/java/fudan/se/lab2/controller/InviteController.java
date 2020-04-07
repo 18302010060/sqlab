@@ -1,6 +1,11 @@
 package fudan.se.lab2.controller;
 
 import fudan.se.lab2.controller.request.*;
+import fudan.se.lab2.domain.Invitations;
+import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.User;
+import fudan.se.lab2.repository.InvitationRepository;
+import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.service.InviteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class InviteController {
 
     private InviteService inviteService;
+    private InvitationRepository invitationRepository;
+    private UserRepository userRepository;
 
     Logger logger = LoggerFactory.getLogger(InviteController.class);
 
@@ -61,6 +68,27 @@ public class InviteController {
 
         return ResponseEntity.ok(inviteService.acceptInvitation(request));
     }
+    @GetMapping("/findAll/{page}/{size}")
+    public Invitations findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        //PageRequest request = PageRequest.of(page,size);
+        return (Invitations) invitationRepository.findAll();
+    }
+
+
+
+    @PostMapping("/findByFullUsername/{fullname}")
+    public User findByFullUsername(@PathVariable("fullname") String fullname){//查找用户
+        return userRepository.findByFullname(fullname);
+    }
+    @PostMapping("/findByFullname/{fullname}")
+    public Invitations findByFullname(@PathVariable("fullname") String fullname){//查找用户接收到的邀请
+        return invitationRepository.findByUsername(fullname);
+    }
+    @PostMapping("/findByFullname/{fullname}")
+    public Invitations findByFullname1(@PathVariable("fullname") String chair){//查找用户发出的邀请
+        return invitationRepository.findByChair(chair);
+    }
+
 
     /**
      * This is a function to test your connectivity. (健康测试时，可能会用到它）.

@@ -8,6 +8,12 @@ public class InviteRequest {
 
     public InviteRequest() { }
 
+    public InviteRequest(String fullname, String userName) {
+        this.fullname = fullname;
+        this.userName = userName;
+
+    }
+
     public String getFullname() {
         return fullname;
     }

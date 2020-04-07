@@ -39,7 +39,8 @@ public class InviteController {
         return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
     }*/
 
-
+    @PostMapping(value="/invite")
+    @ResponseBody
     public ResponseEntity<?> invite(@RequestBody InviteRequest request){
         logger.debug(request.toString());
         logger.info(request.getFullname());
@@ -50,7 +51,8 @@ public class InviteController {
         return ResponseEntity.ok(inviteService.invite(request));
     }
 
-
+    @PostMapping(value="/acceptinvite")
+    @ResponseBody
     public ResponseEntity<?> acceptInvite(@RequestBody AcceptInviteRequest request){
         logger.debug(request.toString());
         logger.info(request.getFullname());

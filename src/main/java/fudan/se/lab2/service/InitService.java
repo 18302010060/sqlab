@@ -9,7 +9,9 @@ import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InitService {
     MeetingRepository meetingRepository;
     MeetingAuthorityRepository meetingAuthorityRepository;
@@ -18,7 +20,7 @@ public class InitService {
     public Meeting showDashboard(){;
         return meetingRepository.findAllByStateEqualsAndStateEquals("以通过","投稿中");
     }
-    public Meeting shouMeetingIAppliedFor(InitRequest initRequest){
+    public Meeting showMeetingIAppliedFor(InitRequest initRequest){
         String username = initRequest.getUsername();
         String state = initRequest.getState();
         return meetingRepository.findAllByChairEqualsAndStateEquals(username,state);

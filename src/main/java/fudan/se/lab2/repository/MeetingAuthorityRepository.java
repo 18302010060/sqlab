@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeetingAuthorityRepository extends CrudRepository<MeetingAuthority, Long> {
     MeetingAuthority findByUsernameAndAndFullname(String username,String fullname);
+    MeetingAuthority findAllByUsernameEqualsAndAuthorityEquals(String username,String authority);
+    MeetingAuthority findAllByFullnameEqualsAndAuthorityEquals(String fullname,String authority);
 }

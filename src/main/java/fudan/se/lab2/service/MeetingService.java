@@ -49,7 +49,7 @@ public class MeetingService {
 
         Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname));
         if (meeting2.isPresent()) {
-            logger.info("注册失败 "     );
+            logger.info("注册失败 ");
             return false;
             //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Meeting has existed!" );

@@ -1,5 +1,6 @@
 package fudan.se.lab2.controller;
 
+import fudan.se.lab2.controller.request.AcceptInviteRequest;
 import fudan.se.lab2.controller.request.InviteRequest;
 import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.Meeting;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InviteControllerTest {
-    private MeetingRepository meetingRepository = new MeetingRepository() {
+    MeetingRepository meetingRepository = new MeetingRepository() {
         @Override
         public Meeting findByFullname(String fullname) {
             return null;
@@ -86,9 +87,14 @@ class InviteControllerTest {
 
         }
     };
-    private InvitationRepository invitationRepository = new InvitationRepository() {
+    InvitationRepository invitationRepository = new InvitationRepository() {
         @Override
-        public Invitations findByUsernameAndAndFullname(String username, String fullname) {
+        public Invitations findByUsername(String username) {
+            return null;
+        }
+
+        @Override
+        public Invitations findByUsernameAndFullname(String username, String fullname) {
             return null;
         }
 
@@ -147,7 +153,7 @@ class InviteControllerTest {
 
         }
     };
-    private MeetingAuthorityRepository meetingAuthorityRepository = new MeetingAuthorityRepository() {
+    MeetingAuthorityRepository meetingAuthorityRepository = new MeetingAuthorityRepository() {
         @Override
         public MeetingAuthority findByUsernameAndAndFullname(String username, String fullname) {
             return null;
@@ -208,17 +214,26 @@ class InviteControllerTest {
 
         }
     };
-    InviteService inviteService = new InviteService(meetingRepository,invitationRepository,meetingAuthorityRepository);
-    InviteController inviteController = new InviteController(inviteService);
+
+
 
     @Test
     void invite() {
-        InviteRequest inviteRequest = new InviteRequest("fullname","username");
-        inviteController.invite(inviteRequest);
 
+        InviteService inviteService = new InviteService(invitationRepository,meetingAuthorityRepository);
+        InviteController inviteController = new InviteController(inviteService);
+        InviteRequest inviteRequest = new InviteRequest("123","456","789");
+
+        inviteController.invite(inviteRequest);
     }
 
     @Test
     void acceptInvite() {
+        InviteService inviteService = new InviteService(invitationRepository,meetingAuthorityRepository);
+        InviteController inviteController = new InviteController(inviteService);
+        InviteRequest inviteRequest = new InviteRequest("fullname","username","chair");
+        AcceptInviteRequest acceptInviteRequest = new AcceptInviteRequest(inviteRequest.getFullname(),inviteRequest.getUsername(),"接受邀请");
+        inviteController.invite(inviteRequest);
+        inviteController.acceptInvite(acceptInviteRequest);
     }
 }

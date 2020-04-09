@@ -23,10 +23,10 @@ public class Invitations{
 
 
     public Invitations() {}
-    public Invitations(String fullname, String username) {
+    public Invitations(String fullname, String realname) {
 
         this.fullname = fullname;
-        this.username=username;
+        this.username = realname;
         this.inviteState = "已邀请";
     }
 

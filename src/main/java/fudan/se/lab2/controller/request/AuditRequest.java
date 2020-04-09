@@ -3,8 +3,8 @@ package fudan.se.lab2.controller.request;
 public class AuditRequest {
 
     private String fullname;
-    private String state;
-    private String token;
+    private String state;//会议状态 init
+
 
     public AuditRequest(){
     }
@@ -30,7 +30,5 @@ public class AuditRequest {
         this.state = state;
     }
 
-    public String getToken() {
-        return token;
-    }
+
 }

@@ -49,10 +49,7 @@ public class InviteController {
     @PostMapping(value="/invite")
     @ResponseBody
     public ResponseEntity<?> invite(@RequestBody InviteRequest request){
-        logger.debug(request.toString());
-        logger.info(request.getFullname());
-        logger.info(request.getInviteState());
-        logger.info(request.getUserName());
+
 
 
         return ResponseEntity.ok(inviteService.invite(request));
@@ -61,14 +58,12 @@ public class InviteController {
     @PostMapping(value="/acceptinvite")
     @ResponseBody
     public ResponseEntity<?> acceptInvite(@RequestBody AcceptInviteRequest request){
-        logger.debug(request.toString());
-        logger.info(request.getFullname());
-        logger.info(request.getInviteState());
+
 
 
         return ResponseEntity.ok(inviteService.acceptInvitation(request));
     }
-    @GetMapping("/findAll/{page}/{size}")
+    /*@GetMapping("/findAll/{page}/{size}")
     public Invitations findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
         //PageRequest request = PageRequest.of(page,size);
         return (Invitations) invitationRepository.findAll();
@@ -87,7 +82,13 @@ public class InviteController {
     @PostMapping("/findByFullname/{fullname}")
     public Invitations findByFullname1(@PathVariable("fullname") String chair){//查找用户发出的邀请
         return invitationRepository.findByChair(chair);
+    }*/
+    /*@GetMapping("/menu/invitations/{username}")
+    public Invitations findByUsername(@PathVariable("username") String username){
+        return invitationRepository.findByUsername(username);
     }
+    @GetMapping("/menu/invitations/{state}")
+    public Meeting */
 
 
     /**

@@ -80,7 +80,7 @@ public class MeetingController {
     /**
      * This is a function to test your connectivity. (健康测试时，可能会用到它）.
      */
-    @PostMapping("/findAll/{page}/{size}")
+    /*@PostMapping("/findAll/{page}/{size}")
     public Meeting findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
         //PageRequest request = PageRequest.of(page,size);
         return (Meeting) meetingRepository.findAll();
@@ -91,7 +91,7 @@ public class MeetingController {
     @PostMapping("/findByState/{state}")
     public Meeting findByState(@PathVariable("state") String state){//查找以通过和待审核会议
         return meetingRepository.findByState(state);
-    }
+    }*/
 
 
 

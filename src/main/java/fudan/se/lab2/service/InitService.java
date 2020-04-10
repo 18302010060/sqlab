@@ -57,5 +57,12 @@ public class InitService {
         String fullname = initRequest.getFullname();
         return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(fullname,"PCmember");
     }
+    public List<Meeting> meetingApplications(){
+        return meetingRepository.findAllByStateEquals("inAudit");
+    }
+    public List<Meeting> applicationHandled(InitRequest2 initRequest){
+        String state = initRequest.getState();
+        return meetingRepository.findAllByStateEquals(state);
+    }
 
 }

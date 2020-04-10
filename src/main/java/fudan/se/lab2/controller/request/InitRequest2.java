@@ -10,6 +10,9 @@ public class InitRequest2 {
         this.username = username;
         this.inviteState = inviteState;
     }
+    public InitRequest2(String state){
+        this.state = state;
+    }
     public String getUsername() {
         return username;
     }

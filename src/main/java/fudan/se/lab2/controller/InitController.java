@@ -98,6 +98,16 @@ public class InitController {
     public ResponseEntity<?> PCMemberList(@RequestBody InitRequest request){
         return ResponseEntity.ok(initService.PCMemberList(request));
     }
+    @PostMapping("/adminMenu/adminMeetings")
+    @ResponseBody
+    public ResponseEntity<?> meetingApplications(){
+        return ResponseEntity.ok(initService.meetingApplications());
+    }
+    @PostMapping("/adminMenu/adminMeetingsHandled")
+    @ResponseBody
+    public ResponseEntity<?> applicationHandled(InitRequest2 request){
+        return ResponseEntity.ok(initService.applicationHandled(request));
+    }
 
 
     /*@PostMapping(value="/auditmeeting")

@@ -63,37 +63,37 @@ public class InitController {
 
         return ResponseEntity.ok(meetingService.apply(request));
     }*/
-    @GetMapping("/menu/meetings")
+    @PostMapping("/menu/meetings")
     @ResponseBody
     public ResponseEntity<?> showDashboard(@RequestBody InitRequest request){
         return ResponseEntity.ok(initService.showDashboard());
     }
-    @GetMapping("/menu/applyMeetings")
+    @PostMapping("/menu/applyMeetings")
     @ResponseBody
-    public ResponseEntity<?> showMeetingIAppliedFor(@RequestBody InitRequest request){
+    public ResponseEntity<?> showMeetingIAppliedFor(@RequestBody InitRequest1 request){
         return ResponseEntity.ok(initService.showMeetingIAppliedFor(request));
     }
-    @GetMapping("/menu/participateMeetings")
+    @PostMapping("/menu/participateMeetings")
     @ResponseBody
     public ResponseEntity<?> meetingIParticipatedIn(@RequestBody InitRequest request){
         return ResponseEntity.ok(initService.meetingIParticipatedIn(request));
     }
     @GetMapping("/menu/invitations")
     @ResponseBody
-    public ResponseEntity<?> invitationInformation(@RequestBody InitRequest request){
+    public ResponseEntity<?> invitationInformation(@RequestBody InitRequest1 request){
         return ResponseEntity.ok(initService.invitationInformation(request));
     }
-    @GetMapping("/menuOfMeeting/chairInvitation")
+    @PostMapping("/menuOfMeeting/chairInvitation")
     @ResponseBody
     public ResponseEntity<?> PCMemberInvitations(@RequestBody InitRequest request){
         return ResponseEntity.ok(initService.PCMemberInvitations());
     }
-    @GetMapping("/menuOfMeeting/invitationResults")
+    @PostMapping("/menuOfMeeting/invitationResults")
     @ResponseBody
-    public ResponseEntity<?> invitationsResult(@RequestBody InitRequest request){
+    public ResponseEntity<?> invitationsResult(@RequestBody InitRequest2 request){
         return ResponseEntity.ok(initService.invitationsResult(request));
     }
-    @GetMapping("/menuOfMeeting/memberList")
+    @PostMapping("/menuOfMeeting/memberList")
     @ResponseBody
     public ResponseEntity<?> PCMemberList(@RequestBody InitRequest request){
         return ResponseEntity.ok(initService.PCMemberList(request));

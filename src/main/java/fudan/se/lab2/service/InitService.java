@@ -1,6 +1,8 @@
 package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.request.InitRequest;
+import fudan.se.lab2.controller.request.InitRequest1;
+import fudan.se.lab2.controller.request.InitRequest2;
 import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.Meeting;
 import fudan.se.lab2.domain.MeetingAuthority;
@@ -11,41 +13,49 @@ import fudan.se.lab2.repository.MeetingRepository;
 import fudan.se.lab2.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class InitService {
     MeetingRepository meetingRepository;
     MeetingAuthorityRepository meetingAuthorityRepository;
     InvitationRepository invitationRepository;
     UserRepository userRepository;
-    public Meeting showDashboard(){;
-        return meetingRepository.findAllByStateEqualsAndStateEquals("以通过","投稿中");
+    public List<Meeting> showDashboard(){;
+        return meetingRepository.findAllByStateEqualsAndStateEquals("passed","inManuscript");
     }
-    public Meeting showMeetingIAppliedFor(InitRequest initRequest){
+    public List<Meeting> showMeetingIAppliedFor(InitRequest1 initRequest){
         String username = initRequest.getUsername();
         String state = initRequest.getState();
         return meetingRepository.findAllByChairEqualsAndStateEquals(username,state);
     }
-    public MeetingAuthority meetingIParticipatedIn(InitRequest initRequest){
+    public List<MeetingAuthority> meetingIParticipatedIn(InitRequest initRequest){
         String authority  = initRequest.getAuthority();
         String username = initRequest.getUsername();
         return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(username,authority);
     }
-    public Invitations invitationInformation(InitRequest initRequest){
+    public List<Invitations> invitationInformation(InitRequest1 initRequest){
         String username = initRequest.getUsername();
-        return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username,"已邀请");
+        return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username,"invited");
     }
-    public User PCMemberInvitations(){
-        return (User)userRepository.findAll();
+    public List<User> PCMemberInvitations(){
+        Iterable<User> it = userRepository.findAll();
+        List<User> user = new ArrayList<>();
+        while (it.iterator().hasNext()){
+            user.add(it.iterator().next());
+        }
+        return user;
     }
-    public Invitations invitationsResult(InitRequest initRequest){
+    public List<Invitations> invitationsResult(InitRequest2 initRequest){
         String username = initRequest.getUsername();
         String inviteState = initRequest.getInviteState();
         return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username,inviteState);
 
     }
-    public MeetingAuthority PCMemberList(InitRequest initRequest){
+    public List<MeetingAuthority> PCMemberList(InitRequest initRequest){
         String fullname = initRequest.getFullname();
-        return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(fullname,"PCMember");
+        return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(fullname,"PCmember");
     }
 
 }

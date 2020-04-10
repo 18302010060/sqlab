@@ -40,7 +40,7 @@ public class Meeting  {
         this.deadline=deadline;
         this.releasetime=releasetime;
         this.time=time;
-        this.state="审核中 ";
+        this.state="inAudit";
 
     }
 

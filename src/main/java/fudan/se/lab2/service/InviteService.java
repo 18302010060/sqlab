@@ -93,12 +93,12 @@ public class InviteService {
        if(invitation2.isPresent()){
            Invitations invitation = invitationRepository.findByUsernameAndFullname(username,fullname);
            invitation.setInviteState(inviteState);
-           if(inviteState =="拒绝邀请"){
+           if(inviteState =="rejected"){
                logger.info("拒绝邀请");
            }
-           else if (inviteState =="接受邀请"){
+           else if (inviteState =="accepted"){
                logger.info("接受邀请");
-               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PC Member");
+               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember");
                meetingAuthorityRepository.save(meetingAuthority);
            }
            invitationRepository.save(invitation);

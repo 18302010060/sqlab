@@ -75,7 +75,7 @@ public class MeetingService {
         long id = user.getId();*/
 
         Meeting meeting = meetingRepository.findByFullname(fullname);
-        if(meeting.getState()=="已通过"){
+        if(meeting.getState()=="passed"){
             logger.info("已通过审核");
             return false;
         }
@@ -83,7 +83,8 @@ public class MeetingService {
             meeting.setState(state);
             meetingRepository.save(meeting);
             String chair = meeting.getChair();
-            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"CHAIR");
+            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
+            meetingAuthorityRepository.save(meetingAuthority);
             return true;
         }
     }

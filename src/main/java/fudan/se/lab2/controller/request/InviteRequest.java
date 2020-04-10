@@ -16,7 +16,6 @@ public class InviteRequest {
         this.fullname = fullname;
         this.username = username;
         this.chair = chair;
-        this.inviteState = "已邀请";
 
     }
 

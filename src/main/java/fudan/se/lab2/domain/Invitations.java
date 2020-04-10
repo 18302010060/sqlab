@@ -27,7 +27,7 @@ public class Invitations{
 
         this.fullname = fullname;
         this.username = realname;
-        this.inviteState = "已邀请";
+        this.inviteState = "invited";
     }
 
 

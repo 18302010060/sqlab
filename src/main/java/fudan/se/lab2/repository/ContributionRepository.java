@@ -4,7 +4,10 @@ import fudan.se.lab2.domain.Contribution;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ContributionRepository extends CrudRepository<Contribution, Long> {
-    Contribution findContributionsByUsernameAndMeetingFullname(String username, String meetingFullname);
+    Contribution findContributionByUsernameAndMeetingFullname(String username, String meetingFullname);
+    List<Contribution> findAllByMeetingFullname(String fullname);
 }

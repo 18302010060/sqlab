@@ -65,51 +65,82 @@ public class InitController {
     }*/
     @PostMapping("/menu/meetings")
     @ResponseBody
-    public ResponseEntity<?> showDashboard(@RequestBody InitRequest request){
+    public ResponseEntity<?> showDashboard(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.showDashboard());
     }
+
     @PostMapping("/menu/applyMeetings")
     @ResponseBody
-    public ResponseEntity<?> showMeetingIAppliedFor(@RequestBody InitRequest1 request){
+    public ResponseEntity<?> showMeetingIAppliedFor(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.showMeetingIAppliedFor(request));
     }
+
     @PostMapping("/menu/participateMeetings")
     @ResponseBody
-    public ResponseEntity<?> meetingIParticipatedIn(@RequestBody InitRequest request){
+    public ResponseEntity<?> meetingIParticipatedIn(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.meetingIParticipatedIn(request));
     }
+
     @GetMapping("/menu/invitations")
     @ResponseBody
-    public ResponseEntity<?> invitationInformation(@RequestBody InitRequest1 request){
+    public ResponseEntity<?> invitationInformation(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.invitationInformation(request));
     }
+
     @PostMapping("/menuOfMeeting/chairInvitation")
     @ResponseBody
-    public ResponseEntity<?> PCMemberInvitations(@RequestBody InitRequest request){
+    public ResponseEntity<?> PCMemberInvitations(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.PCMemberInvitations());
     }
+
     @PostMapping("/menuOfMeeting/invitationResults")
     @ResponseBody
-    public ResponseEntity<?> invitationsResult(@RequestBody InitRequest2 request){
+    public ResponseEntity<?> invitationsResult(@RequestBody InitRequest2 request) {
         return ResponseEntity.ok(initService.invitationsResult(request));
     }
+
     @PostMapping("/menuOfMeeting/memberList")
     @ResponseBody
-    public ResponseEntity<?> PCMemberList(@RequestBody InitRequest request){
+    public ResponseEntity<?> PCMemberList(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.PCMemberList(request));
     }
+
     @PostMapping("/adminMenu/adminMeetings")
     @ResponseBody
-    public ResponseEntity<?> meetingApplications(){
+    public ResponseEntity<?> meetingApplications() {
         return ResponseEntity.ok(initService.meetingApplications());
     }
+
     @PostMapping("/adminMenu/adminMeetingsHandled")
     @ResponseBody
-    public ResponseEntity<?> applicationHandled(InitRequest2 request){
+    public ResponseEntity<?> applicationHandled(InitRequest2 request) {
         return ResponseEntity.ok(initService.applicationHandled(request));
     }
 
+    //其他查询方法
+    @PostMapping("/menu/submissions")
+    @ResponseBody
+    public ResponseEntity<?> allSubmission(@RequestBody InitRequest request) {
+        return ResponseEntity.ok(initService.getAllSubmissions());
+    }
 
+    @PostMapping("/menu/setting")
+    @ResponseBody
+    public ResponseEntity<?> getPersonalInfo(@RequestBody InitRequest request) {
+        return ResponseEntity.ok(initService.getPersonalInform(request));
+    }
+
+    @PostMapping("/menuOfMeeting/detailsOfMeeting")
+    @ResponseBody
+    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest request) {
+        return ResponseEntity.ok(initService.getMeetingInfo(request));
+    }
+
+    @PostMapping("/menuOfMeeting/allArticles")
+    @ResponseBody
+    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest request) {
+        return ResponseEntity.ok(initService.getAllArticle(request));
+    }
     /*@PostMapping(value="/auditmeeting")
     @ResponseBody
     public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){
@@ -134,7 +165,6 @@ public class InitController {
     public Meeting findByState(@PathVariable("state") String state){//查找以通过和待审核会议
         return meetingRepository.findByState(state);
     }*/
-
 
 
 }

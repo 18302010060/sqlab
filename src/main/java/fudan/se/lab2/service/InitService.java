@@ -3,14 +3,8 @@ package fudan.se.lab2.service;
 import fudan.se.lab2.controller.request.InitRequest;
 import fudan.se.lab2.controller.request.InitRequest1;
 import fudan.se.lab2.controller.request.InitRequest2;
-import fudan.se.lab2.domain.Invitations;
-import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.MeetingAuthority;
-import fudan.se.lab2.domain.User;
-import fudan.se.lab2.repository.InvitationRepository;
-import fudan.se.lab2.repository.MeetingAuthorityRepository;
-import fudan.se.lab2.repository.MeetingRepository;
-import fudan.se.lab2.repository.UserRepository;
+import fudan.se.lab2.domain.*;
+import fudan.se.lab2.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +16,7 @@ public class InitService {
     MeetingAuthorityRepository meetingAuthorityRepository;
     InvitationRepository invitationRepository;
     UserRepository userRepository;
+    ContributionRepository contributionRepository;
     public List<Meeting> showDashboard(){;
         return meetingRepository.findAllByStateEqualsAndStateEquals("passed","inManuscript");
     }
@@ -63,6 +58,32 @@ public class InitService {
     public List<Meeting> applicationHandled(InitRequest2 initRequest){
         String state = initRequest.getState();
         return meetingRepository.findAllByStateEquals(state);
+    }
+
+    //其他
+    public List<Contribution> getAllSubmissions(){
+        Iterable<Contribution> it=contributionRepository.findAll();
+        List<Contribution> result=new ArrayList<>();
+        while (it.iterator().hasNext()){
+            result.add(it.iterator().next());
+        }
+
+        return result;
+    }
+
+    public User getPersonalInform(InitRequest initRequest){
+        String username=initRequest.getUsername();
+        return userRepository.findByUsername(username);
+    }
+
+    public Meeting getMeetingInfo(InitRequest initRequest){
+        String fullname=initRequest.getFullname();
+        return meetingRepository.findByFullname(fullname);
+    }
+
+    public List<Contribution> getAllArticle(InitRequest initRequest){
+        String fullname=initRequest.getFullname();
+        return contributionRepository.findAllByMeetingFullname(fullname);
     }
 
 }

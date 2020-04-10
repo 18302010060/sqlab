@@ -38,7 +38,7 @@ public class ContributionService {
         Contribution contribution=new Contribution(username,meetingFullname,title,summary,path);
 
         Optional<Contribution> contribution1=Optional
-                .ofNullable(contributionRepository.findContributionsByUsernameAndMeetingFullname(username,meetingFullname));
+                .ofNullable(contributionRepository.findContributionByUsernameAndMeetingFullname(username,meetingFullname));
 
 
         if(contribution1.isPresent()){

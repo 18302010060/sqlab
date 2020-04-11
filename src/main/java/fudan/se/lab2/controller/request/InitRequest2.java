@@ -3,26 +3,27 @@ package fudan.se.lab2.controller.request;
 import fudan.se.lab2.service.InitService;
 
 public class InitRequest2 {
-    private String username;//当前用户名
+    private String fullname;//当前用户名
     private String state;//meeting I applied for 会议状态
     private String inviteState;
     public InitRequest2(){
 
     }
-    public InitRequest2(String username,String inviteState){
-        this.username = username;
+    public InitRequest2(String fullname,String inviteState){
+        this.fullname = fullname;
         this.inviteState = inviteState;
     }
     public InitRequest2(String state){
 
         this.state = state;
     }
-    public String getUsername() {
-        return username;
+
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getState() {

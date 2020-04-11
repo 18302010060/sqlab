@@ -107,15 +107,21 @@ public class InitService {
         }
     }
 
-    public List<Invitations> invitationsResult(InitRequest2 initRequest) {
+    public List<User> invitationsResult(InitRequest2 initRequest) {
         try {
-            String username = initRequest.getUsername();
-
+            String fullname = initRequest.getFullname();
             String inviteState = initRequest.getInviteState();
-            logger.info("username  "+username);
+            logger.info("username  "+fullname);
             logger.info("inviteState  "+inviteState);
+            List<Invitations> invitations = invitationRepository.findAllByFullnameAndInviteState(fullname,inviteState);
+            List<User> users = new ArrayList<>();
+            for(int i = 0;i<invitations.size();i++){
+                String username = invitations.get(i).getUsername();
+                User user = userRepository.findByUsername(username);
+                users.add(user);
+            }
 
-            return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username, inviteState);
+            return users;
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

@@ -31,6 +31,11 @@ class InviteControllerTest {
         }
 
         @Override
+        public List<Invitations> findAllByFullnameAndInviteState(String fullname, String inviteState) {
+            return null;
+        }
+
+        @Override
         public <S extends Invitations> S save(S s) {
             return null;
         }

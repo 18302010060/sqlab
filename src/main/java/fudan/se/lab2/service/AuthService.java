@@ -80,7 +80,7 @@ public class AuthService {
             authorityRepository.save(authority);
         }
 
-        try {
+        /*try {
             Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username).get(0));
             return false;
         }catch (Exception e){
@@ -88,9 +88,9 @@ public class AuthService {
             //在数据库中进行保存
             userRepository.save(user);
             return true;
-        }
+        }*/
         //判断注册用户是否已经存在，若存在则进入用户已存在异常处理程序
-       /* Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
+        Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
         if(users.isPresent()) {
             return false;
         }
@@ -99,7 +99,7 @@ public class AuthService {
         User user = new User(username, password, email, area, unit, fullname,new HashSet<>(Collections.singletonList(authority)));
         //在数据库中进行保存
         userRepository.save(user);
-        return true;*/
+        return true;
     }
 
 
@@ -116,7 +116,7 @@ public class AuthService {
         }else {
 
             JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(new JwtConfigProperties());
-            String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username).get(0));
+            String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username));
 
             return token;
         }

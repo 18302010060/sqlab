@@ -157,7 +157,7 @@ public class InitService {
         }
     }
 
-    public List<User> getPersonalInform(InitRequest1 initRequest) {
+    public User getPersonalInform(InitRequest initRequest) {
         try {
             String username = initRequest.getUsername();
             logger.info("username  "+username);
@@ -188,6 +188,19 @@ public class InitService {
             logger.info("username表示fullname "+fullname);
 
             return contributionRepository.findAllByMeetingFullname(fullname);
+        } catch (Exception e) {
+            logger.info("空指针错误！！");
+            return null;
+        }
+    }
+
+    public Contribution getArticleDetail(InitRequest1 initRequest){
+        try {
+            String fullname = initRequest.getUsername();
+            String username=initRequest.getUsername();
+            logger.info("username表示fullname "+fullname);
+
+            return contributionRepository.findContributionByUsernameAndMeetingFullname(username,fullname);
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

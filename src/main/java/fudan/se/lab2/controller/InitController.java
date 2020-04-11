@@ -149,6 +149,11 @@ public class InitController {
     public ResponseEntity<?> getAllArticles(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
+    @PostMapping("/menuOfMeeting/detailsOfContribute")
+    @ResponseBody
+    public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest1 request) {
+        return ResponseEntity.ok(initService.getArticleDetail(request));
+    }
     /*@PostMapping(value="/auditmeeting")
     @ResponseBody
     public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){

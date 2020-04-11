@@ -52,12 +52,22 @@ public class Lab2Application {
                 Authority reviewerAuthority = getOrCreateAuthority("Reviewer", authorityRepository);
 
                 // Create an admin if not exists.
-                try{
+               /* try{
                     User user = userRepository.findByUsername("admin").get(0);
                 }
                 catch(Exception e){
                     logger.info("no admin");
                     User admin = new User("admin","password",new HashSet<>(Collections.singletonList(adminAuthority)));
+                    userRepository.save(admin);
+                    logger.info("save admin");
+                }*/
+                if (userRepository.findByUsername("admin") == null) {
+                    logger.info("no admin");
+                    User admin = new User(
+                            "admin",
+                            "password",
+                            new HashSet<>(Collections.singletonList(adminAuthority))
+                    );
                     userRepository.save(admin);
                     logger.info("save admin");
                 }

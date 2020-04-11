@@ -32,20 +32,6 @@ public class InviteController {
     }
 
 
-    /*@PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        logger.debug("RegistrationForm: " + request.toString());
-
-        return ResponseEntity.ok(authService.register(request));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        logger.debug("LoginForm: " + request.toString());
-
-        return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
-    }*/
-
     @PostMapping(value="/invite")
     @ResponseBody
     public ResponseEntity<?> invite(@RequestBody InviteRequest request){

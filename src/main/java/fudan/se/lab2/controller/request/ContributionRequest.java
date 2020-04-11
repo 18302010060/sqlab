@@ -10,7 +10,12 @@ public class ContributionRequest {
 
     public ContributionRequest(){}
 
-
+    public ContributionRequest(String meetingFullname, String title, String summary, String path) {
+        this.meetingFullname = meetingFullname;
+        this.title = title;
+        this.summary = summary;
+        this.path = path;
+    }
 
     public String getMeetingFullname(){
         return  meetingFullname;

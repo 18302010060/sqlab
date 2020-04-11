@@ -5,6 +5,7 @@ import fudan.se.lab2.controller.request.InitRequest1;
 import fudan.se.lab2.controller.request.InitRequest2;
 import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,14 @@ public class InitService {
     InvitationRepository invitationRepository;
     UserRepository userRepository;
     ContributionRepository contributionRepository;
+    @Autowired
+    public InitService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository){
+        this.meetingAuthorityRepository = meetingAuthorityRepository;
+        this.meetingRepository = meetingRepository;
+        this.invitationRepository = invitationRepository;
+        this.userRepository = userRepository;
+        this.contributionRepository = contributionRepository;
+    }
 
     public List<Meeting> showDashboard() {
         try {

@@ -25,7 +25,7 @@ public class MeetingService {
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
      MeetingRepository meetingRepository;
-     UserRepository userRepository;
+
      MeetingAuthorityRepository meetingAuthorityRepository;
 
     @Autowired
@@ -60,6 +60,7 @@ public class MeetingService {
             logger.info("chair: " + chair);
             meeting.setChair(chair);
 
+
             meetingRepository.save(meeting);
             logger.info("注册成功 " );
             return true;
@@ -75,18 +76,16 @@ public class MeetingService {
         long id = user.getId();*/
 
         Meeting meeting = meetingRepository.findByFullname(fullname);
-        if(meeting.getState()=="passed"){
-            logger.info("已通过审核");
-            return false;
+        if(state =="passed"){
+            logger.info("审核通过");
         }
-        else {
-            meeting.setState(state);
-            meetingRepository.save(meeting);
-            String chair = meeting.getChair();
-            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
-            meetingAuthorityRepository.save(meetingAuthority);
-            return true;
-        }
+        meeting.setState(state);
+        meetingRepository.save(meeting);
+        String chair = meeting.getChair();
+        MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
+        meetingAuthorityRepository.save(meetingAuthority);
+        return true;
+
     }
 
 

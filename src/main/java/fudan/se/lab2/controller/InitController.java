@@ -27,7 +27,7 @@ import java.util.Map;
 public class InitController {
     private InitService initService;
 
-    Logger logger = LoggerFactory.getLogger(MeetingController.class);
+    Logger logger = LoggerFactory.getLogger(InitController.class);
 
     @Autowired
     public InitController(InitService initService) {
@@ -66,30 +66,38 @@ public class InitController {
     @PostMapping("/menu/meetings")
     @ResponseBody
     public ResponseEntity<?> showDashboard(@RequestBody InitRequest request) {
+        logger.info("");
         return ResponseEntity.ok(initService.showDashboard());
     }
 
     @PostMapping("/menu/applyMeetings")
     @ResponseBody
     public ResponseEntity<?> showMeetingIAppliedFor(@RequestBody InitRequest1 request) {
+        logger.info("username:"+request.getUsername());
+        logger.info("state:"+request.getState());
+
         return ResponseEntity.ok(initService.showMeetingIAppliedFor(request));
     }
 
     @PostMapping("/menu/participateMeetings")
     @ResponseBody
     public ResponseEntity<?> meetingIParticipatedIn(@RequestBody InitRequest request) {
+        logger.info("authority:"+request.getAuthority());
+        logger.info("username:"+request.getUsername());
         return ResponseEntity.ok(initService.meetingIParticipatedIn(request));
     }
 
-    @GetMapping("/menu/invitations")
+    @PostMapping("/menu/invitations")
     @ResponseBody
     public ResponseEntity<?> invitationInformation(@RequestBody InitRequest1 request) {
+        logger.info("username"+request.getUsername());
         return ResponseEntity.ok(initService.invitationInformation(request));
     }
 
     @PostMapping("/menuOfMeeting/chairInvitation")
     @ResponseBody
     public ResponseEntity<?> PCMemberInvitations(@RequestBody InitRequest request) {
+
         return ResponseEntity.ok(initService.PCMemberInvitations());
     }
 

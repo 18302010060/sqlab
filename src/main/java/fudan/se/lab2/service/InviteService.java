@@ -25,7 +25,6 @@ public class InviteService {
 
     @Autowired
     public InviteService(InvitationRepository invitationRepository,MeetingAuthorityRepository meetingAuthorityRepository) {
-
         this.invitationRepository = invitationRepository;
         this.meetingAuthorityRepository = meetingAuthorityRepository;
     }

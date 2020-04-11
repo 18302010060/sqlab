@@ -72,7 +72,7 @@ public class MeetingController {
     @ResponseBody
     public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){
         logger.debug(request.toString());
-        logger.info("会议id"+request.getFullname());
+        logger.info("会议全称"+request.getFullname());
         logger.info("会议状态"+request.getState());
         return ResponseEntity.ok(meetingService.audit(request));
     }

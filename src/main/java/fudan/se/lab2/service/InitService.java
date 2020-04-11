@@ -33,7 +33,7 @@ public class InitService {
 
     public List<Meeting> showDashboard() {
         try {
-            return meetingRepository.findAllByStateEqualsAndStateEquals("passed", "inManuscript");
+            return meetingRepository.findAllByStateEqualsOrStateEquals("passed", "inManuscript");
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

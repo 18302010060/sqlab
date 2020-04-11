@@ -24,9 +24,9 @@ import java.util.Optional;
 public class MeetingService {
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
-    private MeetingRepository meetingRepository;
-    private UserRepository userRepository;
-    private MeetingAuthorityRepository meetingAuthorityRepository;
+     MeetingRepository meetingRepository;
+     UserRepository userRepository;
+     MeetingAuthorityRepository meetingAuthorityRepository;
 
     @Autowired
     public MeetingService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository) {

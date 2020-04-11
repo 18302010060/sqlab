@@ -1,10 +1,13 @@
 package fudan.se.lab2.service;
 
+import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.InitRequest;
 import fudan.se.lab2.controller.request.InitRequest1;
 import fudan.se.lab2.controller.request.InitRequest2;
 import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ public class InitService {
     InvitationRepository invitationRepository;
     UserRepository userRepository;
     ContributionRepository contributionRepository;
+    Logger logger = LoggerFactory.getLogger(InviteController.class);
     @Autowired
     public InitService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository){
         this.meetingAuthorityRepository = meetingAuthorityRepository;
@@ -31,6 +35,7 @@ public class InitService {
         try {
             return meetingRepository.findAllByStateEqualsAndStateEquals("passed", "inManuscript");
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -38,10 +43,12 @@ public class InitService {
     public List<Meeting> showMeetingIAppliedFor(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
-
             String state = initRequest.getState();
+            logger.info("username  "+username);
+            logger.info("state  "+state);
             return meetingRepository.findAllByChairEqualsAndStateEquals(username, state);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -51,8 +58,11 @@ public class InitService {
             String authority = initRequest.getAuthority();
 
             String username = initRequest.getUsername();
+            logger.info("username  "+username);
+            logger.info("authority  "+authority);
             return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(username, authority);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -60,9 +70,11 @@ public class InitService {
     public List<Invitations> invitationInformation(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
+            logger.info("username  "+username);
 
             return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username, "invited");
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -77,6 +89,7 @@ public class InitService {
             }
             return user;
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -86,8 +99,12 @@ public class InitService {
             String username = initRequest.getUsername();
 
             String inviteState = initRequest.getInviteState();
+            logger.info("username  "+username);
+            logger.info("inviteState  "+inviteState);
+
             return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username, inviteState);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -95,9 +112,10 @@ public class InitService {
     public List<MeetingAuthority> PCMemberList(InitRequest initRequest) {
         try {
             String fullname = initRequest.getFullname();
-
+            logger.info("fullname  "+fullname );
             return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(fullname, "PCmember");
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -106,6 +124,7 @@ public class InitService {
         try {
             return meetingRepository.findAllByStateEquals("inAudit");
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -113,9 +132,11 @@ public class InitService {
     public List<Meeting> applicationHandled(InitRequest2 initRequest) {
         try {
             String state = initRequest.getState();
+            logger.info("state  "+state);
 
             return meetingRepository.findAllByStateEquals(state);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
@@ -131,37 +152,44 @@ public class InitService {
 
             return result;
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }
 
-    public User getPersonalInform(InitRequest initRequest) {
+    public List<User> getPersonalInform(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
+            logger.info("username  "+username);
+
             return userRepository.findByUsername(username);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
 
     }
 
-    public Meeting getMeetingInfo(InitRequest initRequest) {
+    public List<Meeting> getMeetingInfo(InitRequest1 initRequest) {
         try {
-            String fullname = initRequest.getFullname();
+            String fullname = initRequest.getUsername();
+            logger.info("username表示fullname "+fullname);
+
             return meetingRepository.findByFullname(fullname);
         } catch (Exception e) {
-
+            logger.info("空指针错误！！");
             return null;
         }
     }
 
-    public List<Contribution> getAllArticle(InitRequest initRequest) {
+    public List<Contribution> getAllArticle(InitRequest1 initRequest) {
         try {
+            String fullname = initRequest.getUsername();
+            logger.info("username表示fullname "+fullname);
 
-
-            String fullname = initRequest.getFullname();
             return contributionRepository.findAllByMeetingFullname(fullname);
         } catch (Exception e) {
+            logger.info("空指针错误！！");
             return null;
         }
     }

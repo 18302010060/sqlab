@@ -134,19 +134,19 @@ public class InitController {
 
     @PostMapping("/menu/setting")
     @ResponseBody
-    public ResponseEntity<?> getPersonalInfo(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getPersonalInfo(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getPersonalInform(request));
     }
 
     @PostMapping("/menuOfMeeting/detailsOfMeeting")
     @ResponseBody
-    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getMeetingInfo(request));
     }
 
     @PostMapping("/menuOfMeeting/allArticles")
     @ResponseBody
-    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
     /*@PostMapping(value="/auditmeeting")

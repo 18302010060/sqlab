@@ -80,8 +80,17 @@ public class AuthService {
             authorityRepository.save(authority);
         }
 
+        try {
+            Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username).get(0));
+            return false;
+        }catch (Exception e){
+            User user = new User(username, password, email, area, unit, fullname,new HashSet<>(Collections.singletonList(authority)));
+            //在数据库中进行保存
+            userRepository.save(user);
+            return true;
+        }
         //判断注册用户是否已经存在，若存在则进入用户已存在异常处理程序
-        Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
+       /* Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
         if(users.isPresent()) {
             return false;
         }
@@ -90,7 +99,7 @@ public class AuthService {
         User user = new User(username, password, email, area, unit, fullname,new HashSet<>(Collections.singletonList(authority)));
         //在数据库中进行保存
         userRepository.save(user);
-        return true;
+        return true;*/
     }
 
 
@@ -100,13 +109,14 @@ public class AuthService {
         //在用户仓库中新建用户信息查询类
         JwtUserDetailsService jwtUserDetailsService = new JwtUserDetailsService(userRepository);
         //在类中调用重载方法，判断在库中是否存在该用户（若不存在则会在方法中进入异常处理程序）
+
         UserDetails user = jwtUserDetailsService.loadUserByUsername(username);
         if(!password.equals(user.getPassword())){
             throw new WrongPasswordException();
         }else {
-            
+
             JwtTokenUtil jwtTokenUtil=new JwtTokenUtil(new JwtConfigProperties());
-            String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username));
+            String token=jwtTokenUtil.generateToken(userRepository.findByUsername(username).get(0));
 
             return token;
         }

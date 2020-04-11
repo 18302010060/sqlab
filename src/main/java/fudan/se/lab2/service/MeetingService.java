@@ -47,8 +47,24 @@ public class MeetingService {
 
         Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime);
 
-        Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname));
-        if (meeting2.isPresent()) {
+        try {
+            Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname).get(0));
+            logger.info("注册失败 ");
+            return false;
+        }catch (Exception e){
+            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
+            String chair = jwtTokenUtil.getUsernameFromToken(token);
+
+            logger.info("chair: " + chair);
+            meeting.setChair(chair);
+
+
+            meetingRepository.save(meeting);
+            logger.info("注册成功 " );
+            return true;
+        }
+
+        /*if (meeting2.isPresent()) {
             logger.info("注册失败 ");
             return false;
             //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,7 +80,7 @@ public class MeetingService {
             meetingRepository.save(meeting);
             logger.info("注册成功 " );
             return true;
-        }
+        }*/
     }
     public boolean audit(AuditRequest request){
         String fullname = request.getFullname();
@@ -75,7 +91,21 @@ public class MeetingService {
         User user = userRepository.findByUsername(username);
         long id = user.getId();*/
 
-        Meeting meeting = meetingRepository.findByFullname(fullname);
+        try {
+            Meeting meeting = meetingRepository.findByFullname(fullname).get(0);
+            if(state =="passed"){
+                logger.info("审核通过");
+            }
+            meeting.setState(state);
+            meetingRepository.save(meeting);
+            String chair = meeting.getChair();
+            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
+            meetingAuthorityRepository.save(meetingAuthority);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+       /* Meeting meeting = meetingRepository.findByFullname(fullname);
         if(state =="passed"){
             logger.info("审核通过");
         }
@@ -84,7 +114,7 @@ public class MeetingService {
         String chair = meeting.getChair();
         MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
         meetingAuthorityRepository.save(meetingAuthority);
-        return true;
+        return true;*/
 
     }
 

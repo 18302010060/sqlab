@@ -27,8 +27,18 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO: Implement the function.
         //使用Optional数据结构进行查找避免不必要的null检查（创建一个既可空又可非空的Option对象）
-        Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
+        try {
+            Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username).get(0));
+            Set<Authority> authorities = new HashSet<>();
+            authorities.add(new Authority("user"));
+            //最后目的：返回一个具有完整信息的User/UserDetails对象
+            return (UserDetails) new User(users.get().getUsername(),users.get().getPassword(),authorities);
+
+        }catch (Exception e){
+            throw new UsernameNotFoundException("User: '" + username + "' not found.");
+        }
         //调用Optional中的isPresent方法判断值是否存在，若不存在则进行异常处理
+       /* Optional<User> users = Optional.ofNullable(userRepository.findByUsername(username));
         if(!users.isPresent()){
             throw new UsernameNotFoundException("User: '" + username + "' not found.");
         }
@@ -36,6 +46,6 @@ public class JwtUserDetailsService implements UserDetailsService {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(new Authority("user"));
         //最后目的：返回一个具有完整信息的User/UserDetails对象
-        return (UserDetails) new User(users.get().getUsername(),users.get().getPassword(),authorities);
+        return (UserDetails) new User(users.get().getUsername(),users.get().getPassword(),authorities);*/
     }
 }

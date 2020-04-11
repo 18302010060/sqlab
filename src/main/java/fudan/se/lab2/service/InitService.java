@@ -157,7 +157,7 @@ public class InitService {
         }
     }
 
-    public User getPersonalInform(InitRequest initRequest) {
+    public User getPersonalInform(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
             logger.info("username  "+username);

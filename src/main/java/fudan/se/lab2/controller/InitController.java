@@ -134,7 +134,7 @@ public class InitController {
 
     @PostMapping("/menu/setting")
     @ResponseBody
-    public ResponseEntity<?> getPersonalInfo(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getPersonalInfo(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getPersonalInform(request));
     }
 

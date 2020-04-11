@@ -10,4 +10,6 @@ import java.util.List;
 public interface ContributionRepository extends CrudRepository<Contribution, Long> {
     Contribution findContributionByUsernameAndMeetingFullname(String username, String meetingFullname);
     List<Contribution> findAllByMeetingFullname(String fullname);
+
+    List<Contribution> findAllByUsername(String username);
 }

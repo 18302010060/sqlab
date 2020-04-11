@@ -29,6 +29,11 @@ class ContributionControllerTest {
             }
 
             @Override
+            public List<Contribution> findAllByUsername(String username) {
+                return null;
+            }
+
+            @Override
             public <S extends Contribution> S save(S s) {
                 return null;
             }
@@ -91,6 +96,11 @@ class ContributionControllerTest {
 
             @Override
             public MeetingAuthority findByUsername(String username) {
+                return null;
+            }
+
+            @Override
+            public MeetingAuthority findByUsernameAndFullname(String username, String fullname) {
                 return null;
             }
 

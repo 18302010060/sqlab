@@ -13,18 +13,22 @@ import java.util.*;
  */
 //18302010071陈淼'Part + 18302010077张超'Part
 @Entity
+@IdClass(usernameAndFullname.class)
 public class MeetingAuthority {
 
     private static final long serialVersionUID = -6140085056226164016L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
-    @Column(unique = true)
+    /*@GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;*/
+
+
+    @Id
     private String username;
+    @Id
     private String fullname;
     private String authority;
+
 
 
     /*@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -34,14 +38,13 @@ public class MeetingAuthority {
     //（username + password + authorities） 用于登录
     //（username + password + unit + area + authorities ） 用于注册
     public MeetingAuthority() {}
-
     public MeetingAuthority(String username, String fullname, String authority) {
         this.username = username;
         this.fullname = fullname;
         this.authority = authority;
     }
-
     //对应的GET SET方法
+
 
     public String getUsername() {
         return username;

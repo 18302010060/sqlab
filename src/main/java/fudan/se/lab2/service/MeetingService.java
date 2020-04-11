@@ -5,10 +5,8 @@ import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
 import fudan.se.lab2.domain.Meeting;
 import fudan.se.lab2.domain.MeetingAuthority;
-import fudan.se.lab2.domain.User;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
-import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.security.jwt.JwtConfigProperties;
 import fudan.se.lab2.security.jwt.JwtTokenUtil;
 import org.slf4j.Logger;
@@ -85,6 +83,7 @@ public class MeetingService {
     public boolean audit(AuditRequest request){
         String fullname = request.getFullname();
         String state = request.getState();
+        //String username = request.getUsername();
         /*String token = request.getToken();
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -93,14 +92,19 @@ public class MeetingService {
 
         try {
             Meeting meeting = meetingRepository.findByFullname(fullname).get(0);
-            if(state =="passed"){
+            String chair = meeting.getChair();
+            logger.info(chair);
+            if(state.equals("passed")){
                 logger.info("审核通过");
             }
             meeting.setState(state);
             meetingRepository.save(meeting);
-            String chair = meeting.getChair();
-            MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
-            meetingAuthorityRepository.save(meetingAuthority);
+
+            if(state.equals("passed")){
+                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
+                meetingAuthorityRepository.save(meetingAuthority);
+            }
+
             return true;
         }catch (Exception e){
             return false;

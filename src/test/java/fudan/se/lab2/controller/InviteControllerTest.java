@@ -97,6 +97,11 @@ class InviteControllerTest {
         }
 
         @Override
+        public MeetingAuthority findByUsernameAndFullname(String username, String fullname) {
+            return null;
+        }
+
+        @Override
         public <S extends MeetingAuthority> S save(S s) {
             return null;
         }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InitService {
@@ -79,15 +80,27 @@ public class InitService {
         }
     }
 
-    public List<User> PCMemberInvitations() {
+    public List<User> PCMemberInvitations(InitRequest request) {
         try {
-            Iterable<User> it = userRepository.findAll();
+         /*   Iterable<User> it = userRepository.findAll();
 
             List<User> user = new ArrayList<>();
             while (it.iterator().hasNext()) {
+                String username = ;
                 user.add(it.iterator().next());
             }
-            return user;
+            return user;*/
+         String fullname = request.getFullname();
+         List<User> user = userRepository.findAll();
+        for(int i = 0;i<user.size();i++){
+            String username = user.get(i).getUsername();
+            Optional<MeetingAuthority> meetingAuthority = Optional.ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username,fullname));
+            if(meetingAuthority.isPresent()){
+                user.remove(i);
+                logger.info("该成员信息已存在");
+            }
+        }
+        return user;
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;
@@ -142,7 +155,7 @@ public class InitService {
     }
 
     //其他
-    public List<Contribution> getAllSubmissions() {
+    /*public List<Contribution> getAllSubmissions() {
         try {
             Iterable<Contribution> it = contributionRepository.findAll();
             List<Contribution> result = new ArrayList<>();
@@ -155,8 +168,20 @@ public class InitService {
             logger.info("空指针错误！！");
             return null;
         }
-    }
+    }*/
 
+    public List<Contribution> getAllSubmissions(InitRequest request) {
+        try{
+            String username=request.getUsername();
+            logger.info("username  "+username);
+
+            return contributionRepository.findAllByUsername(username);
+
+        } catch (Exception e) {
+            logger.info("空指针错误！！");
+            return null;
+        }
+    }
     public List<User> getPersonalInform(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();

@@ -1,8 +1,6 @@
 package fudan.se.lab2.repository;
 
 import fudan.se.lab2.domain.MeetingAuthority;
-import fudan.se.lab2.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +16,6 @@ public interface MeetingAuthorityRepository extends CrudRepository<MeetingAuthor
     MeetingAuthority findAllByFullnameEqualsAndAuthorityEquals(String fullname,String authority);*/
     List<MeetingAuthority> findAllByUsernameEqualsAndAuthorityEquals(String username, String authority);
     MeetingAuthority findByUsername(String username);
+
+    MeetingAuthority findByUsernameAndFullname(String username, String fullname);
 }

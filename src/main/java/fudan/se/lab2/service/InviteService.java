@@ -7,7 +7,6 @@ import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
-import fudan.se.lab2.repository.MeetingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

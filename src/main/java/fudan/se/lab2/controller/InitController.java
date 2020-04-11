@@ -98,7 +98,7 @@ public class InitController {
     @ResponseBody
     public ResponseEntity<?> PCMemberInvitations(@RequestBody InitRequest request) {
 
-        return ResponseEntity.ok(initService.PCMemberInvitations());
+        return ResponseEntity.ok(initService.PCMemberInvitations(request));
     }
 
     @PostMapping("/menuOfMeeting/invitationResults")
@@ -129,7 +129,7 @@ public class InitController {
     @PostMapping("/menu/submissions")
     @ResponseBody
     public ResponseEntity<?> allSubmission(@RequestBody InitRequest request) {
-        return ResponseEntity.ok(initService.getAllSubmissions());
+        return ResponseEntity.ok(initService.getAllSubmissions(request));
     }
 
     @PostMapping("/menu/setting")

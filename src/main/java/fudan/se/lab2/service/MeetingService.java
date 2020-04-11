@@ -45,24 +45,13 @@ public class MeetingService {
 
         Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime);
 
-        try {
-            Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname).get(0));
+        Optional<Meeting> meeting1 = Optional.ofNullable(meetingRepository.findByShortname(shortname));
+        if (meeting1.isPresent()) {
             logger.info("注册失败 ");
             return false;
-        }catch (Exception e){
-            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
-            String chair = jwtTokenUtil.getUsernameFromToken(token);
-
-            logger.info("chair: " + chair);
-            meeting.setChair(chair);
-
-
-            meetingRepository.save(meeting);
-            logger.info("注册成功 " );
-            return true;
         }
-
-        /*if (meeting2.isPresent()) {
+        Optional<Meeting> meeting2 = Optional.ofNullable(meetingRepository.findByFullname(fullname));
+        if (meeting2.isPresent()) {
             logger.info("注册失败 ");
             return false;
             //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -78,7 +67,7 @@ public class MeetingService {
             meetingRepository.save(meeting);
             logger.info("注册成功 " );
             return true;
-        }*/
+        }
     }
     public boolean audit(AuditRequest request){
         String fullname = request.getFullname();
@@ -91,7 +80,7 @@ public class MeetingService {
         long id = user.getId();*/
 
         try {
-            Meeting meeting = meetingRepository.findByFullname(fullname).get(0);
+            Meeting meeting = meetingRepository.findByFullname(fullname);
             if(state.equals("passed")){
                 logger.info("审核通过");
             }

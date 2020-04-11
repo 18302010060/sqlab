@@ -140,13 +140,13 @@ public class InitController {
 
     @PostMapping("/menuOfMeeting/detailsOfMeeting")
     @ResponseBody
-    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest1 request) {
+    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.getMeetingInfo(request));
     }
 
     @PostMapping("/menuOfMeeting/allArticles")
     @ResponseBody
-    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest1 request) {
+    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
     @PostMapping("/menuOfMeeting/detailsOfContribute")

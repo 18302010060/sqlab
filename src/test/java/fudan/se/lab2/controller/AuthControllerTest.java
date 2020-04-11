@@ -47,7 +47,7 @@ class AuthControllerTest {
         }
 
         @Override
-        public Iterable<User> findAll() {
+        public List<User> findAll() {
             return null;
         }
 

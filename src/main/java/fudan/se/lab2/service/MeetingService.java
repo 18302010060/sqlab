@@ -92,14 +92,12 @@ public class MeetingService {
 
         try {
             Meeting meeting = meetingRepository.findByFullname(fullname).get(0);
-            String chair = meeting.getChair();
-            logger.info(chair);
             if(state.equals("passed")){
                 logger.info("审核通过");
             }
             meeting.setState(state);
             meetingRepository.save(meeting);
-
+            String chair = meeting.getChair();
             if(state.equals("passed")){
                 MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
                 meetingAuthorityRepository.save(meetingAuthority);

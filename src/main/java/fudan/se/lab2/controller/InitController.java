@@ -121,7 +121,7 @@ public class InitController {
 
     @PostMapping("/adminMenu/adminMeetingsHandled")
     @ResponseBody
-    public ResponseEntity<?> applicationHandled(InitRequest2 request) {
+    public ResponseEntity<?> applicationHandled(InitRequest1 request) {
         return ResponseEntity.ok(initService.applicationHandled(request));
     }
 

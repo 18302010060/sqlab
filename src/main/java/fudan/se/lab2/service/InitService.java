@@ -148,8 +148,9 @@ public class InitService {
         }
     }
 
-    public List<Meeting> applicationHandled(InitRequest2 initRequest) {
+    public List<Meeting> applicationHandled(InitRequest1 initRequest) {
         try {
+            String username = initRequest.getUsername();
             String state = initRequest.getState();
             logger.info("state  "+state);
 

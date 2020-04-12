@@ -27,7 +27,7 @@ public class ContributionController {
         logger.info("title:"+request.getTitle());
         logger.info("summary:"+request.getSummary());
         logger.info("path:"+request.getPath());
-        logger.info("token: "+request.getToken());
+        logger.info("username: "+request.getUsername());
 
         return ResponseEntity.ok(contributionService.submit(request));
     }

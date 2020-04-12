@@ -35,11 +35,11 @@ public class ContributionService {
         String title = request.getTitle();
         String summary = request.getSummary();
         String path = request.getPath();
-        String token = request.getToken();
+        String username = request.getUsername();
 
         //通过前端返回的token得到当前用户名username
-        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+       // JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
+        //String username = jwtTokenUtil.getUsernameFromToken(token);
 
         Contribution contribution = new Contribution(username, meetingFullname, title, summary, path);
 

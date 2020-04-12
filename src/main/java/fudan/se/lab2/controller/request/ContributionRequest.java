@@ -6,16 +6,16 @@ public class ContributionRequest {
     private String title;
     private String summary;
     private String path;
-    private String token;
+    private String username;
 
     public ContributionRequest(){}
 
-    public ContributionRequest(String meetingFullname, String title, String summary, String path,String token) {
+    public ContributionRequest(String meetingFullname, String title, String summary, String path,String username) {
         this.meetingFullname = meetingFullname;
         this.title = title;
         this.summary = summary;
         this.path = path;
-        this.token=token;
+        this.username=username;
     }
 
     public String getMeetingFullname(){
@@ -34,7 +34,7 @@ public class ContributionRequest {
         return path;
     }
 
-    public String getToken(){
-        return token;
+    public String getUsername() {
+        return username;
     }
 }

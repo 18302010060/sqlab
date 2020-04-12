@@ -42,10 +42,10 @@ class ContributionServiceTest {
         String token1=authService.login("asdqwe","qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhc2Rxd2UiLCJpYXQiOjE1ODY2NzgzNDIsImV4cCI6MTU4NjY5NjM0Mn0.NtVBnj3oq3cmNnMalO71sWUrzZFhGh5t-eN9gY8DDwPmLdwsWJtLDff0uq64c3JxTajDhjzenkvSbI0dqJ4Xtg"));
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
         assertTrue(result1);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhc2Rxd2UiLCJpYXQiOjE1ODY2NzgzNDIsImV4cCI6MTU4NjY5NjM0Mn0.NtVBnj3oq3cmNnMalO71sWUrzZFhGh5t-eN9gY8DDwPmLdwsWJtLDff0uq64c3JxTajDhjzenkvSbI0dqJ4Xtg"));
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
         assertTrue(result4);
        //会议通过
         Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));

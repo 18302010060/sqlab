@@ -41,9 +41,9 @@ public class MeetingService {
         String place = request.getPlace();
         Date releasetime = request.getReleasetime();
         Date time = request.getTime();
-        String token = request.getToken();
+        String chair = request.getChair();
 
-        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime);
+        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime,chair);
 
         Optional<Meeting> meeting1 = Optional.ofNullable(meetingRepository.findByShortname(shortname));
         if (meeting1.isPresent()) {
@@ -57,12 +57,6 @@ public class MeetingService {
             //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Meeting has existed!" );
         } else {
-            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
-            String chair = jwtTokenUtil.getUsernameFromToken(token);
-
-            logger.info("chair: " + chair);
-            meeting.setChair(chair);
-
 
             meetingRepository.save(meeting);
             logger.info("注册成功 " );

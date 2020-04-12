@@ -64,7 +64,7 @@ public class MeetingController {
         logger.info("time:"+request.getTime());
         logger.info("deadline:"+request.getDeadline());
         logger.info("releasetime:"+request.getReleasetime());
-        logger.info("token: "+request.getToken());
+        logger.info("chair: "+request.getChair());
 
         return ResponseEntity.ok(meetingService.apply(request));
     }

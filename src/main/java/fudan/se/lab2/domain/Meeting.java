@@ -33,7 +33,7 @@ public class Meeting  {
 
 
     public Meeting() {}
-    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime) {
+    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime,String chair) {
         this.shortname = shortname;
         this.place= place;
         this.fullname = fullname;
@@ -41,6 +41,7 @@ public class Meeting  {
         this.releasetime=releasetime;
         this.time=time;
         this.state="inAudit";
+        this.chair=chair;
 
     }
 

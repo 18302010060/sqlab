@@ -10,19 +10,19 @@ public class ApplyRequest {
     private Date time;
     private Date deadline;
     private Date releasetime;
-    private String token;
+    private String chair;
 
 
     public ApplyRequest() {}
 
-    public ApplyRequest(   String shortname, String fullname, String place, Date time, Date deadline, Date releasetime, String token){
+    public ApplyRequest(   String shortname, String fullname, String place, Date time, Date deadline, Date releasetime, String chair){
         this.shortname=shortname;
         this.fullname=fullname;
         this.place=place;
         this.time=time;
         this.releasetime=releasetime;
         this.deadline=deadline;
-        this.token=token;
+        this.chair=chair;
     }
 
     public String getShortname() {
@@ -71,8 +71,7 @@ public class ApplyRequest {
         this.releasetime = releasetime;
     }
 
-    public String getToken(){
-        return this.token;
+    public String getChair() {
+        return chair;
     }
-
 }

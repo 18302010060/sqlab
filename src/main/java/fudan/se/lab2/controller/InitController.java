@@ -151,11 +151,18 @@ public class InitController {
     public ResponseEntity<?> getAllArticles(@RequestBody InitRequest2 request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
-    //前端现在传参错误
+    //前端现在传参
     @PostMapping("/menuOfMeeting/detailsOfContribute")
     @ResponseBody
-    public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest1 request) {
+    public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest request) {
         return ResponseEntity.ok(initService.getArticleDetail(request));
+    }
+
+    @PostMapping("/menuOfMeeting/openSubmission")
+    @ResponseBody
+    public ResponseEntity<?> openSubmission(@RequestBody InitRequest request){
+        logger.info("fullname  "+request.getFullname());
+        return ResponseEntity.ok(initService.openSubmissionn(request));
     }
     /*@PostMapping(value="/auditmeeting")
     @ResponseBody

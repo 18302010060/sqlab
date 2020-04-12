@@ -56,14 +56,22 @@ public class InitService {
         }
     }
 
-    public List<MeetingAuthority> meetingIParticipatedIn(InitRequest initRequest) {
+    public List<Meeting> meetingIParticipatedIn(InitRequest initRequest) {
         try {
             String authority = initRequest.getAuthority();
-
             String username = initRequest.getUsername();
+            List<MeetingAuthority> meetingAuthority = meetingAuthorityRepository.findAllByUsernameAndAuthority(username,authority);
+            List<Meeting> meetings = new ArrayList<>();
+            for (MeetingAuthority value : meetingAuthority) {
+                String fullname = value.getFullname();
+                Meeting meeting = meetingRepository.findByFullname(fullname);
+                meetings.add(meeting);
+
+            }
+
             logger.info("username  "+username);
             logger.info("authority  "+authority);
-            return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(username, authority);
+            return meetings;
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

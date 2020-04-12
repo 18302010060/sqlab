@@ -206,22 +206,22 @@ public class InitService {
 
     }
 
-    public List<Meeting> getMeetingInfo(InitRequest1 initRequest) {
+    public List<Meeting> getMeetingInfo(InitRequest initRequest) {
         try {
-            String fullname = initRequest.getUsername();
-            logger.info("username表示fullname "+fullname);
+            String fullname = initRequest.getFullname();
+            logger.info("fullname "+fullname);
 
-            return meetingRepository.findByFullname(fullname);
+            return meetingRepository.findAllByFullname(fullname);
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;
         }
     }
 
-    public List<Contribution> getAllArticle(InitRequest1 initRequest) {
+    public List<Contribution> getAllArticle(InitRequest initRequest) {
         try {
-            String fullname = initRequest.getUsername();
-            logger.info("username表示fullname "+fullname);
+            String fullname = initRequest.getFullname();
+            logger.info("fullname "+fullname);
 
             return contributionRepository.findAllByMeetingFullname(fullname);
         } catch (Exception e) {

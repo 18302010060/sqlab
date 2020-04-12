@@ -167,21 +167,7 @@ public class InitService {
         }
     }
 
-    //其他
-    /*public List<Contribution> getAllSubmissions() {
-        try {
-            Iterable<Contribution> it = contributionRepository.findAll();
-            List<Contribution> result = new ArrayList<>();
-            while (it.iterator().hasNext()) {
-                result.add(it.iterator().next());
-            }
 
-            return result;
-        } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
-        }
-    }*/
 
     public List<Contribution> getAllSubmissions(InitRequest1 request) {
         try{

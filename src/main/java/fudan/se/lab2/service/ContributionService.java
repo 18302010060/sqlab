@@ -3,6 +3,7 @@ package fudan.se.lab2.service;
 import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ContributionRequest;
 import fudan.se.lab2.domain.Contribution;
+import fudan.se.lab2.domain.Meeting;
 import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.ContributionRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
@@ -52,6 +53,7 @@ public class ContributionService {
         } else {
             Optional<MeetingAuthority> meetingAuthority = Optional
                     .ofNullable(meetingAuthorityRepository.findByUsername(username));
+            //不是该会议PCmemeber author chair
             if (!meetingAuthority.isPresent()) {
                 MeetingAuthority meetingAuthority1 = new MeetingAuthority(username, meetingFullname, "author");
                 meetingAuthorityRepository.save(meetingAuthority1);
@@ -61,11 +63,17 @@ public class ContributionService {
 
             }
             else{
-                if(meetingAuthority.get().getAuthority()=="chair"){
+                //在该会议中，身份不是chair，可以投稿，并更改身份为author
+                if(!meetingAuthority.get().getAuthority().equals("chair")){
+                    MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsername(username);
+                    logger.info("身份 "+meetingAuthority1.getAuthority());
+                    meetingAuthority1.setAuthority("author");
+                    meetingAuthorityRepository.save(meetingAuthority1);
                     contributionRepository.save(contribution);
                     logger.info("论文提交成功");
                     return true;
                 }
+                //身份为chair，不可投稿
                 else{
                     logger.info("提交失败");
                     return false;

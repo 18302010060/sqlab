@@ -15,6 +15,15 @@ public class ApplyRequest {
 
     public ApplyRequest() {}
 
+    public ApplyRequest(   String shortname, String fullname, String place, Date time, Date deadline, Date releasetime, String token){
+        this.shortname=shortname;
+        this.fullname=fullname;
+        this.place=place;
+        this.time=time;
+        this.releasetime=releasetime;
+        this.deadline=deadline;
+        this.token=token;
+    }
 
     public String getShortname() {
         return shortname;

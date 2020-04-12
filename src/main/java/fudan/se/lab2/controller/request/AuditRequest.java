@@ -15,7 +15,7 @@ public class AuditRequest {
 
 
     public AuditRequest() {}
-    public AuditRequest(String fullname,String state,String username) {
+    public AuditRequest(String fullname,String state) {
         //this.username = username;
         this.state = state;
         this.fullname=fullname;

@@ -7,7 +7,10 @@ public class InitRequest4 {
     public InitRequest4(){
 
     }
-
+    public InitRequest4(String username,String fullname){
+        this.username=username;
+        this.fullname=fullname;
+    }
     public String getUsername() {
         return username;
     }

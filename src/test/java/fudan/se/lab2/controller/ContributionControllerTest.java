@@ -161,7 +161,7 @@ class ContributionControllerTest {
         };
         ContributionService contributionService = new ContributionService(contributionRepository,meetingAuthorityRepository);
         ContributionController contributionController = new ContributionController(contributionService);
-        ContributionRequest contributionRequest = new ContributionRequest("fullname","title","summary","path");
+        ContributionRequest contributionRequest = new ContributionRequest("fullname","title","summary","path","sfsdsf");
         contributionController.contribute(contributionRequest);
         Contribution contribution = contributionRepository.findContributionByUsernameAndMeetingFullname("username","meetingFullname");
         assertEquals("title",contribution.getTitle());

@@ -267,4 +267,25 @@ public class InitService {
             return false;
         }
     }
+
+    public Boolean judgeWhetherPcmemberr(InitRequest initRequest){
+        String fullname = initRequest.getFullname();
+        String username=initRequest.getUsername();
+
+        logger.info("fullname "+fullname);
+        logger.info("username  "+username);
+
+
+        try {
+            MeetingAuthority meetingAuthority=meetingAuthorityRepository.findByUsernameAndFullname(username,fullname);
+            String authority=meetingAuthority.getAuthority();
+            if(authority.equals("PCmemeber")){
+                return true;
+            }else {
+                return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

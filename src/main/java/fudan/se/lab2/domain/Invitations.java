@@ -6,18 +6,18 @@ import javax.persistence.*;
  * @author LBW
  */
 @Entity
+@IdClass(usernameAndFullname.class)
 @Table(name="INVITATIONS")
 public class Invitations{
 
     private static final long serialVersionUID = -6140085056226164016L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(unique = true)
-    private String chair = "";
     private String fullname;
+    @Id
     private String username;
+
+    private String chair = "";
     private String inviteState;
 
 

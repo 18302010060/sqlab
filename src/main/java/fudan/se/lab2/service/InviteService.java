@@ -104,7 +104,7 @@ public class InviteService {
            return true;
        }
        else{
-           logger.info("会议信息不存在");
+           logger.info("邀请信息不存在");
            return false;
        }
 

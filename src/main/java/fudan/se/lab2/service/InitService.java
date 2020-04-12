@@ -4,6 +4,8 @@ import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.InitRequest;
 import fudan.se.lab2.controller.request.InitRequest1;
 import fudan.se.lab2.controller.request.InitRequest2;
+import fudan.se.lab2.controller.request.InitRequest4;
+
 import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.*;
 import org.slf4j.Logger;
@@ -234,7 +236,7 @@ public class InitService {
         }
     }
 
-    public Contribution getArticleDetail(InitRequest initRequest){
+    public Contribution getArticleDetail(InitRequest4 initRequest){
         try {
             String username=initRequest.getUsername();
             String fullname = initRequest.getUsername();
@@ -249,18 +251,17 @@ public class InitService {
         }
     }
 
-    public Boolean openSubmissionn(InitRequest initRequest){
+    public Boolean openSubmissionn(InitRequest4 initRequest){
         String fullname = initRequest.getFullname();
         String username=initRequest.getUsername();
-        String authority=initRequest.getAuthority();
+
         logger.info("fullname "+fullname);
         logger.info("username  "+username);
-        logger.info("authority  "+authority);
 
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state  "+meeting.getState());
-            meeting.setState("start");
+            meeting.setState("inMenuScript");
             meetingRepository.save(meeting);
             return true;
 

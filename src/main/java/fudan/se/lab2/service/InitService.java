@@ -34,6 +34,7 @@ public class InitService {
         this.contributionRepository = contributionRepository;
     }
 
+    //查询状态为passed和inManuscript的会议信息
     public List<Meeting> showDashboard() {
         try {
             return meetingRepository.findAllByStateEqualsOrStateEquals("passed", "inManuscript");
@@ -43,6 +44,7 @@ public class InitService {
         }
     }
 
+    //根据username和state查询会议信息
     public List<Meeting> showMeetingIAppliedFor(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
@@ -56,6 +58,7 @@ public class InitService {
         }
     }
 
+    //根据username和会议身份查询会议信息
     public List<Meeting> meetingIParticipatedIn(InitRequest initRequest) {
         try {
             String authority = initRequest.getAuthority();
@@ -78,6 +81,7 @@ public class InitService {
         }
     }
 
+    //根据username查询邀请状态为invited的会议
     public List<Invitations> invitationInformation(InitRequest1 initRequest) {
         try {
             String username = initRequest.getUsername();
@@ -90,6 +94,7 @@ public class InitService {
         }
     }
 
+    //根据fullname得到所有的邀请信息 List<User>
     public List<User> PCMemberInvitations(InitRequest request) {
         try {
          /*   Iterable<User> it = userRepository.findAll();
@@ -100,9 +105,9 @@ public class InitService {
                 user.add(it.iterator().next());
             }
             return user;*/
-         String fullname = request.getFullname();
-         List<User> user1 = userRepository.findAll();
-         List<User> user = new ArrayList<>();
+            String fullname = request.getFullname();
+            List<User> user1 = userRepository.findAll();
+            List<User> user = new ArrayList<>();
             for (User value : user1) {
                 String username = value.getUsername();
                 Optional<MeetingAuthority> meetingAuthority = Optional.ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username, fullname));
@@ -113,13 +118,14 @@ public class InitService {
                     }
                 }
             }
-        return user;
+            return user;
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;
         }
     }
 
+    //根据fullname和邀请状态得到该会议的不同状态成员的信息
     public List<User> invitationsResult(InitRequest2 initRequest) {
         try {
             String fullname = initRequest.getFullname();
@@ -141,6 +147,7 @@ public class InitService {
         }
     }
 
+    //根据fullname得到当前会议中的PCmember List<MeetingAuthority>
     public List<MeetingAuthority> PCMemberList(InitRequest initRequest) {
         try {
             String fullname = initRequest.getFullname();
@@ -152,6 +159,7 @@ public class InitService {
         }
     }
 
+    //得到所有的状态为inAudit的会议
     public List<Meeting> meetingApplications() {
         try {
             return meetingRepository.findAllByStateEquals("inAudit");
@@ -161,6 +169,7 @@ public class InitService {
         }
     }
 
+    //根据state 得到所有的状态为state的会议
     public List<Meeting> applicationHandled(InitRequest2 initRequest) {
         try {
 
@@ -176,7 +185,7 @@ public class InitService {
     }
 
 
-
+    //根据username得到该会议的所有的投稿信息
     public List<Contribution> getAllSubmissions(InitRequest1 request) {
         try{
             String username=request.getUsername();
@@ -191,7 +200,7 @@ public class InitService {
         }
     }
 
-
+    //根据username得到该用户信息
     public User getPersonalInform(InitRequest1 initRequest) {
 
         try {
@@ -206,6 +215,7 @@ public class InitService {
 
     }
 
+    //根据fullname得到该会议信息
     public List<Meeting> getMeetingInfo(InitRequest2 initRequest) {
         try {
             String fullname = initRequest.getFullname();
@@ -218,6 +228,7 @@ public class InitService {
         }
     }
 
+    //根据fullname得到会议的全部投稿信息
     public List<Contribution> getAllArticle(InitRequest2 initRequest) {
         try {
             String fullname = initRequest.getFullname();
@@ -230,6 +241,7 @@ public class InitService {
         }
     }
 
+    //根据username和fullname得到具体投稿信息
     public Contribution getArticleDetail(InitRequest4 initRequest){
         try {
             String username=initRequest.getUsername();
@@ -245,6 +257,7 @@ public class InitService {
         }
     }
 
+    //开启投稿
     public Boolean openSubmissionn(InitRequest4 initRequest){
         String fullname = initRequest.getFullname();
         String username=initRequest.getUsername();
@@ -264,6 +277,7 @@ public class InitService {
         }
     }
 
+    //根据username和fullname得到是否为PCmember
     public Boolean judgeWhetherPcmemberr(InitRequest initRequest){
         String fullname = initRequest.getFullname();
         String username=initRequest.getUsername();
@@ -275,7 +289,7 @@ public class InitService {
         try {
             MeetingAuthority meetingAuthority=meetingAuthorityRepository.findByUsernameAndFullname(username,fullname);
             String authority=meetingAuthority.getAuthority();
-            if(authority.equals("PCmemeber")){
+            if(authority.equals("PCmember")){
                 return true;
             }else {
                 return false;
@@ -285,6 +299,7 @@ public class InitService {
         }
     }
 
+    //根据username和fullname得到会议的状态
     public String getMeetingStatee(InitRequest initRequest) {
         String fullname = initRequest.getFullname();
         String username = initRequest.getUsername();
@@ -300,4 +315,4 @@ public class InitService {
             return "error";
         }
     }
-    }
+}

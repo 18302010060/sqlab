@@ -52,7 +52,7 @@ public class ContributionService {
             return false;
         } else {
             Optional<MeetingAuthority> meetingAuthority = Optional
-                    .ofNullable(meetingAuthorityRepository.findByUsername(username));
+                    .ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname));
             //不是该会议PCmemeber author chair
             if (!meetingAuthority.isPresent()) {
                 MeetingAuthority meetingAuthority1 = new MeetingAuthority(username, meetingFullname, "author");

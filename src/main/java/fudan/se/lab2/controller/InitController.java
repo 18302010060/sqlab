@@ -154,13 +154,18 @@ public class InitController {
     //前端现在传参
     @PostMapping("/menuOfMeeting/detailsOfContribute")
     @ResponseBody
-    public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest4 request) {
         return ResponseEntity.ok(initService.getArticleDetail(request));
     }
 
+
+    //  this.$axios.post('/menuOfMeeting/openSubmission', {
+    //          fullname:"asd",
+    //          username: "sa",
+    //        })
     @PostMapping("/menuOfMeeting/openSubmission")
     @ResponseBody
-    public ResponseEntity<?> openSubmission(@RequestBody InitRequest request){
+    public ResponseEntity<?> openSubmission(@RequestBody InitRequest4 request){
         logger.info("fullname  "+request.getFullname());
         return ResponseEntity.ok(initService.openSubmissionn(request));
     }

@@ -261,7 +261,7 @@ public class InitService {
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state  "+meeting.getState());
-            meeting.setState("inMenuScript");
+            meeting.setState("inManuscript");
             meetingRepository.save(meeting);
             return true;
 

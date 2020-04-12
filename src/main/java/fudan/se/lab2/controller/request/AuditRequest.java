@@ -8,9 +8,9 @@ import java.util.Set;
 //fullname，state
 //18302010060黄怡清'Part
 public class AuditRequest {
-    //定义6个参数
-    private String fullname;
-    private String state;
+    //定义2个参数
+    private String fullname;//会议全称
+    private String state;//会议状态（inAudit/passed/rejected/投稿中）
     //private String username;
 
 

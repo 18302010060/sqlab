@@ -70,8 +70,27 @@ public class MeetingService {
         }
     }
     public boolean audit(AuditRequest request){
-        String fullname = request.getFullname();
+        String fullname = request.getFullname();//得到request中传来的参数
         String state = request.getState();
+
+
+        try {//使用try catch 避免空指针异常
+            Meeting meeting = meetingRepository.findByFullname(fullname);//根据会议全称查找会议
+            if(state.equals("passed")){
+                logger.info("审核通过");//使用logger，方便调试
+            }
+            meeting.setState(state);//设置meeting的状态
+            meetingRepository.save(meeting);//更新会议
+            String chair = meeting.getChair();//得到meeting的申请人
+            if(state.equals("passed")){//如果会议通过
+                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");//创建meetingauthority，方便查找用户在不同会议中的身份
+                meetingAuthorityRepository.save(meetingAuthority);//保存meetingAuthority
+            }
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
         //String username = request.getUsername();
         /*String token = request.getToken();
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
@@ -79,23 +98,6 @@ public class MeetingService {
         User user = userRepository.findByUsername(username);
         long id = user.getId();*/
 
-        try {
-            Meeting meeting = meetingRepository.findByFullname(fullname);
-            if(state.equals("passed")){
-                logger.info("审核通过");
-            }
-            meeting.setState(state);
-            meetingRepository.save(meeting);
-            String chair = meeting.getChair();
-            if(state.equals("passed")){
-                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");
-                meetingAuthorityRepository.save(meetingAuthority);
-            }
-
-            return true;
-        }catch (Exception e){
-            return false;
-        }
        /* Meeting meeting = meetingRepository.findByFullname(fullname);
         if(state =="passed"){
             logger.info("审核通过");

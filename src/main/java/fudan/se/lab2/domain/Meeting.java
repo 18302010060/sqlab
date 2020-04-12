@@ -19,14 +19,14 @@ public class Meeting  {
     private Long id;
 
     @Column(unique = true)
-    private String shortname;
-    private Date time;
-    private Date releasetime;
-    private Date deadline;
-    private String place;
-    private String fullname;
-    private String state;
-    private String chair="";
+    private String shortname;//会议简称
+    private Date time;//时间
+    private Date releasetime;//结果发布时间;
+    private Date deadline;//投稿截止日期
+    private String place;//举办地点
+    private String fullname;//会议全称
+    private String state;//会议状态
+    private String chair="";//会议申请人
 
     //@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     //private Set<Authority> authorities = new HashSet<>();

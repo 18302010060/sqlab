@@ -59,35 +59,11 @@ public class InviteService {
         //TODO:将接受邀请的用户加入人-身份-成员数据库
         String fullname = request.getFullname();//得到会议信息
         String inviteState = request.getInviteState();//得到用户选择的接受/邀请状态
-       /* String token = request.getToken();
-        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
-        String username = jwtTokenUtil.getUsernameFromToken(token);*/
+
         String username = request.getUsername();//得到用户姓名
 
         Optional<Invitations> invitation2 = Optional.ofNullable(invitationRepository.findByUsernameAndFullname(username,fullname));
-       /* if(invitation == null){
-            logger.info("邀请信息不存在");
-            return false;
-        }
-        else {
-            if(invitation.getInviteState()=="接受邀请"){
-                logger.info("已接受邀请");
-                return false;
-            }
-            else{
-                if(inviteState=="拒绝邀请"){
-                    logger.info("已拒绝邀请");
 
-                }
-                else if(inviteState=="接受邀请"){
-                    logger.info("接受邀请成功");
-                    MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PC Member");
-                    meetingAuthorityRepository.save(meetingAuthority);
-                }
-            }
-        }
-        invitation.setInviteState(inviteState);
-        invitationRepository.save(invitation);*/
        if(invitation2.isPresent()){
            Invitations invitation = invitationRepository.findByUsernameAndFullname(username,fullname);
            invitation.setInviteState(inviteState);
@@ -112,7 +88,32 @@ public class InviteService {
 
 
 
-    }
+    }/* String token = request.getToken();
+        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
+        String username = jwtTokenUtil.getUsernameFromToken(token);*/
+ /* if(invitation == null){
+            logger.info("邀请信息不存在");
+            return false;
+        }
+        else {
+            if(invitation.getInviteState()=="接受邀请"){
+                logger.info("已接受邀请");
+                return false;
+            }
+            else{
+                if(inviteState=="拒绝邀请"){
+                    logger.info("已拒绝邀请");
+
+                }
+                else if(inviteState=="接受邀请"){
+                    logger.info("接受邀请成功");
+                    MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PC Member");
+                    meetingAuthorityRepository.save(meetingAuthority);
+                }
+            }
+        }
+        invitation.setInviteState(inviteState);
+        invitationRepository.save(invitation);*/
     /*public Invitations findByUsername(AcceptInviteRequest request){
         String username = request.getUsername();
 

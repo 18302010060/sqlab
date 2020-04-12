@@ -114,12 +114,12 @@ public class InitService {
         try {
             String fullname = initRequest.getFullname();
             String inviteState = initRequest.getInviteState();
-            logger.info("username  "+fullname);
+            logger.info("fullname "+fullname);
             logger.info("inviteState  "+inviteState);
             List<Invitations> invitations = invitationRepository.findAllByFullnameAndInviteState(fullname,inviteState);
             List<User> users = new ArrayList<>();
-            for(int i = 0;i<invitations.size();i++){
-                String username = invitations.get(i).getUsername();
+            for (Invitations invitation : invitations) {
+                String username = invitation.getUsername();
                 User user = userRepository.findByUsername(username);
                 users.add(user);
             }
@@ -151,12 +151,12 @@ public class InitService {
         }
     }
 
-    public List<Meeting> applicationHandled(InitRequest1 initRequest) {
+    public List<Meeting> applicationHandled(InitRequest2 initRequest) {
         try {
-            String username = initRequest.getUsername();
+
             String state = initRequest.getState();
+
             logger.info("state  "+state);
-            logger.info("username:"+username);
 
             return meetingRepository.findAllByStateEquals(state);
         } catch (Exception e) {

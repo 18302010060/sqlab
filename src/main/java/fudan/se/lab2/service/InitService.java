@@ -91,15 +91,16 @@ public class InitService {
             }
             return user;*/
          String fullname = request.getFullname();
-         List<User> user = userRepository.findAll();
-        for(int i = 0;i<user.size();i++){
-            String username = user.get(i).getUsername();
-            Optional<MeetingAuthority> meetingAuthority = Optional.ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username,fullname));
-            if(meetingAuthority.isPresent()){
-                user.remove(i);
-                logger.info("该成员信息已存在");
+         List<User> user1 = userRepository.findAll();
+         List<User> user = new ArrayList<>();
+            for (User value : user1) {
+                String username = value.getUsername();
+                Optional<MeetingAuthority> meetingAuthority = Optional.ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username, fullname));
+                if (!meetingAuthority.isPresent()) {
+                    user.add(value);
+
+                }
             }
-        }
         return user;
         } catch (Exception e) {
             logger.info("空指针错误！！");

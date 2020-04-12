@@ -27,7 +27,7 @@ public class User implements UserDetails {
     private String email;
     private String unit;
     private String area;
-    private String fullname;
+    private String fullname;//真实姓名
 
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

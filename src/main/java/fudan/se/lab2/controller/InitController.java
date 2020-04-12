@@ -35,34 +35,7 @@ public class InitController {
     }
 
 
-    /*@PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        logger.debug("RegistrationForm: " + request.toString());
 
-        return ResponseEntity.ok(authService.register(request));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        logger.debug("LoginForm: " + request.toString());
-
-        return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
-    }*/
-   /* @GetMapping(value="/openmeeting")
-    @ResponseBody
-    public ResponseEntity<?> openmeeting(@RequestBody ApplyRequest request){
-
-        logger.debug("ApplicationForm: " + request.toString());
-        logger.info("fullname:"+request.getFullname());
-        logger.info("shortname:"+request.getShortname());
-        logger.info("place:"+request.getPlace());
-        logger.info("time:"+request.getTime());
-        logger.info("deadline:"+request.getDeadline());
-        logger.info("releasetime:"+request.getReleasetime());
-        logger.info("token: "+request.getToken());
-
-        return ResponseEntity.ok(meetingService.apply(request));
-    }*/
     @PostMapping("/menu/meetings")
     @ResponseBody
     public ResponseEntity<?> showDashboard(@RequestBody InitRequest request) {

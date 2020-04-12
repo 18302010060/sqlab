@@ -172,6 +172,13 @@ public class InitController {
         logger.info("username  "+request.getUsername());
         return ResponseEntity.ok(initService.judgeWhetherPcmemberr(request));
     }
+
+    @PostMapping("/menu/meetingState")
+    public ResponseEntity<?> getMeetingState(@RequestBody InitRequest request){
+        logger.info("fullname  "+request.getFullname());
+        logger.info("username  "+request.getUsername());
+        return ResponseEntity.ok(initService.getMeetingStatee(request));
+    }
     /*@PostMapping(value="/auditmeeting")
     @ResponseBody
     public ResponseEntity<?> auditmeeting(@RequestBody AuditRequest request){

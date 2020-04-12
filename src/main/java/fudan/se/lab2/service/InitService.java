@@ -259,6 +259,7 @@ public class InitService {
 
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
+            logger.info("state  "+meeting.getState());
             meeting.setState("start");
             meetingRepository.save(meeting);
             return true;
@@ -288,4 +289,20 @@ public class InitService {
             return false;
         }
     }
-}
+
+    public String getMeetingStatee(InitRequest initRequest) {
+        String fullname = initRequest.getFullname();
+        String username = initRequest.getUsername();
+
+        logger.info("fullname " + fullname);
+        logger.info("username  " + username);
+
+        try {
+            Meeting meeting=meetingRepository.findByFullname(fullname);
+            logger.info("state  "+meeting.getState());
+            return meeting.getState();
+        }catch (Exception e){
+            return "error";
+        }
+    }
+    }

@@ -96,9 +96,11 @@ public class InitService {
             for (User value : user1) {
                 String username = value.getUsername();
                 Optional<MeetingAuthority> meetingAuthority = Optional.ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username, fullname));
-                if (!meetingAuthority.isPresent()) {
-                    user.add(value);
 
+                if (!meetingAuthority.isPresent()) {
+                    if(!value.getUsername().equals("admin") &&!value.getPassword().equals("password")) {
+                        user.add(value);
+                    }
                 }
             }
         return user;

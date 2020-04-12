@@ -153,6 +153,7 @@ public class InitService {
             String username = initRequest.getUsername();
             String state = initRequest.getState();
             logger.info("state  "+state);
+            logger.info("username:"+username);
 
             return meetingRepository.findAllByStateEquals(state);
         } catch (Exception e) {

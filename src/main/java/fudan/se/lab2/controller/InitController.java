@@ -125,10 +125,10 @@ public class InitController {
         return ResponseEntity.ok(initService.applicationHandled(request));
     }
 
-    //其他查询方法
+    //其他查询方法   //前端现在传参正常
     @PostMapping("/menu/submissions")
     @ResponseBody
-    public ResponseEntity<?> allSubmission(@RequestBody InitRequest request) {
+    public ResponseEntity<?> allSubmission(@RequestBody InitRequest1 request) {
         return ResponseEntity.ok(initService.getAllSubmissions(request));
     }
 
@@ -138,17 +138,20 @@ public class InitController {
         return ResponseEntity.ok(initService.getPersonalInform(request));
     }
 
+    //前端现在传参正常
     @PostMapping("/menuOfMeeting/detailsOfMeeting")
     @ResponseBody
-    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getMeetingInform(@RequestBody InitRequest2 request) {
         return ResponseEntity.ok(initService.getMeetingInfo(request));
     }
 
+    //前端现在传参正常
     @PostMapping("/menuOfMeeting/allArticles")
     @ResponseBody
-    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest request) {
+    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest2 request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
+    //前端现在传参错误
     @PostMapping("/menuOfMeeting/detailsOfContribute")
     @ResponseBody
     public ResponseEntity<?> getArticleDetails(@RequestBody InitRequest1 request) {

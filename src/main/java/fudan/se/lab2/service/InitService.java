@@ -178,7 +178,7 @@ public class InitService {
         }
     }*/
 
-    public List<Contribution> getAllSubmissions(InitRequest request) {
+    public List<Contribution> getAllSubmissions(InitRequest1 request) {
         try{
             String username=request.getUsername();
             logger.info("username  "+username);
@@ -207,7 +207,7 @@ public class InitService {
 
     }
 
-    public List<Meeting> getMeetingInfo(InitRequest initRequest) {
+    public List<Meeting> getMeetingInfo(InitRequest2 initRequest) {
         try {
             String fullname = initRequest.getFullname();
             logger.info("fullname "+fullname);
@@ -219,7 +219,7 @@ public class InitService {
         }
     }
 
-    public List<Contribution> getAllArticle(InitRequest initRequest) {
+    public List<Contribution> getAllArticle(InitRequest2 initRequest) {
         try {
             String fullname = initRequest.getFullname();
             logger.info("fullname "+fullname);
@@ -233,9 +233,11 @@ public class InitService {
 
     public Contribution getArticleDetail(InitRequest1 initRequest){
         try {
-            String fullname = initRequest.getUsername();
             String username=initRequest.getUsername();
-            logger.info("username表示fullname "+fullname);
+            String fullname = initRequest.getUsername();
+            logger.info("username "+username);
+
+            logger.info("fullname "+fullname);
 
             return contributionRepository.findContributionByUsernameAndMeetingFullname(username,fullname);
         } catch (Exception e) {
@@ -243,6 +245,5 @@ public class InitService {
             return null;
         }
     }
-
 
 }

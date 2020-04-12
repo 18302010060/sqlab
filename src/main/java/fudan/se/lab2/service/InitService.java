@@ -234,7 +234,7 @@ public class InitService {
         }
     }
 
-    public Contribution getArticleDetail(InitRequest1 initRequest){
+    public Contribution getArticleDetail(InitRequest initRequest){
         try {
             String username=initRequest.getUsername();
             String fullname = initRequest.getUsername();
@@ -249,4 +249,22 @@ public class InitService {
         }
     }
 
+    public Boolean openSubmissionn(InitRequest initRequest){
+        String fullname = initRequest.getFullname();
+        String username=initRequest.getUsername();
+        String authority=initRequest.getAuthority();
+        logger.info("fullname "+fullname);
+        logger.info("username  "+username);
+        logger.info("authority  "+authority);
+
+        try {
+            Meeting meeting=meetingRepository.findByFullname(fullname);
+            meeting.setState("start");
+            meetingRepository.save(meeting);
+            return true;
+
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

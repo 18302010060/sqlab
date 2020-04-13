@@ -247,7 +247,7 @@ public class InitService {
     public List<Contribution> getArticleDetail(InitRequest4 initRequest){
         try {
             String username=initRequest.getUsername();
-            String fullname = initRequest.getUsername();
+            String fullname = initRequest.getFullname();
             logger.info("username "+username);
 
             logger.info("fullname "+fullname);

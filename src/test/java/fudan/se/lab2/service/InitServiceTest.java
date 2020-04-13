@@ -40,11 +40,6 @@ class InitServiceTest {
     @Test
     void Test() {
 
-        //测试showDashboard()失败的案例
-        List<Meeting> list= initService.showDashboard();
-        for(int i=1;i<10;i++){
-            assertNotEquals(i,list.size());
-        }
 
         prepare();
 
@@ -96,6 +91,19 @@ class InitServiceTest {
         //根据fullname得到当前会议中的PCmember List<MeetingAuthority>
         PCMemberList();
 
+
+        authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        contributionService.submit(new ContributionRequest("The SoftWare Meeting1", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
+        contributionService.submit(new ContributionRequest("The SoftWare Meeting1", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting","Jack000"));
+        //根据username得到该会议的所有的投稿信息
+        getAllSubmissions() ;
+
+        //根据fullname得到会议的全部投稿信息
+        getAllArticle();
+
+        //根据username和fullname得到具体投稿信息
+        getArticleDetail();
 
     }
 
@@ -347,63 +355,7 @@ class InitServiceTest {
 
 
 
-    @Test
-    void testMethodAboutSubmission(){
-        //注册
-        authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
 
-        Boolean result=authService.register(new RegisterRequest("asdqwee","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        assertTrue(result);
-        //登录
-        String token1=authService.login("asdqwee","qwe123");
-        assertNotNull(token1);
-        //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwee"));
-        assertTrue(result1);
-        //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwee"));
-        assertTrue(result4);
-        //会议通过
-        Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
-        assertTrue(result5);
-
-        //情况一：chair不可以投稿
-        Boolean submission=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","asdqwee"));
-        assertFalse(submission);
-
-        //情况二：其余人可以投稿
-        Boolean submission1=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
-        assertTrue(submission1);
-
-        //会议通过审核后用户
-        Boolean invite=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Lucy123","asdqwee"));
-        Boolean invite2=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Jack000","asdqwee"));
-
-        assertTrue(invite);
-        //用户接受身份为chair
-        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lucy123"));
-        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000"));
-
-        assertTrue(accept);
-        //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败
-        Boolean submission3=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meetinga", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
-        assertFalse(submission3);
-
-        //情况四：未投稿的PCmember，可以投稿
-        Boolean submission4=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting","Jack000"));
-        assertTrue(submission4);
-
-
-        //根据username得到该会议的所有的投稿信息
-        getAllSubmissions() ;
-
-        //根据fullname得到会议的全部投稿信息
-        getAllArticle();
-
-        //根据username和fullname得到具体投稿信息
-        getArticleDetail();
-    }
     //根据username得到该会议的所有的投稿信息
     void getAllSubmissions() {
         List<Contribution> list=initService.getAllSubmissions(new InitRequest1("Lucy123","",""));
@@ -414,18 +366,18 @@ class InitServiceTest {
 
     //根据fullname得到会议的全部投稿信息
     void getAllArticle() {
-        List<Contribution> list=initService.getAllArticle(new InitRequest4("","The SoftWare Meeting"));
+        List<Contribution> list=initService.getAllArticle(new InitRequest4("","The SoftWare Meeting1"));
         assertEquals(2,list.size());
 
     }
 
     //根据username和fullname得到具体投稿信息
     void getArticleDetail() {
-        List<Contribution> list=initService.getArticleDetail(new InitRequest4("Lucy123","The SoftWare Meeting"));
-       // logger.info("title  "+contributionR)
-      //  assertEquals("The SoftWare Meeting1",list.get(0).getTitle());
-        List<Contribution> list1=initService.getArticleDetail(new InitRequest4("Jack000","The SoftWare Meeting"));
-      //  assertEquals("The SoftWare Meeting2",list1.get(0).getTitle());
+        List<Contribution> list=initService.getArticleDetail(new InitRequest4("Lucy123","The SoftWare Meeting1"));
+
+        assertEquals("The SoftWare Meeting1",list.get(0).getTitle());
+        List<Contribution> list1=initService.getArticleDetail(new InitRequest4("Jack000","The SoftWare Meeting1"));
+        assertEquals("The SoftWare Meeting2",list1.get(0).getTitle());
 
     }
 

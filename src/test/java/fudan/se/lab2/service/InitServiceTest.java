@@ -2,10 +2,7 @@ package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.*;
-import fudan.se.lab2.domain.Invitations;
-import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.MeetingAuthority;
-import fudan.se.lab2.domain.User;
+import fudan.se.lab2.domain.*;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +36,68 @@ class InitServiceTest {
 
     @Autowired
     private InviteService inviteService;
+
+    @Test
+    void Test() {
+
+        //测试showDashboard()失败的案例
+        List<Meeting> list= initService.showDashboard();
+        for(int i=1;i<10;i++){
+            assertNotEquals(i,list.size());
+        }
+
+        prepare();
+
+        //测试根据username得到该用户信息
+        getPersonalInform();
+
+
+        //测试开启投稿
+        openSubmission();
+
+        //测试 查询状态为passed和inManuscript的会议信息
+        showDashboard();
+        //测试 根据username和state查询会议信息
+        showMeetingIAppliedFor();
+
+        //测试得到所有的状态为inAudit的会议
+        meetingApplications();
+
+        //测试根据fullname得到该会议状态
+        getMeetingStatee();
+
+        //测试根据fullname得到该会议信息
+        getMeetingInfo();
+
+        //会议邀请
+        invite();
+
+        //测试根据username查询邀请状态为invited的会议
+        invitationInformation();
+
+        //对邀请信息的处理
+        acceptOrRejectInvitations();
+
+        //测试根据username和会议身份查询会议信息
+        meetingIParticipatedIn();
+
+        //根据username和fullname得到是否为PCmember
+        judgeWhetherPcmemberr();
+
+        //根据fullname得到所有的邀请信息 List<User>
+        PCMemberInvitations() ;
+
+        //根据fullname和邀请状态得到该会议的不同状态成员的信息
+        invitationsResult();
+
+        //根据state 得到所有的状态为state的会议
+        applicationHandled();
+
+        //根据fullname得到当前会议中的PCmember List<MeetingAuthority>
+        PCMemberList();
+
+
+    }
 
     //一共有是个会议，前两个inManuscript，再三个passed 再两个 rejected，最后三个inAudit
     //"The SoftWare Meeting1"会议邀请"aaa","bbb"，"ccc","eee"
@@ -109,62 +168,6 @@ class InitServiceTest {
     }
 
 
-    @Test
-    void Test() {
-
-        //测试showDashboard()失败的案例
-        List<Meeting> list= initService.showDashboard();
-        for(int i=1;i<10;i++){
-            assertNotEquals(i,list.size());
-        }
-
-        prepare();
-
-        //测试根据username得到该用户信息
-        getPersonalInform();
-
-
-        //测试开启投稿
-        openSubmission();
-
-        //测试 查询状态为passed和inManuscript的会议信息
-        showDashboard();
-        //测试 根据username和state查询会议信息
-        showMeetingIAppliedFor();
-
-        //测试得到所有的状态为inAudit的会议
-        meetingApplications();
-
-        //测试根据fullname得到该会议状态
-        getMeetingStatee();
-
-        //测试根据fullname得到该会议信息
-        getMeetingInfo();
-
-        //会议邀请
-        invite();
-
-        //测试根据username查询邀请状态为invited的会议
-        invitationInformation();
-
-        //对邀请信息的处理
-        acceptOrRejectInvitations();
-
-        //测试根据username和会议身份查询会议信息
-        meetingIParticipatedIn();
-
-        //根据username和fullname得到是否为PCmember
-        judgeWhetherPcmemberr();
-
-        //根据fullname得到所有的邀请信息 List<User>
-        PCMemberInvitations() ;
-
-        //根据fullname和邀请状态得到该会议的不同状态成员的信息
-        invitationsResult();
-
-        //根据state 得到所有的状态为state的会议
-        applicationHandled();
-    }
 
 
     //测试开启会议
@@ -250,6 +253,10 @@ class InitServiceTest {
 
     //根据fullname得到当前会议中的PCmember List<MeetingAuthority>
     void PCMemberList() {
+        InitRequest initRequest= new InitRequest("","");
+        initRequest.setFullname("The SoftWare Meeting1");
+        List<MeetingAuthority> list=initService.PCMemberList(initRequest);
+        assertEquals(0,list.size());
     }
 
     //得到所有的状态为inAudit的会议
@@ -265,16 +272,13 @@ class InitServiceTest {
         List<Meeting> list2=initService.applicationHandled(new InitRequest2("","rejected"));
         List<Meeting> list3=initService.applicationHandled(new InitRequest2("","inManuscript"));
      //   assertEquals(3,list.size());
-        assertEquals(3,list1.size());
-        assertEquals(2,list2.size());
-        assertEquals(2,list3.size());
+        assertEquals(0,list1.size());
+        assertEquals(0,list2.size());
+        assertEquals(0,list3.size());
 
 
     }
 
-    @Test
-    void getAllSubmissions() {
-    }
 
     //测试根据username得到该用户信息
     void getPersonalInform() {
@@ -299,14 +303,6 @@ class InitServiceTest {
 
 
 
-    }
-
-    @Test
-    void getAllArticle() {
-    }
-
-    @Test
-    void getArticleDetail() {
     }
 
 
@@ -347,5 +343,91 @@ class InitServiceTest {
         state =initService.getMeetingStatee(initRequest);
         assertEquals("error",state);
     }
+
+
+
+
+    @Test
+    void testMethodAboutSubmission(){
+        //注册
+        authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+
+        Boolean result=authService.register(new RegisterRequest("asdqwee","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        assertTrue(result);
+        //登录
+        String token1=authService.login("asdqwee","qwe123");
+        assertNotNull(token1);
+        //会议申请
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwee"));
+        assertTrue(result1);
+        //缩写、全称都不相同，申请成功
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwee"));
+        assertTrue(result4);
+        //会议通过
+        Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
+        assertTrue(result5);
+
+        //情况一：chair不可以投稿
+        Boolean submission=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","asdqwee"));
+        assertFalse(submission);
+
+        //情况二：其余人可以投稿
+        Boolean submission1=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
+        assertTrue(submission1);
+
+        //会议通过审核后用户
+        Boolean invite=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Lucy123","asdqwee"));
+        Boolean invite2=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Jack000","asdqwee"));
+
+        assertTrue(invite);
+        //用户接受身份为chair
+        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lucy123"));
+        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000"));
+
+        assertTrue(accept);
+        //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败
+        Boolean submission3=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meetinga", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
+        assertFalse(submission3);
+
+        //情况四：未投稿的PCmember，可以投稿
+        Boolean submission4=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting","Jack000"));
+        assertTrue(submission4);
+
+
+        //根据username得到该会议的所有的投稿信息
+        getAllSubmissions() ;
+
+        //根据fullname得到会议的全部投稿信息
+        getAllArticle();
+
+        //根据username和fullname得到具体投稿信息
+        getArticleDetail();
+    }
+    //根据username得到该会议的所有的投稿信息
+    void getAllSubmissions() {
+        List<Contribution> list=initService.getAllSubmissions(new InitRequest1("Lucy123","",""));
+        assertEquals(1,list.size());
+        List<Contribution> list1=initService.getAllSubmissions(new InitRequest1("asdqwee","",""));
+        assertEquals(0,list1.size());
+    }
+
+    //根据fullname得到会议的全部投稿信息
+    void getAllArticle() {
+        List<Contribution> list=initService.getAllArticle(new InitRequest4("","The SoftWare Meeting"));
+        assertEquals(2,list.size());
+
+    }
+
+    //根据username和fullname得到具体投稿信息
+    void getArticleDetail() {
+        List<Contribution> list=initService.getArticleDetail(new InitRequest4("Lucy123","The SoftWare Meeting"));
+       // logger.info("title  "+contributionR)
+      //  assertEquals("The SoftWare Meeting1",list.get(0).getTitle());
+        List<Contribution> list1=initService.getArticleDetail(new InitRequest4("Jack000","The SoftWare Meeting"));
+      //  assertEquals("The SoftWare Meeting2",list1.get(0).getTitle());
+
+    }
+
 
 }

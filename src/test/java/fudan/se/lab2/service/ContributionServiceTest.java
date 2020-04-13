@@ -52,11 +52,11 @@ class ContributionServiceTest {
         assertTrue(result5);
 
         //情况一：chair不可以投稿
-        Boolean submission=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhc2Rxd2UiLCJpYXQiOjE1ODY2NzgzNDIsImV4cCI6MTU4NjY5NjM0Mn0.NtVBnj3oq3cmNnMalO71sWUrzZFhGh5t-eN9gY8DDwPmLdwsWJtLDff0uq64c3JxTajDhjzenkvSbI0dqJ4Xtg"));
+        Boolean submission=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","asdqwe"));
         assertFalse(submission);
 
         //情况二：其余人可以投稿
-        Boolean submission1=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMdWN5MTIzIiwiaWF0IjoxNTg2Njg4OTAyLCJleHAiOjE1ODY3MDY5MDJ9.yavPLfjJYi3Uc7-fdjmOHjV5l_6Y1brCzoPpKg-cBaeNPaIeUuFxTd30mH-uvbd8yOBVZOo2-iZRDu8BWk462g"));
+        Boolean submission1=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
         assertTrue(submission1);
 
         //会议通过审核后用户
@@ -70,11 +70,11 @@ class ContributionServiceTest {
 
         assertTrue(accept);
         //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败
-        Boolean submission3=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMdWN5MTIzIiwiaWF0IjoxNTg2Njg4OTAyLCJleHAiOjE1ODY3MDY5MDJ9.yavPLfjJYi3Uc7-fdjmOHjV5l_6Y1brCzoPpKg-cBaeNPaIeUuFxTd30mH-uvbd8yOBVZOo2-iZRDu8BWk462g"));
+        Boolean submission3=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
         assertFalse(submission3);
 
         //情况四：未投稿的PCmember，可以投稿
-        Boolean submission4=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKYWNrMDAwIiwiaWF0IjoxNTg2Njg5NTg4LCJleHAiOjE1ODY3MDc1ODh9.V0Xpfog6eK2CLZL89LfaN3k5Ombf82IJPhFp8cfmnJskzhGK5NK-g_VVFm3eoSSjKMJsNtHmjUlIbJbhDAEIzA"));
+        Boolean submission4=contributionService.submit(new ContributionRequest("The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting", "The SoftWare Meeting","Jack000"));
         assertTrue(submission4);
 
 

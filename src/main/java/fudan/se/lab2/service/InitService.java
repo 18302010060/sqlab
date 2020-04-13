@@ -229,10 +229,12 @@ public class InitService {
     }
 
     //根据fullname得到会议的全部投稿信息
-    public List<Contribution> getAllArticle(InitRequest2 initRequest) {
+    public List<Contribution> getAllArticle(InitRequest4 initRequest) {
         try {
             String fullname = initRequest.getFullname();
+            String username=initRequest.getUsername();
             logger.info("fullname "+fullname);
+            logger.info("username  "+username);
 
             return contributionRepository.findAllByMeetingFullname(fullname);
         } catch (Exception e) {
@@ -242,7 +244,7 @@ public class InitService {
     }
 
     //根据username和fullname得到具体投稿信息
-    public Contribution getArticleDetail(InitRequest4 initRequest){
+    public List<Contribution> getArticleDetail(InitRequest4 initRequest){
         try {
             String username=initRequest.getUsername();
             String fullname = initRequest.getUsername();
@@ -250,7 +252,7 @@ public class InitService {
 
             logger.info("fullname "+fullname);
 
-            return contributionRepository.findContributionByUsernameAndMeetingFullname(username,fullname);
+            return contributionRepository.findAllContributionByUsernameAndMeetingFullname(username,fullname);
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

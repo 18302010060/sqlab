@@ -121,7 +121,7 @@ public class InitController {
     //前端现在传参正常
     @PostMapping("/menuOfMeeting/allArticles")
     @ResponseBody
-    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest2 request) {
+    public ResponseEntity<?> getAllArticles(@RequestBody InitRequest4 request) {
         return ResponseEntity.ok(initService.getAllArticle(request));
     }
     //前端现在传参

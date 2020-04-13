@@ -34,12 +34,17 @@ class ContributionControllerTest {
             }
 
             @Override
-            public <S extends Contribution> S save(S s) {
+            public List<Contribution> findAllContributionByUsernameAndMeetingFullname(String username, String fullname) {
                 return null;
             }
 
             @Override
-            public <S extends Contribution> Iterable<S> saveAll(Iterable<S> iterable) {
+            public <S extends Contribution> S save(S entity) {
+                return null;
+            }
+
+            @Override
+            public <S extends Contribution> Iterable<S> saveAll(Iterable<S> entities) {
                 return null;
             }
 
@@ -59,7 +64,7 @@ class ContributionControllerTest {
             }
 
             @Override
-            public Iterable<Contribution> findAllById(Iterable<Long> iterable) {
+            public Iterable<Contribution> findAllById(Iterable<Long> longs) {
                 return null;
             }
 
@@ -74,12 +79,12 @@ class ContributionControllerTest {
             }
 
             @Override
-            public void delete(Contribution contribution) {
+            public void delete(Contribution entity) {
 
             }
 
             @Override
-            public void deleteAll(Iterable<? extends Contribution> iterable) {
+            public void deleteAll(Iterable<? extends Contribution> entities) {
 
             }
 

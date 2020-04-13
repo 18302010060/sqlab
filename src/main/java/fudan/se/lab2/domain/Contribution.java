@@ -3,16 +3,20 @@ package fudan.se.lab2.domain;
 import javax.persistence.*;
 
 @Entity
+@IdClass(usernameAndMeetingFullname.class)
 @Table(name="CONTRIBUTION")
 public class Contribution {
     private static final long serialVersionUID = -6140085056226164016L;
 
-    @Id
+   /* @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id;*/
 
-    @Column(unique = true)
+
+   /* @Column(unique = true)*/
+    @Id
     private String username;
+    @Id
     private String meetingFullname;
     private String title;
     private String summary;
@@ -27,9 +31,9 @@ public class Contribution {
        this.path=path;
     }
 
-    public Long getId(){
+   /* public Long getId(){
         return this.id;
-    }
+    }*/
 
     public String getUsername(){
         return username;

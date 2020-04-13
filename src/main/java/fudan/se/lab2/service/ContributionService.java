@@ -65,7 +65,7 @@ public class ContributionService {
             else{
                 //在该会议中，身份不是chair，可以投稿，并更改身份为author
                 if(!meetingAuthority.get().getAuthority().equals("chair")){
-                    MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsername(username);
+                    MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname);
                     logger.info("身份 "+meetingAuthority1.getAuthority());
                     meetingAuthority1.setAuthority("author");
                     meetingAuthorityRepository.save(meetingAuthority1);

@@ -46,10 +46,10 @@ class ContributionServiceTest {
         String token1=authService.login("asdqwe","qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe","dasda"));
         assertTrue(result1);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe","sada"));
         assertTrue(result4);
        //会议通过
         Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
@@ -69,8 +69,8 @@ class ContributionServiceTest {
 
         assertTrue(invite);
         //用户接受身份为chair
-        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lucy123"));
-        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000"));
+        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lucy123","dsada"));
+        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000","dsada"));
 
         assertTrue(accept);
         //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败

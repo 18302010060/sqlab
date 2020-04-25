@@ -11,11 +11,12 @@ public class ApplyRequest {
     private Date deadline;
     private Date releasetime;
     private String chair;
+    private String topics;
 
 
     public ApplyRequest() {}
 
-    public ApplyRequest(   String shortname, String fullname, String place, Date time, Date deadline, Date releasetime, String chair){
+    public ApplyRequest(   String shortname, String fullname, String place, Date time, Date deadline, Date releasetime, String chair,String topics){
         this.shortname=shortname;
         this.fullname=fullname;
         this.place=place;
@@ -23,6 +24,7 @@ public class ApplyRequest {
         this.releasetime=releasetime;
         this.deadline=deadline;
         this.chair=chair;
+        this.topics = topics;
     }
 
     public String getShortname() {
@@ -73,5 +75,13 @@ public class ApplyRequest {
 
     public String getChair() {
         return chair;
+    }
+
+    public String getTopics() {
+        return topics;
+    }
+
+    public void setTopics(String topics) {
+        this.topics = topics;
     }
 }

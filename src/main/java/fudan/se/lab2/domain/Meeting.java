@@ -27,13 +27,15 @@ public class Meeting  {
     private String fullname;//会议全称
     private String state;//会议状态
     private String chair="";//会议申请人
+    @ElementCollection
+    private List<String> topics;
 
     //@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     //private Set<Authority> authorities = new HashSet<>();
 
 
     public Meeting() {}
-    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime,String chair) {
+    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime,String chair,List<String> topics) {
         this.shortname = shortname;
         this.place= place;
         this.fullname = fullname;
@@ -42,7 +44,7 @@ public class Meeting  {
         this.time=time;
         this.state="inAudit";
         this.chair=chair;
-
+        this.topics = topics;
     }
 
     public Long getId() {
@@ -115,5 +117,13 @@ public class Meeting  {
 
     public void setChair(String chair){
         this.chair=chair;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 }

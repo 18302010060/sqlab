@@ -125,16 +125,16 @@ class InitServiceTest {
         authService.register(new RegisterRequest("jjj","qwe123","145246@163.com","fudan","shanghai","Lucy"));
 
         //测试会议申请
-        meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting1","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2021","The SoftWare Meeting2","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2022","The SoftWare Meeting3","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2023","The SoftWare Meeting4","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2024","The SoftWare Meeting5","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2025","The SoftWare Meeting6","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2026","The SoftWare Meeting7","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2027","The SoftWare Meeting8","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2028","The SoftWare Meeting9","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
-        meetingService.apply(new ApplyRequest("Ics2029","The SoftWare Meeting0","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
+        meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting1","shanghai",new Date(),new Date(),new Date(), "asdqwe","adad"));
+        meetingService.apply(new ApplyRequest("Ics2021","The SoftWare Meeting2","shanghai",new Date(),new Date(),new Date(), "asdqwe","adad"));
+        meetingService.apply(new ApplyRequest("Ics2022","The SoftWare Meeting3","shanghai",new Date(),new Date(),new Date(), "asdqwe","sadasdas"));
+        meetingService.apply(new ApplyRequest("Ics2023","The SoftWare Meeting4","shanghai",new Date(),new Date(),new Date(), "asdqwe","dadsad"));
+        meetingService.apply(new ApplyRequest("Ics2024","The SoftWare Meeting5","shanghai",new Date(),new Date(),new Date(), "asdqwe","dasdas"));
+        meetingService.apply(new ApplyRequest("Ics2025","The SoftWare Meeting6","shanghai",new Date(),new Date(),new Date(), "asdqwe","dasad"));
+        meetingService.apply(new ApplyRequest("Ics2026","The SoftWare Meeting7","shanghai",new Date(),new Date(),new Date(), "asdqwe","dadsa"));
+        meetingService.apply(new ApplyRequest("Ics2027","The SoftWare Meeting8","shanghai",new Date(),new Date(),new Date(), "asdqwe","dadsa"));
+        meetingService.apply(new ApplyRequest("Ics2028","The SoftWare Meeting9","shanghai",new Date(),new Date(),new Date(), "asdqwe","dadsda"));
+        meetingService.apply(new ApplyRequest("Ics2029","The SoftWare Meeting0","shanghai",new Date(),new Date(),new Date(), "asdqwe","dsadas"));
 
         meetingService.audit(new AuditRequest("The SoftWare Meeting1","passed"));
         meetingService.audit(new AuditRequest("The SoftWare Meeting2","passed"));
@@ -163,15 +163,15 @@ class InitServiceTest {
 
     //对邀请信息的处理
     void acceptOrRejectInvitations(){
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","aaa"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","aaa"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","aaa","dadas"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","aaa","dasdsa"));
 
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","bbb"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","ccc"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","rejected","eee"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","fff"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","iii"));
-        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","rejected","jjj"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","bbb","dsada"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","accepted","ccc","dsada"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting1","rejected","eee","dasdas"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","fff","dsad"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","accepted","iii","sadas"));
+        inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting2","rejected","jjj","dsasd"));
 
 
     }

@@ -35,16 +35,16 @@ class MeetingServiceTest {
         String token1=authService.login("asdqwe","qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe","ndsadas"));
         assertTrue(result1);
         //全称相同，缩写不同，会议申请失败
-        Boolean result2=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
+        Boolean result2=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(),"asdqwe","dasdas"));
         assertFalse(result2);
         //缩写相同，全称不同，会议申请失败
-        Boolean result3=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
+        Boolean result3=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe","dasda"));
         assertFalse(result3);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe","sdasd"));
         assertTrue(result4);
 
         //会议通过

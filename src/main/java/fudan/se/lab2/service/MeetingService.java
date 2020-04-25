@@ -1,5 +1,6 @@
 package fudan.se.lab2.service;
 
+import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 //18302010060 黄怡清'part
@@ -42,8 +44,10 @@ public class MeetingService {
         Date releasetime = request.getReleasetime();
         Date time = request.getTime();
         String chair = request.getChair();
+        String topics1 = request.getTopics();
+        List<String> topics = JSONArray.parseArray(topics1,String.class);
 
-        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime,chair);
+        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime,chair,topics);
 
         Optional<Meeting> meeting1 = Optional.ofNullable(meetingRepository.findByShortname(shortname));
         if (meeting1.isPresent()) {
@@ -76,8 +80,9 @@ public class MeetingService {
             meeting.setState(state);//设置meeting的状态
             meetingRepository.save(meeting);//更新会议
             String chair = meeting.getChair();//得到meeting的申请人
+            List<String> topics = meeting.getTopics();//得到会议topics
             if(state.equals("passed")){//如果会议通过
-                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair");//创建meetingauthority，方便查找用户在不同会议中的身份
+                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"PCmember",topics);//创建meetingauthority，方便查找用户在不同会议中的身份
                 meetingAuthorityRepository.save(meetingAuthority);//保存meetingAuthority
             }
 

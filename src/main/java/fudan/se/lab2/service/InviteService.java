@@ -1,8 +1,10 @@
 package fudan.se.lab2.service;
 
+import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.AcceptInviteRequest;
 import fudan.se.lab2.controller.request.InviteRequest;
+
 import fudan.se.lab2.domain.Invitations;
 import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.InvitationRepository;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 //18302010060 黄怡清'part
@@ -61,6 +64,8 @@ public class InviteService {
         String inviteState = request.getInviteState();//得到用户选择的接受/邀请状态
 
         String username = request.getUsername();//得到用户姓名
+        String topics1 = request.getTopics();//得到用户勾选topics
+        List<String> topics = JSONArray.parseArray(topics1,String.class);
 
         Optional<Invitations> invitation2 = Optional.ofNullable(invitationRepository.findByUsernameAndFullname(username,fullname));
 
@@ -72,7 +77,7 @@ public class InviteService {
            }
            else if (inviteState.equals("accepted")){
                logger.info("接受邀请");
-               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember");
+               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember",topics);
                meetingAuthorityRepository.save(meetingAuthority);
            }
            invitationRepository.save(invitation);

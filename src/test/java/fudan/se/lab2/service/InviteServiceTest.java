@@ -39,10 +39,10 @@ class InviteServiceTest {
         String token1=authService.login("asdqwe","qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe"));
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe","dsasa"));
         assertTrue(result1);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe"));
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe","sadsd"));
         assertTrue(result4);
         //会议通过
         Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
@@ -68,17 +68,17 @@ class InviteServiceTest {
         Boolean invite3=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Jackjds000","asdqwe"));
         assertTrue(invite3);
        //用户拒接
-        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "rejected","Lucy123"));
+        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "rejected","Lucy123","sdsa"));
         assertTrue(accept);
         //用户接受
-        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000"));
+        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000","dasdas"));
         assertTrue(accept3);
 
         //错误用户请求
-        Boolean accept2=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lfdsfsd"));
+        Boolean accept2=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lfdsfsd","dasdsa"));
         assertFalse(accept2);
         //用户接受
-        Boolean accept4=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jackjds000"));
+        Boolean accept4=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jackjds000","dsada"));
         assertTrue(accept4);
 
 

@@ -28,7 +28,8 @@ public class MeetingAuthority {
     @Id
     private String fullname;
     private String authority;
-
+    @ElementCollection
+    private List<String> topics;
 
 
     /*@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -38,10 +39,11 @@ public class MeetingAuthority {
     //（username + password + authorities） 用于登录
     //（username + password + unit + area + authorities ） 用于注册
     public MeetingAuthority() {}
-    public MeetingAuthority(String username, String fullname, String authority) {
+    public MeetingAuthority(String username, String fullname, String authority,List<String> topics) {
         this.username = username;
         this.fullname = fullname;
         this.authority = authority;
+        this.topics = topics;
     }
     //对应的GET SET方法
 
@@ -68,5 +70,13 @@ public class MeetingAuthority {
 
     public void setAuthority(String authority) {
         this.authority = authority;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 }

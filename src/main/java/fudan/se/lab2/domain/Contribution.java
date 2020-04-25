@@ -1,7 +1,7 @@
 package fudan.se.lab2.domain;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name="CONTRIBUTION")
@@ -12,7 +12,6 @@ public class Contribution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     private String username;
     private String meetingFullname;
     private String title;
@@ -21,18 +20,19 @@ public class Contribution {
     private String state;//wait等待审稿 start开启审稿
     @ElementCollection
     private List<String> topics;
+    /*@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "contribution_id")*/
     @ElementCollection
-    private List<String> authors;
+    private List<Author> authors=new ArrayList<Author>();
 
     public Contribution() {}
-    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics,List<String> authors) {
+    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics) {
         this.meetingFullname=meetingFullname;
         this.username=username;
         this.title=title;
         this.summary=summary;
         this.path=path;
         this.topics=topics;
-        this.authors=authors;
         this.state="wait";
     }
 
@@ -72,11 +72,11 @@ public class Contribution {
         this.state = state;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 
-    public List<String> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 

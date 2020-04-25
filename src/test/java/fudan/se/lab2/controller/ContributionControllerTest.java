@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContributionControllerTest {
 
-    @Test
+ /*   @Test
     void contribute() {
         ContributionRepository contributionRepository = new ContributionRepository() {
             @Override
@@ -176,5 +176,5 @@ class ContributionControllerTest {
         Contribution contribution = contributionRepository.findContributionByUsernameAndMeetingFullname("username","meetingFullname");
         assertEquals("title",contribution.getTitle());
 
-    }
+    }*/
 }

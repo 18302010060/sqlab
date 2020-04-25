@@ -22,6 +22,7 @@ public interface MeetingRepository extends CrudRepository<Meeting, Long>{
     List<Meeting> findAllByFullname(String fullname);
     List<Meeting> findAllByStateEquals(String state);
     Meeting findByShortname(String shortname);
+    Meeting findMeetingByFullnameAndChair(String fullname,String chair);
 
 
 }

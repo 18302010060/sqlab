@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class InitServiceTest {
     private Logger logger = LoggerFactory.getLogger(InviteController.class);
-
+    List<String> list=new ArrayList<>();
     @Autowired
     private AuthService authService;
 
@@ -94,8 +95,8 @@ class InitServiceTest {
 
         authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
         authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        contributionService.submit(new ContributionRequest("The SoftWare Meeting1", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting","Lucy123"));
-        contributionService.submit(new ContributionRequest("The SoftWare Meeting1", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting","Jack000"));
+        contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting1", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting",list,list));
+        contributionService.submit(new Contribution("Jack000","The SoftWare Meeting1", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting",list,list));
         //根据username得到该会议的所有的投稿信息
         getAllSubmissions() ;
 

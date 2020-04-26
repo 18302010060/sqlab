@@ -83,7 +83,7 @@ public class MeetingService {
             String topic = meeting.getTopic();//得到jsonstring topic
             List<String> topics = meeting.getTopics();//得到会议topics
             if(state.equals("passed")){//如果会议通过
-                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"PCmember",topics,topic);//创建meetingauthority，方便查找用户在不同会议中的身份
+                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"chair",topics,topic);//创建meetingauthority，方便查找用户在不同会议中的身份
                 meetingAuthorityRepository.save(meetingAuthority);//保存meetingAuthority
             }
 

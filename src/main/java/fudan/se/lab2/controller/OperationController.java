@@ -26,5 +26,13 @@ public class OperationController {
         logger.info("meetingFullname"+fullname);
         return ResponseEntity.ok(operationService.getTopicsByFullname(fullname));
     }
+    @PostMapping(value="/getTopicsByFullnameAndusername")
+    @ResponseBody
+    public ResponseEntity<?> getTopicsByFullnameAndUsername(@RequestParam("meetingFullname")String fullname){
+        logger.info("meetingFullname"+fullname);
+
+        return ResponseEntity.ok(operationService.getTopicsByFullnameAndUsername(fullname));
+    }
+
 
 }

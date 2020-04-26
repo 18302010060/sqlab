@@ -2,6 +2,7 @@ package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +33,33 @@ public class OperationService {
     public List<String> getTopicsByFullname(String fullname){
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
-            long id = meeting.getId();
-            List<String> topics = new ArrayList<>();
 
+            return meeting.getTopics();
 
-           // return meeting.getTopics();
-            return null;
 
         }catch (Exception e){
             return null;
         }
+    }
+    public List<List<String>> getTopicsByFullnameAndUsername(String fullname){
+        try {
+            List<MeetingAuthority> meetingAuthority = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname,"PCmember");
+            List<List<String>> topics = new ArrayList<>();
+
+            for(int i = 0;i<meetingAuthority.size();i++){
+                List<String> topics1 = meetingAuthority.get(i).getTopics();
+                topics.add(topics1);
+
+            }
+
+
+            return topics;
+
+
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
 }

@@ -152,7 +152,7 @@ public class InitService {
         try {
             String fullname = initRequest.getFullname();
             logger.info("fullname  "+fullname );
-            return meetingAuthorityRepository.findAllByUsernameEqualsAndAuthorityEquals(fullname, "PCmember");
+            return meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");
         } catch (Exception e) {
             logger.info("空指针错误！！");
             return null;

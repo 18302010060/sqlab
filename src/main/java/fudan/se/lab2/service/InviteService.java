@@ -6,9 +6,11 @@ import fudan.se.lab2.controller.request.AcceptInviteRequest;
 import fudan.se.lab2.controller.request.InviteRequest;
 
 import fudan.se.lab2.domain.Invitations;
+import fudan.se.lab2.domain.Meeting;
 import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
+import fudan.se.lab2.repository.MeetingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +26,24 @@ public class InviteService {
 
     private InvitationRepository invitationRepository;
     private MeetingAuthorityRepository meetingAuthorityRepository;
+    private MeetingRepository meetingRepository;
 
     @Autowired
-    public InviteService(InvitationRepository invitationRepository,MeetingAuthorityRepository meetingAuthorityRepository) {
+    public InviteService(InvitationRepository invitationRepository,MeetingAuthorityRepository meetingAuthorityRepository,MeetingRepository meetingRepository) {
         this.invitationRepository = invitationRepository;
         this.meetingAuthorityRepository = meetingAuthorityRepository;
+        this.meetingRepository = meetingRepository;
     }
 
 
     public boolean invite(InviteRequest request){
         String fullname = request.getFullname();//得到会议全称
         String username = request.getUsername();//得到邀请者姓名
+        Meeting meeting = meetingRepository.findByFullname(fullname);//得到会议
+        String topic = meeting.getTopic();//jsonstring topic
         //String token = request.getToken();
 
-        Invitations invitation  = new Invitations(fullname,username);//创建邀请
+        Invitations invitation  = new Invitations(fullname,username,topic);//创建邀请
         Optional<Invitations> invitation2 = Optional.ofNullable(invitationRepository.findByUsernameAndFullname(username,fullname));//查找当前用户是否已被邀请
         if(invitation2.isPresent()){//如果邀请信息已存在
             logger.info("邀请失败");
@@ -64,7 +70,7 @@ public class InviteService {
         String inviteState = request.getInviteState();//得到用户选择的接受/邀请状态
 
         String username = request.getUsername();//得到用户姓名
-        String topics1 = request.getTopics();//得到用户勾选topics
+        String topics1 = request.getTopics();//得到用户勾选topics json
         List<String> topics = JSONArray.parseArray(topics1,String.class);
 
         Optional<Invitations> invitation2 = Optional.ofNullable(invitationRepository.findByUsernameAndFullname(username,fullname));
@@ -77,7 +83,7 @@ public class InviteService {
            }
            else if (inviteState.equals("accepted")){
                logger.info("接受邀请");
-               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember",topics);
+               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember",topics,topics1);
                meetingAuthorityRepository.save(meetingAuthority);
            }
            invitationRepository.save(invitation);

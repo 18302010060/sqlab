@@ -11,7 +11,7 @@ public class ApplyRequest {
     private Date deadline;
     private Date releasetime;
     private String chair;
-    private String topics;
+    private String topics;//jsonstring topics
 
 
     public ApplyRequest() {}

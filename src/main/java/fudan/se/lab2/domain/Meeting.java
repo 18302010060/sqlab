@@ -27,6 +27,7 @@ public class Meeting  {
     private String fullname;//会议全称
     private String state;//会议状态
     private String chair="";//会议申请人
+    private String topic;
     @ElementCollection
     private List<String> topics;
 
@@ -35,7 +36,7 @@ public class Meeting  {
 
 
     public Meeting() {}
-    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime,String chair,List<String> topics) {
+    public Meeting(String shortname, String fullname, Date time, String place,Date deadline,Date releasetime,String chair,List<String> topics,String topic) {
         this.shortname = shortname;
         this.place= place;
         this.fullname = fullname;
@@ -45,6 +46,7 @@ public class Meeting  {
         this.state="inAudit";
         this.chair=chair;
         this.topics = topics;
+        this.topic = topic;
     }
 
     public Long getId() {
@@ -125,5 +127,13 @@ public class Meeting  {
 
     public void setTopics(List<String> topics) {
         this.topics = topics;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

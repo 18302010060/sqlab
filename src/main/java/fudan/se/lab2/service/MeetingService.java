@@ -37,17 +37,17 @@ public class MeetingService {
 
     public Boolean apply(ApplyRequest request) {
 
-        String fullname = request.getFullname();
-        String shortname = request.getShortname();
+        String fullname = request.getFullname();//会议全称
+        String shortname = request.getShortname();//会议简称
         Date deadline = request.getDeadline();
         String place = request.getPlace();
         Date releasetime = request.getReleasetime();
         Date time = request.getTime();
-        String chair = request.getChair();
-        String topics1 = request.getTopics();
-        List<String> topics = JSONArray.parseArray(topics1,String.class);
+        String chair = request.getChair();//主席
+        String topics1 = request.getTopics();//jsonstring topics
+        List<String> topics = JSONArray.parseArray(topics1,String.class);//list格式topics
 
-        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime,chair,topics);
+        Meeting meeting = new Meeting(shortname, fullname, time, place, deadline, releasetime,chair,topics,topics1);//meeting字段：简称，全称，时间，地点，ddl，结果，主席，jsonstring topics
 
         Optional<Meeting> meeting1 = Optional.ofNullable(meetingRepository.findByShortname(shortname));
         if (meeting1.isPresent()) {
@@ -80,9 +80,10 @@ public class MeetingService {
             meeting.setState(state);//设置meeting的状态
             meetingRepository.save(meeting);//更新会议
             String chair = meeting.getChair();//得到meeting的申请人
+            String topic = meeting.getTopic();//得到jsonstring topic
             List<String> topics = meeting.getTopics();//得到会议topics
             if(state.equals("passed")){//如果会议通过
-                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"PCmember",topics);//创建meetingauthority，方便查找用户在不同会议中的身份
+                MeetingAuthority meetingAuthority = new MeetingAuthority(chair,fullname,"PCmember",topics,topic);//创建meetingauthority，方便查找用户在不同会议中的身份
                 meetingAuthorityRepository.save(meetingAuthority);//保存meetingAuthority
             }
 

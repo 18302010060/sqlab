@@ -19,15 +19,17 @@ public class Invitations{
 
     private String chair = "";
     private String inviteState;
+    private String topic;
 
 
 
     public Invitations() {}
-    public Invitations(String fullname, String realname) {
+    public Invitations(String fullname, String realname,String topic) {
 
         this.fullname = fullname;
         this.username = realname;
         this.inviteState = "invited";
+        this.topic = topic;
     }
 
 
@@ -65,5 +67,13 @@ public class Invitations{
 
     public void setInviteState(String inviteState) {
         this.inviteState = inviteState;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

@@ -28,6 +28,7 @@ public class MeetingAuthority {
     @Id
     private String fullname;
     private String authority;
+    private String topic;
     @ElementCollection
     private List<String> topics;
 
@@ -39,11 +40,12 @@ public class MeetingAuthority {
     //（username + password + authorities） 用于登录
     //（username + password + unit + area + authorities ） 用于注册
     public MeetingAuthority() {}
-    public MeetingAuthority(String username, String fullname, String authority,List<String> topics) {
+    public MeetingAuthority(String username, String fullname, String authority,List<String> topics,String topic) {
         this.username = username;
         this.fullname = fullname;
         this.authority = authority;
         this.topics = topics;
+        this.topic = topic;
     }
     //对应的GET SET方法
 
@@ -78,5 +80,13 @@ public class MeetingAuthority {
 
     public void setTopics(List<String> topics) {
         this.topics = topics;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

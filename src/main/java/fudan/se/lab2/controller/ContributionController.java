@@ -1,5 +1,6 @@
 package fudan.se.lab2.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.domain.Contribution;
 import fudan.se.lab2.repository.AuthorRepository;
 import fudan.se.lab2.service.ContributionService;
@@ -55,9 +56,9 @@ public class ContributionController {
         FileOutputStream out=new FileOutputStream(Filename);
         IOUtils.copy(file.getInputStream(),out);
         out.close();
-        List topics1= Arrays.asList(topics.split(",",-1));
+       // List topics1= Arrays.asList(topics.split(",",-1));
        // List authors1= Arrays.asList(authors.split(",",-1));
-
+        List<String> topics1= JSONArray.parseArray(topics,String.class);
         Contribution contribution=new Contribution(username,meetingFullname,title,summary,Filename,topics1);
         return ResponseEntity.ok(contributionService.submit(contribution));
     }
@@ -87,7 +88,8 @@ public class ContributionController {
             out.close();
             path=Filename;
         }
-        List topics1= Arrays.asList(topics.split(",",-1));
+        List<String> topics1= JSONArray.parseArray(topics,String.class);
+       // List topics1= Arrays.asList(topics.split(",",-1));
         //List authors1= Arrays.asList(authors.split(",",-1));
         try {
             authorRepository.deleteAllById(id);

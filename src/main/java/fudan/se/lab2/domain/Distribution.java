@@ -17,6 +17,7 @@ public class Distribution {
     private String contributor;//投稿人
     private Long contributionId;
     private String title;
+    private String topic;
     private Boolean state=false;//false该审稿人未审稿 true该审稿人已经审稿完成
     private String grade;
     private String comment;
@@ -24,12 +25,13 @@ public class Distribution {
 
 
     public Distribution(){}
-    public Distribution(String fullname,String username,Long contributionId,String title,String contributor){
+    public Distribution(String fullname,String username,Long contributionId,String title,String contributor,String topic){
         this.fullname=fullname;
         this.username=username;
         this.contributionId=contributionId;
         this.title=title;
         this.contributor=contributor;
+        this.topic=topic;
     }
 
     public Long getId() {
@@ -117,5 +119,13 @@ public class Distribution {
         this.comment=comment;
         this.confidence=confidence;
         this.state=true;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getTopic() {
+        return topic;
     }
 }

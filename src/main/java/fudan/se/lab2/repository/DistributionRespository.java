@@ -8,5 +8,6 @@ import java.util.List;
 public interface DistributionRespository extends CrudRepository<Distribution,Long> {
     List<Distribution> findAllByUsername(String username);
     List<Distribution> findAllByFullname(String fullname);
+    List<Distribution> findAllByFullnameAndUsername(String fullname,String username);
     Distribution findDistinctById(Long id);
 }

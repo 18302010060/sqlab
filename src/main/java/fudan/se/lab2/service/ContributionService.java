@@ -57,8 +57,8 @@ public class ContributionService {
         }
     }
 
-    public Boolean changeContribute(Long id, String path, String title, String summary, String username, String meetingFullname, List<String>topics){
-        Contribution contribution=new Contribution(username,meetingFullname,title,summary,path,topics);
+    public Boolean changeContribute(Long id, String path, String title, String summary, String username, String meetingFullname, List<String>topics,String topic){
+        Contribution contribution=new Contribution(username,meetingFullname,title,summary,path,topics,topic);
         contribution.setId(id);
         contribution.setAuthors(new ArrayList<>());
         contributionRepository.save(contribution);

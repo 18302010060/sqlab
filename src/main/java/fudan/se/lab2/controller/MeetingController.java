@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,14 @@ public class MeetingController {
 
         return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
     }*/
+     /* @PostMapping(value="/openmeeting")
+
+    public ResponseEntity<?> openmeeting(@RequestParam("fullname")String fullname, @RequestParam("shortname")String shortname,
+                                         @RequestParam("place")String place, @RequestParam("time") Date time,
+                                         @RequestParam("deadline")Date deadline,@RequestParam("releasetime")Date releasetime,
+                                         @RequestParam("chair")String chair,@RequestParam("topics")String topics){
+        ApplyRequest request=new ApplyRequest(shortname,fullname,place,time,deadline,releasetime,chair,topics);
+*/
     @PostMapping(value="/openmeeting")
 
     public ResponseEntity<?> openmeeting(@RequestBody ApplyRequest request){
@@ -65,7 +74,6 @@ public class MeetingController {
         logger.info("deadline:"+request.getDeadline());
         logger.info("releasetime:"+request.getReleasetime());
         logger.info("chair: "+request.getChair());
-
         return ResponseEntity.ok(meetingService.apply(request));
     }
     @PostMapping(value="/auditmeeting")

@@ -18,6 +18,7 @@ public class Contribution {
     private String summary;
     private String path;
     private String state;//wait等待审稿 start开启审稿
+    private String topic;
     @ElementCollection
     private List<String> topics;
     /*@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
@@ -26,7 +27,7 @@ public class Contribution {
     private List<Author> authors=new ArrayList<Author>();
 
     public Contribution() {}
-    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics) {
+    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics,String topic) {
         this.meetingFullname=meetingFullname;
         this.username=username;
         this.title=title;
@@ -34,6 +35,7 @@ public class Contribution {
         this.path=path;
         this.topics=topics;
         this.state="wait";
+        this.topic=topic;
     }
 
     public Long getId(){
@@ -86,5 +88,13 @@ public class Contribution {
 
     public List<String> getTopics() {
         return topics;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

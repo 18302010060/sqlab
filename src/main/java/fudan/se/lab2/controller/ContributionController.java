@@ -64,7 +64,7 @@ public class ContributionController {
        // List topics1= Arrays.asList(topics.split(",",-1));
        // List authors1= Arrays.asList(authors.split(",",-1));
         List<String> topics1= JSONArray.parseArray(topics,String.class);
-        Contribution contribution=new Contribution(username,meetingFullname,title,summary,Filename,topics1);
+        Contribution contribution=new Contribution(username,meetingFullname,title,summary,Filename,topics1,topics);
         return ResponseEntity.ok(contributionService.submit(contribution));
     }
 
@@ -102,12 +102,13 @@ public class ContributionController {
             logger.info("error: "+e.getMessage());
         }
 
-        return ResponseEntity.ok(contributionService.changeContribute(id,path,title,summary,username,meetingFullname,topics1));
+        return ResponseEntity.ok(contributionService.changeContribute(id,path,title,summary,username,meetingFullname,topics1,topics));
 
     }
 
 
 
+    //id当前稿件的id
     @PostMapping(value="/addAuthorInfo")
     @ResponseBody
     public ResponseEntity<?> addAuthorInfo(@RequestParam("id")Long id,@RequestParam("username")String username,

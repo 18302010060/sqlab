@@ -1,7 +1,6 @@
 package fudan.se.lab2.controller;
 
 import fudan.se.lab2.controller.request.InitRequest4;
-import fudan.se.lab2.service.InitService;
 import fudan.se.lab2.service.OperationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +35,31 @@ public class OperationController {
 
     //开启审稿
     @PostMapping(value="/menuOfMeeting/openReview")
+    @ResponseBody
     public ResponseEntity<?> openReview(@RequestBody InitRequest4 request){
         logger.info("fullname: "+request.getFullname());
         return ResponseEntity.ok(operationService.openReview(request));
+    }
+
+    //提交审稿信息 传递的id是审稿数据的id 不是contributionId
+    @PostMapping(value="/setReview")
+    @ResponseBody
+    public ResponseEntity<?> setReview(@RequestParam("id")Long id,@RequestParam("grade")String grade,@RequestParam("comment")String comment,@RequestParam("confidence")String confidence){
+        return ResponseEntity.ok(operationService.setReview(id,grade,comment,confidence));
+    }
+
+    //根据username和fullname得到当前用户的待审稿的审稿信息
+    @PostMapping(value="/getReviewContributions")
+    @ResponseBody
+    public ResponseEntity<?> getReviewContributions(@RequestBody InitRequest4 initRequest4){
+        return ResponseEntity.ok(operationService.getReviewContributions(initRequest4));
+    }
+
+    //根据contributionId得到当前用户的待审稿的稿件信息
+    @PostMapping(value="/getContribution")
+    @ResponseBody
+    public ResponseEntity<?> getContribution(@RequestParam("id")Long id){
+        return ResponseEntity.ok(operationService.getContribution(id));
     }
 
 

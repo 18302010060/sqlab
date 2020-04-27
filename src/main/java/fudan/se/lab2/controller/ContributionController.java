@@ -3,13 +3,18 @@ package fudan.se.lab2.controller;
 import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.domain.Contribution;
 import fudan.se.lab2.repository.AuthorRepository;
+import fudan.se.lab2.repository.ContributionRepository;
 import fudan.se.lab2.service.ContributionService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,12 +28,14 @@ import java.util.List;
 public class ContributionController {
     private ContributionService contributionService;
     private AuthorRepository authorRepository;
+    private ContributionRepository contributionRepository;
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
     @Autowired
-    public ContributionController(ContributionService contributionService,AuthorRepository authorRepository){
+    public ContributionController(ContributionService contributionService,AuthorRepository authorRepository,ContributionRepository contributionRepository){
         this.contributionService=contributionService;
         this.authorRepository=authorRepository;
+        this.contributionRepository=contributionRepository;
     }
 
     @PostMapping(value="/contribute")
@@ -44,8 +51,6 @@ public class ContributionController {
         logger.info("title:"+title);
         logger.info("summary:"+summary);
         logger.info("username: "+username);
-      //  logger.info("topics个数："+topics.size());
-       // logger.info("authors个数"+authors.size());
         long time=System.currentTimeMillis();
         String filename=time+file.getOriginalFilename();
         File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
@@ -110,6 +115,17 @@ public class ContributionController {
         return ResponseEntity.ok(contributionService.addAuthor(id,username,unit,area,email));
     }
 
+    @PostMapping(value="/getFile")
+    @ResponseBody
+    public ResponseEntity<byte[]> getFile(@RequestParam("id")Long id)throws Exception{
+        Contribution contribution=contributionRepository.findContributionById(id);
+        logger.info("path:  "+contribution.getPath());
+        String path=contribution.getPath();
+        File file=new File(path);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
 
+    }
 
 }

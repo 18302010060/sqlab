@@ -1,17 +1,13 @@
 package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.MeetingController;
-import fudan.se.lab2.controller.request.ContributionRequest;
 import fudan.se.lab2.domain.Author;
 import fudan.se.lab2.domain.Contribution;
 import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.AuthorRepository;
 import fudan.se.lab2.repository.ContributionRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import fudan.se.lab2.repository.MeetingRepository;
-import fudan.se.lab2.security.jwt.JwtConfigProperties;
-import fudan.se.lab2.security.jwt.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,7 @@ public class ContributionService {
     }
 
 
-    public Boolean submit(Contribution contribution) {
+    public Long submit(Contribution contribution) {
         String meetingFullname = contribution.getMeetingFullname();
         String title = contribution.getTitle();
         String summary = contribution.getSummary();
@@ -49,11 +45,12 @@ public class ContributionService {
         Optional<Meeting> meeting=Optional.ofNullable(meetingRepository.findMeetingByFullnameAndChair(meetingFullname,username));
         if(meeting.isPresent()){
             logger.info("投稿人是会议的chair，投稿失败");
-            return false;
+            return null;
         }else {
-            contributionRepository.save(contribution);
+            Contribution contribution1=contributionRepository.save(contribution);
+            Long id=contribution1.getId();
             logger.info("论文提交成功");
-            return true;
+            return id;
         }
     }
 
@@ -66,7 +63,7 @@ public class ContributionService {
         return true;
     }
 
-    public Boolean addAuthor(Long id,String username,String unit,String area,String email){
+    public Boolean addAuthor(Long id,String username,String unit,String area,String email,Long index){
 
         logger.info("ID:"+id);
         logger.info("username:"+username);
@@ -74,7 +71,7 @@ public class ContributionService {
         logger.info("area:"+area);
         logger.info("email:"+email);
 
-        Author author=new Author(id,username,unit,area,email);
+        Author author=new Author(id,username,unit,area,email,index);
         authorRepository.save(author);
         Contribution contribution=contributionRepository.findContributionById(id);
         List<Author> list=contribution.getAuthors();

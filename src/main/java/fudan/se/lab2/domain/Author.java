@@ -15,16 +15,18 @@ public class Author {
     private String email;
     private String unit;
     private String area;
+    private Long index;
 
 
 
     public Author(){}
-    public Author(Long id,String username,String unit,String area,String email){
+    public Author(Long id,String username,String unit,String area,String email,Long index){
         this.id=id;
         this.username=username;
         this.unit=unit;
         this.area=area;
         this.email=email;
+        this.index=index;
     }
 
     public Long getTrueId() {

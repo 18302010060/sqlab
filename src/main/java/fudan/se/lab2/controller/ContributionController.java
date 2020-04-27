@@ -72,7 +72,7 @@ public class ContributionController {
     @PostMapping(value="/changeContribution")
     @ResponseBody
     public ResponseEntity<?> changeContribution(@RequestParam("id")Long id,@RequestParam("path")String path,@RequestParam("whetherChangeAttachment")Boolean change,
-                                                @RequestParam("file") MultipartFile file, @RequestParam("title")String title,
+                                                @RequestParam(value = "file",required = false) MultipartFile file, @RequestParam("title")String title,
                                                 @RequestParam("summary")String summary, @RequestParam("username") String username,
                                                 @RequestParam("meetingFullname")String meetingFullname,
                                                 @RequestParam("topics") String topics
@@ -101,7 +101,6 @@ public class ContributionController {
         }catch (Exception e){
             logger.info("error: "+e.getMessage());
         }
-
         return ResponseEntity.ok(contributionService.changeContribute(id,path,title,summary,username,meetingFullname,topics1,topics));
 
     }
@@ -112,8 +111,9 @@ public class ContributionController {
     @PostMapping(value="/addAuthorInfo")
     @ResponseBody
     public ResponseEntity<?> addAuthorInfo(@RequestParam("id")Long id,@RequestParam("username")String username,
-                                           @RequestParam("unit")String unit,@RequestParam("area")String area,@RequestParam("email")String email){
-        return ResponseEntity.ok(contributionService.addAuthor(id,username,unit,area,email));
+                                           @RequestParam("unit")String unit,@RequestParam("area")String area,@RequestParam("email")String email,
+                                           @RequestParam(value = "index",required = false)Long index){
+        return ResponseEntity.ok(contributionService.addAuthor(id,username,unit,area,email,index));
     }
 
     @PostMapping(value="/getFile")

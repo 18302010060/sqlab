@@ -12,8 +12,9 @@ public class Distribution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String fullname;
-    private String username;
+    private String fullname;//会议名称
+    private String username;//审稿人
+    private String contributor;//投稿人
     private Long contributionId;
     private String title;
     private Boolean state=false;//false该审稿人未审稿 true该审稿人已经审稿完成
@@ -23,11 +24,12 @@ public class Distribution {
 
 
     public Distribution(){}
-    public Distribution(String fullname,String username,Long contributionId,String title){
+    public Distribution(String fullname,String username,Long contributionId,String title,String contributor){
         this.fullname=fullname;
         this.username=username;
         this.contributionId=contributionId;
         this.title=title;
+        this.contributor=contributor;
     }
 
     public Long getId() {
@@ -102,7 +104,15 @@ public class Distribution {
         this.title = title;
     }
 
-    public void setReview(String grade,String comment,String confidence){
+    public String getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(String contributor) {
+        this.contributor = contributor;
+    }
+
+    public void setReview(String grade, String comment, String confidence){
         this.grade=grade;
         this.comment=comment;
         this.confidence=confidence;

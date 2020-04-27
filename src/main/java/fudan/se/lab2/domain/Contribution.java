@@ -12,7 +12,7 @@ public class Contribution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String username;
+    private String username;//投稿人
     private String meetingFullname;
     private String title;
     private String summary;

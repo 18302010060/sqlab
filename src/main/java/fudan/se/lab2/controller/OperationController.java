@@ -1,15 +1,13 @@
 package fudan.se.lab2.controller;
 
+import fudan.se.lab2.controller.request.InitRequest4;
 import fudan.se.lab2.service.InitService;
 import fudan.se.lab2.service.OperationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OperationController {
@@ -34,6 +32,13 @@ public class OperationController {
         logger.info("meetingFullname"+fullname);
 
         return ResponseEntity.ok(operationService.getTopicsByFullnameAndUsername(fullname));
+    }
+
+    //开启审稿
+    @PostMapping(value="/menuOfMeeting/openReview")
+    public ResponseEntity<?> openReview(@RequestBody InitRequest4 request){
+        logger.info("fullname: "+request.getFullname());
+        return ResponseEntity.ok(operationService.openReview(request));
     }
 
 

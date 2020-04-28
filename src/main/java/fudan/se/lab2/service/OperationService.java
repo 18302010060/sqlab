@@ -111,7 +111,7 @@ public class OperationService {
         }
     }
 
-    //根据稿件id得到稿件信息
+    //根据稿件id得到当前的稿件信息
     public Contribution getContribution(Long id){
         logger.info("contributionId:  "+id);
         try{

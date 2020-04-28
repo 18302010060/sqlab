@@ -20,5 +20,8 @@ public interface MeetingAuthorityRepository extends CrudRepository<MeetingAuthor
 
 
     List<MeetingAuthority> findAllByUsernameAndAuthority(String username,String authority);
+
+    MeetingAuthority findByFullnameAndAuthority(String fullname, String chair);
 }
+
 

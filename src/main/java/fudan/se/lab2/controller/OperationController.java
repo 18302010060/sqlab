@@ -61,6 +61,16 @@ public class OperationController {
     public ResponseEntity<?> getContribution(@RequestParam("id")Long id){
         return ResponseEntity.ok(operationService.getContribution(id));
     }
+    @PostMapping(value="/distibuteContibutionsByTopicsRelevancy")
+    @ResponseBody
+    public ResponseEntity<?> distibuteContibutionsByTopicsRelevancy(@RequestParam("fullname")String fullname){
+        return ResponseEntity.ok(operationService.distibuteContibutionsByTopicsRelevancy(fullname));
+    }
+    @PostMapping(value="/distributeContributionsByAverage")
+    @ResponseBody
+    public ResponseEntity<?> distributeContributionsByAverage(@RequestParam("fullname")String fullname){
+        return ResponseEntity.ok(operationService.distributeContributionsByAverage(fullname));
+    }
 
 
 }

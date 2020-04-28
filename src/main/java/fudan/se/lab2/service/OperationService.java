@@ -1,11 +1,9 @@
 package fudan.se.lab2.service;
 
+import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.InitRequest4;
-import fudan.se.lab2.domain.Contribution;
-import fudan.se.lab2.domain.Distribution;
-import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.MeetingAuthority;
+import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class OperationService {
@@ -123,6 +123,128 @@ public class OperationService {
             return null;
         }
 
+    }
+
+    //根据topic相关度分配稿件
+    public Boolean distibuteContibutionsByTopicsRelevancy(String fullname) {
+        logger.info("fullname"+fullname);
+        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的投稿
+        List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
+        meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname, "chair"));
+
+        //得到每个投稿
+        for (Contribution contribution : contributionList) {
+            List<MeetingAuthority> reviewers = new ArrayList<>();//创建reviwers保存该稿的审稿人
+            String topic = contribution.getTopic();//得到会议topic
+            List<String> topics = JSONArray.parseArray(topic, String.class);
+            List<Author> authorList = contribution.getAuthors();//得到这个投稿的所有作者
+            //得到每个pcmember
+            for (MeetingAuthority meetingAuthority : meetingAuthorityList) {//对于该会议的全部pcmember
+                String topic2 = meetingAuthority.getTopic();//得到该pcmember所负责的topic
+                List<String> topics2 = JSONArray.parseArray(topic2, String.class);
+                //如果pcmember所负责的topics里包含投稿某个topic,将这个pcmember加入审稿人List
+                for (String s : topics) {
+                    if (topics2.contains(s)) {
+                        reviewers.add(meetingAuthority);
+                        break;
+                    }
+                }
+            }
+            for (int j = 0; j < reviewers.size(); j++) {
+                for (Author author : authorList) {
+                    if (author.getUsername().equals(reviewers.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                        reviewers.remove(j);
+                    }
+                }
+            }
+            for (int j = 0; j < meetingAuthorityList.size(); j++) {
+                for (Author author : authorList) {
+                    if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                        meetingAuthorityList.remove(j);
+                    }
+                }
+            }
+            List<Integer> list = new ArrayList();
+            if (reviewers.size() < 3) {//在全部pcmember中随机分配
+                if (meetingAuthorityList.size() < 3) {//审稿人小于3，分配失败
+                    logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+
+                } else {
+                    Random random = new Random();//随机分配
+                    while (list.size() != 3) {
+                        int num = random.nextInt(meetingAuthorityList.size());//生成0-pcmember个数的不同随机数
+                        if (!list.contains(num)) {
+                            list.add(num);
+                        }
+                    }
+
+
+                    Distribution distribution1 = new Distribution(fullname, meetingAuthorityList.get(list.get(0)).getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution1);
+                    Distribution distribution2 = new Distribution(fullname, meetingAuthorityList.get(list.get(1)).getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution2);
+                    Distribution distribution3 = new Distribution(fullname, meetingAuthorityList.get(list.get(2)).getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution3);
+                    logger.info(contribution.getId() + "  分配成功");
+
+                }
+            } else {//在负责该topic的pcmember中分配
+                Random random = new Random();
+                while (list.size() != 3) {
+                    int num = random.nextInt(reviewers.size());//生成0-reviewers个数的随机数
+                    if (!list.contains(num)) {
+                        list.add(num);
+                    }
+
+                }
+                MeetingAuthority reviewer1 = reviewers.get(list.get(0));
+                MeetingAuthority reviewer2 = reviewers.get(list.get(1));
+                MeetingAuthority reviewer3 = reviewers.get(list.get(2));
+
+                Distribution distribution1 = new Distribution(fullname, reviewer1.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                distributionRespository.save(distribution1);
+                Distribution distribution2 = new Distribution(fullname, reviewer2.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                distributionRespository.save(distribution2);
+                Distribution distribution3 = new Distribution(fullname, reviewer3.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                distributionRespository.save(distribution3);
+                logger.info(contribution + "  分配成功");
+
+
+            }
+        }
+        return true;
+    }
+
+
+
+        //平均分配稿件
+        public boolean distributeContributionsByAverage(String fullname){
+        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的所有投稿
+        List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname,"PCmember");//得到该会议的pcmember和chair
+        meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname,"chair"));
+
+        for(int i = 0;i<contributionList.size();i++) {//对于该会议的每个投稿
+            Contribution contribution = contributionList.get(i);
+            List<Author> authorList = contribution.getAuthors();
+            for (int j = 0; j < meetingAuthorityList.size(); j++) {
+                for (Author author : authorList) {
+                    if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                        meetingAuthorityList.remove(j);
+                    }
+                }
+            }
+            if (meetingAuthorityList.size() < 3) {
+                logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+            } else {
+                int num = i % meetingAuthorityList.size();//随机分配
+                MeetingAuthority meetingAuthority = meetingAuthorityList.get(num);
+
+                Distribution distribution = new Distribution(fullname, meetingAuthority.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                distributionRespository.save(distribution);
+                logger.info(contribution+"  分配成功");
+            }
+        }
+        return true;
     }
 
 }

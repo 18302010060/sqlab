@@ -36,9 +36,10 @@ public class OperationController {
     //开启审稿
     @PostMapping(value="/menuOfMeeting/openReview")
     @ResponseBody
-    public ResponseEntity<?> openReview(@RequestBody InitRequest4 request){
-        logger.info("fullname: "+request.getFullname());
-        return ResponseEntity.ok(operationService.openReview(request));
+    public ResponseEntity<?> openReview(@RequestParam("fullname")String fullname,@RequestParam("strategy")String strategy){
+        logger.info("fullname: "+fullname);
+        logger.info("strategy: "+strategy);
+        return ResponseEntity.ok(operationService.openReview(fullname,strategy));
     }
 
     //提交审稿信息 传递的id是审稿数据的id 不是contributionId
@@ -60,16 +61,6 @@ public class OperationController {
     @ResponseBody
     public ResponseEntity<?> getContribution(@RequestParam("id")Long id){
         return ResponseEntity.ok(operationService.getContribution(id));
-    }
-    @PostMapping(value="/distibuteContibutionsByTopicsRelevancy")
-    @ResponseBody
-    public ResponseEntity<?> distibuteContibutionsByTopicsRelevancy(@RequestParam("fullname")String fullname){
-        return ResponseEntity.ok(operationService.distibuteContibutionsByTopicsRelevancy(fullname));
-    }
-    @PostMapping(value="/distributeContributionsByAverage")
-    @ResponseBody
-    public ResponseEntity<?> distributeContributionsByAverage(@RequestParam("fullname")String fullname){
-        return ResponseEntity.ok(operationService.distributeContributionsByAverage(fullname));
     }
 
 

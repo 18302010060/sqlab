@@ -59,17 +59,23 @@ public class OperationService {
     }
 
     //开启投稿
-    public Boolean openReview(InitRequest4 initRequest4){
-        String fullname=initRequest4.getFullname();
-        String usrname=initRequest4.getUsername();
+    public Boolean openReview(String fullname,String strategy){
+        List<String> strategy1 = JSONArray.parseArray(strategy,String.class);
+
         logger.info("fullname:  "+fullname);
-        logger.info("username:  "+usrname);
+        logger.info("strategy:  "+strategy1);
 
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state:  "+meeting.getState());
             meeting.setState("inReview");
             meetingRepository.save(meeting);
+            if(strategy1.get(0).equals("Topic Based on Allocation Strategy")){
+                distibuteContibutionsByTopicsRelevancy(fullname);
+            }
+            else if(strategy1.get(0).equals("Average Burden Based on Allocation Strategy")){
+                distributeContributionsByAverage(fullname);
+            }
             return true;
         }catch (Exception e){
             logger.info("error:  "+e.getMessage());
@@ -128,6 +134,7 @@ public class OperationService {
     //根据topic相关度分配稿件
     public Boolean distibuteContibutionsByTopicsRelevancy(String fullname) {
         logger.info("fullname"+fullname);
+        try{
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的投稿
         List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
         meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname, "chair"));
@@ -213,38 +220,51 @@ public class OperationService {
             }
         }
         return true;
+        }
+        catch (Exception e){
+            logger.info("error:  "+e.getMessage());
+            return false;
+        }
     }
 
 
 
         //平均分配稿件
         public boolean distributeContributionsByAverage(String fullname){
-        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的所有投稿
-        List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname,"PCmember");//得到该会议的pcmember和chair
-        meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname,"chair"));
+        logger.info("fullname:  "+fullname);
+        try {
+            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的所有投稿
+            List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
+            meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname, "chair"));
 
-        for(int i = 0;i<contributionList.size();i++) {//对于该会议的每个投稿
-            Contribution contribution = contributionList.get(i);
-            List<Author> authorList = contribution.getAuthors();
-            for (int j = 0; j < meetingAuthorityList.size(); j++) {
-                for (Author author : authorList) {
-                    if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
-                        meetingAuthorityList.remove(j);
+            for (int i = 0; i < contributionList.size(); i++) {//对于该会议的每个投稿
+                Contribution contribution = contributionList.get(i);
+                List<Author> authorList = contribution.getAuthors();
+                for (int j = 0; j < meetingAuthorityList.size(); j++) {
+                    for (Author author : authorList) {
+                        if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                            meetingAuthorityList.remove(j);
+                        }
                     }
                 }
-            }
-            if (meetingAuthorityList.size() < 3) {
-                logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
-            } else {
-                int num = i % meetingAuthorityList.size();//随机分配
-                MeetingAuthority meetingAuthority = meetingAuthorityList.get(num);
+                if (meetingAuthorityList.size() < 3) {
+                    logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+                } else {
+                    int num = i % meetingAuthorityList.size();//随机分配
+                    MeetingAuthority meetingAuthority = meetingAuthorityList.get(num);
 
-                Distribution distribution = new Distribution(fullname, meetingAuthority.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
-                distributionRespository.save(distribution);
-                logger.info(contribution+"  分配成功");
+                    Distribution distribution = new Distribution(fullname, meetingAuthority.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution);
+                    logger.info(contribution + "  分配成功");
+                }
             }
+            return true;
         }
-        return true;
+        catch (Exception e){
+            logger.info("error:  "+e.getMessage());
+            return false;
+        }
+
     }
 
 }

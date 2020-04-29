@@ -76,4 +76,12 @@ public class Author {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public void setIndex(Long index) {
+        this.index = index;
+    }
 }

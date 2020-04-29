@@ -69,6 +69,14 @@ public class OperationService {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state:  "+meeting.getState());
             meeting.setState("inReview");
+            //更改该会议的稿件状态为inReview
+            List<Contribution> list=contributionRepository.findAllByMeetingFullname(fullname);
+            for (int i=0;i<list.size();i++){
+                Contribution contribution=list.get(i);
+                contribution.setState("inReview");
+                contributionRepository.save(contribution);
+            }
+            logger.info("稿件状态为开启审稿，处于审稿中（start）");
             meetingRepository.save(meeting);
             if(strategy.equals("Topic Based on Allocation Strategy")){
                 distibuteContibutionsByTopicsRelevancy(fullname);
@@ -93,7 +101,26 @@ public class OperationService {
         try {
             Distribution distribution=distributionRespository.findDistinctById(id);
             distribution.setReview(grade,comment,confidence);
+            distribution.setState(true);
+            Long contributionID=distribution.getContributionId();
             distributionRespository.save(distribution);
+            //更改稿件的状态
+            List<Distribution> list=distributionRespository.findAllByContributionId(contributionID);
+            int temp=0;
+            for(int i=0;i<list.size();i++){
+                Distribution distribution1=list.get(i);
+                Boolean state=distribution1.getState();
+                if(state){
+                    temp++;
+                }
+            }
+            if(temp==3){
+                Contribution contribution=contributionRepository.findContributionById(contributionID);
+                contribution.setState("over");
+                contributionRepository.save(contribution);
+                logger.info("稿件状态变成审稿完成（over）");
+            }
+
             return true;
         }catch (Exception e){
             logger.info("error: "+e.getMessage());
@@ -101,15 +128,13 @@ public class OperationService {
         }
     }
 
-    //得到当前用户当前会议要审稿的list
-    public List<Distribution> getReviewContributions(InitRequest4 initRequest4){
-        String username=initRequest4.getUsername();
-        String fullname=initRequest4.getFullname();
+    //得到当前用户当前会议的不同状态的审稿的list
+    public List<Distribution> getReviewContributions(String fullname,String username,Boolean state){
         logger.info("username:  "+username);
         logger.info("fullname:  "+fullname);
 
         try {
-            List<Distribution> list=distributionRespository.findAllByFullnameAndUsername(fullname,username);
+            List<Distribution> list=distributionRespository.findAllByFullnameAndUsernameAndState(fullname,username,state);
             return list;
         }catch (Exception e){
             logger.info("error: "+e.getMessage());

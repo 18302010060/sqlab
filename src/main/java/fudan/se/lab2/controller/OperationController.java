@@ -49,11 +49,11 @@ public class OperationController {
         return ResponseEntity.ok(operationService.setReview(id,grade,comment,confidence));
     }
 
-    //根据username和fullname得到当前用户的待审稿的审稿信息
+    //根据username和fullname得到当前用户的两种审稿的审稿信息
     @PostMapping(value="/getReviewContributions")
     @ResponseBody
-    public ResponseEntity<?> getReviewContributions(@RequestBody InitRequest4 initRequest4){
-        return ResponseEntity.ok(operationService.getReviewContributions(initRequest4));
+    public ResponseEntity<?> getReviewContributions(@RequestParam("fullname")String fullname,@RequestParam("username")String username,@RequestParam("state")Boolean state){
+        return ResponseEntity.ok(operationService.getReviewContributions(fullname,username,state));
     }
 
     //根据contributionId得到当前用户的待审稿的稿件信息

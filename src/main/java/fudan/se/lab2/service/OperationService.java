@@ -99,7 +99,7 @@ public class OperationService {
         logger.info("confidence:  "+confidence);
 
         try {
-            Distribution distribution=distributionRespository.findDistinctById(id);
+            Distribution distribution=distributionRespository.findDistributionById(id);
             distribution.setReview(grade,comment,confidence);
             distribution.setState(true);
             Long contributionID=distribution.getContributionId();
@@ -154,6 +154,30 @@ public class OperationService {
             return null;
         }
 
+    }
+
+    public Distribution getReviewResults(Long id,String username){
+        logger.info("contributionId:  "+id);
+        try{
+            Distribution distribution=distributionRespository.findDistributionByContributionIdAndUsername(id,username);
+            return distribution;
+
+        }catch (Exception e){
+            logger.info("error:  "+e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Distribution> getContributionReviewResult(Long id){
+        logger.info("contributionId:  "+id);
+        try{
+            List<Distribution> list=distributionRespository.findAllByContributionIdAndState(id,true);
+            return list;
+
+        }catch (Exception e){
+            logger.info("error:  "+e.getMessage());
+            return null;
+        }
     }
 
     //根据topic相关度分配稿件

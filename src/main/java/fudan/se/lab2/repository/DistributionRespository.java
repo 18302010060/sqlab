@@ -13,4 +13,8 @@ public interface DistributionRespository extends CrudRepository<Distribution,Lon
     Distribution findDistinctById(Long id);
     List<Distribution> findAllByContributionId(Long id);
     List<Distribution> findAllByFullnameAndUsernameAndState(String fullname, String username, Boolean state);
+    Distribution findDistributionById(Long id);
+    Distribution findDistributionByContributionIdAndUsername(Long contributionId,String username);
+    List<Distribution> findAllByContributionIdAndState(Long contributionID,Boolean state);
+
 }

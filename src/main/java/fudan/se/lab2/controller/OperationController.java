@@ -63,5 +63,19 @@ public class OperationController {
         return ResponseEntity.ok(operationService.getContribution(id));
     }
 
+    //根据contributionId和username得到某个审稿信息
+    @PostMapping(value="/getReviewResults")
+    @ResponseBody
+    public ResponseEntity<?> getReviewResult(@RequestParam("id")Long id,@RequestParam("username")String username){
+        return ResponseEntity.ok(operationService.getReviewResults(id,username));
+    }
+
+    //根据contributionId得到该稿件的已经审稿的Distribution即状态为true的稿件
+    @PostMapping(value="/getContributionReviewResult")
+    @ResponseBody
+    public ResponseEntity<?> getContributionReviewResult(@RequestParam("id")Long id){
+        return ResponseEntity.ok(operationService.getContributionReviewResult(id));
+    }
+
 
 }

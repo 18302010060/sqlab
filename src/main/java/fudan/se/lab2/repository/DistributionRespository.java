@@ -1,5 +1,6 @@
 package fudan.se.lab2.repository;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import fudan.se.lab2.domain.Distribution;
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,4 +11,6 @@ public interface DistributionRespository extends CrudRepository<Distribution,Lon
     List<Distribution> findAllByFullname(String fullname);
     List<Distribution> findAllByFullnameAndUsername(String fullname,String username);
     Distribution findDistinctById(Long id);
+    List<Distribution> findAllByContributionId(Long id);
+    List<Distribution> findAllByFullnameAndUsernameAndState(String fullname, String username, Boolean state);
 }

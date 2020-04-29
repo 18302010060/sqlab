@@ -35,7 +35,7 @@ public class ContributionService {
     }
 
 
-    public Long submit(Contribution contribution) {
+    public Contribution submit(Contribution contribution) {
         String meetingFullname = contribution.getMeetingFullname();
         String title = contribution.getTitle();
         String summary = contribution.getSummary();
@@ -50,7 +50,7 @@ public class ContributionService {
             Contribution contribution1=contributionRepository.save(contribution);
             Long id=contribution1.getId();
             logger.info("论文提交成功");
-            return id;
+            return contribution1;
         }
     }
 

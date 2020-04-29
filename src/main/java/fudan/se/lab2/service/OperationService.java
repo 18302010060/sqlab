@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -153,6 +154,25 @@ public class OperationService {
             logger.info("error:  "+e.getMessage());
             return null;
         }
+
+    }
+
+    public Contribution2 getContributionAndMeetingTopics(Long id){
+        logger.info("contributionId:  "+id);
+        try{
+            Contribution contribution=contributionRepository.findContributionById(id);
+            String fullname=contribution.getMeetingFullname();
+            Meeting meeting=meetingRepository.findByFullname(fullname);
+            List<String> topics=meeting.getTopics();
+            String topic=meeting.getTopic();
+            Contribution2 contribution2=new Contribution2(contribution,topics,topic);
+            return contribution2;
+
+        }catch (Exception e){
+            logger.info("error:  "+e.getMessage());
+            return null;
+        }
+
 
     }
 

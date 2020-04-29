@@ -63,6 +63,14 @@ public class OperationController {
         return ResponseEntity.ok(operationService.getContribution(id));
     }
 
+    //根据contributionId得到当前用户的待审稿的稿件信息
+    @PostMapping(value="/getContributionAndMeetingTopics")
+    @ResponseBody
+    public ResponseEntity<?> getContributionAndMeetingTopics(@RequestParam("id")Long id){
+
+        return ResponseEntity.ok(operationService.getContributionAndMeetingTopics(id));
+    }
+
     //根据contributionId和username得到某个审稿信息
     @PostMapping(value="/getReviewResults")
     @ResponseBody

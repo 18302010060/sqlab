@@ -60,20 +60,20 @@ public class OperationService {
 
     //开启投稿
     public Boolean openReview(String fullname,String strategy){
-        List<String> strategy1 = JSONArray.parseArray(strategy,String.class);
+        //List<String> strategy1 = JSONArray.parseArray(strategy,String.class);
 
         logger.info("fullname:  "+fullname);
-        logger.info("strategy:  "+strategy1);
+        logger.info("strategy:  "+strategy);
 
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state:  "+meeting.getState());
             meeting.setState("inReview");
             meetingRepository.save(meeting);
-            if(strategy1.get(0).equals("Topic Based on Allocation Strategy")){
+            if(strategy.equals("Topic Based on Allocation Strategy")){
                 distibuteContibutionsByTopicsRelevancy(fullname);
             }
-            else if(strategy1.get(0).equals("Average Burden Based on Allocation Strategy")){
+            else if(strategy.equals("Average Burden Based on Allocation Strategy")){
                 distributeContributionsByAverage(fullname);
             }
             return true;

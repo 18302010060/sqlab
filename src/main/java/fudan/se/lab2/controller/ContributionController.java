@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class ContributionController {
         return ResponseEntity.ok(contributionService.submit(contribution));
     }
 
-    @Transactional
+
     @PostMapping(value="/changeContribution")
     @ResponseBody
     public ResponseEntity<?> changeContribution(@RequestParam("id")Long id,@RequestParam("path")String path,@RequestParam("whetherChangeAttachment")Boolean change,
@@ -96,11 +97,7 @@ public class ContributionController {
         List<String> topics1= JSONArray.parseArray(topics,String.class);
        // List topics1= Arrays.asList(topics.split(",",-1));
         //List authors1= Arrays.asList(authors.split(",",-1));
-        try {
-            authorRepository.deleteAllById(id);
-        }catch (Exception e){
-            logger.info("error: "+e.getMessage());
-        }
+
         return ResponseEntity.ok(contributionService.changeContribute(id,path,title,summary,username,meetingFullname,topics1,topics));
 
     }
@@ -108,11 +105,23 @@ public class ContributionController {
 
 
     //id当前稿件的id
+    @Transactional
     @PostMapping(value="/addAuthorInfo")
     @ResponseBody
     public ResponseEntity<?> addAuthorInfo(@RequestParam("id")Long id,@RequestParam("username")String username,
                                            @RequestParam("unit")String unit,@RequestParam("area")String area,@RequestParam("email")String email,
-                                           @RequestParam(value = "index",required = false)Long index){
+                                           @RequestParam(value = "index",required = false)Long index,
+                                           @RequestParam("size")Long size){
+        try {
+            if (size == 0) {
+                authorRepository.deleteAllById(id);
+                Contribution contribution = contributionRepository.findContributionById(id);
+                contribution.setAuthors(new ArrayList<>());
+                contributionRepository.save(contribution);
+            }
+        } catch (Exception e) {
+            logger.info("error: " + e.getMessage());
+        }
         return ResponseEntity.ok(contributionService.addAuthor(id,username,unit,area,email,index));
     }
 

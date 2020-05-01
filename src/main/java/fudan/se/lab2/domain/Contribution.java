@@ -15,6 +15,7 @@ public class Contribution {
     private String username;//投稿人
     private String meetingFullname;
     private String title;
+    @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String summary;
     private String path;
     private String state;//wait等待审稿 inReview开启审稿 over审稿完成

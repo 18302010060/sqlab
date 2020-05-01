@@ -6,6 +6,7 @@ public class InitRequest {
     private String authority;//meeting I participated in 身份
 
     private String fullname;//会议全称
+    public InitRequest(){}
     public InitRequest(String authority,String username){
         this.authority = authority;
         this.username = username;

@@ -319,12 +319,27 @@ public class OperationService {
                 if (meetingAuthorityList.size() < 3) {
                     logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
                 } else {
-                    int num = i % meetingAuthorityList.size();//随机分配
-                    MeetingAuthority meetingAuthority = meetingAuthorityList.get(num);
+                    List<Integer> list = new ArrayList();
+                    Random random = new Random();
+                    while (list.size() != 3) {
+                        int num = random.nextInt(meetingAuthorityList.size());//生成0-reviewers个数的随机数
+                        if (!list.contains(num)) {
+                            list.add(num);
+                        }
 
-                    Distribution distribution = new Distribution(fullname, meetingAuthority.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
-                    distributionRespository.save(distribution);
+                    }
+                    MeetingAuthority reviewer1 = meetingAuthorityList.get(list.get(0));
+                    MeetingAuthority reviewer2 = meetingAuthorityList.get(list.get(1));
+                    MeetingAuthority reviewer3 = meetingAuthorityList.get(list.get(2));
+
+                    Distribution distribution1 = new Distribution(fullname, reviewer1.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution1);
+                    Distribution distribution2 = new Distribution(fullname, reviewer2.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution2);
+                    Distribution distribution3 = new Distribution(fullname, reviewer3.getUsername(), contribution.getId(), contribution.getTitle(), contribution.getUsername(), contribution.getTopic());
+                    distributionRespository.save(distribution3);
                     logger.info(contribution + "  分配成功");
+
                 }
             }
             return true;

@@ -59,7 +59,7 @@ public class OperationService {
         }
     }
 
-    //开启投稿
+    //开启审稿
     public Boolean openReview(String fullname,String strategy){
         //List<String> strategy1 = JSONArray.parseArray(strategy,String.class);
 
@@ -72,8 +72,7 @@ public class OperationService {
             meeting.setState("inReview");
             //更改该会议的稿件状态为inReview
             List<Contribution> list=contributionRepository.findAllByMeetingFullname(fullname);
-            for (int i=0;i<list.size();i++){
-                Contribution contribution=list.get(i);
+            for (Contribution contribution : list) {
                 contribution.setState("inReview");
                 contributionRepository.save(contribution);
             }
@@ -127,6 +126,19 @@ public class OperationService {
             logger.info("error: "+e.getMessage());
             return false;
         }
+    }
+    //判断一个会议的全部投稿是否已经全部审核完毕
+    public boolean meetingReviewIsOver(String fullname){
+        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);
+        boolean state = true;
+        for (Contribution contribution : contributionList) {
+            if (!contribution.getState().equals("over")) {
+                state = false;
+                break;
+            }
+        }
+        return state;
+
     }
 
     //得到当前用户当前会议的不同状态的审稿的list
@@ -187,7 +199,7 @@ public class OperationService {
             return null;
         }
     }
-
+    //得到稿件审核结果
     public List<Distribution> getContributionReviewResult(Long id){
         logger.info("contributionId:  "+id);
         try{
@@ -350,5 +362,7 @@ public class OperationService {
         }
 
     }
+
+
 
 }

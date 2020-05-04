@@ -84,6 +84,12 @@ public class OperationController {
     public ResponseEntity<?> getContributionReviewResult(@RequestParam("id")Long id){
         return ResponseEntity.ok(operationService.getContributionReviewResult(id));
     }
+    //判断一个会议的全部投稿是否已经全部审核完毕
+    @PostMapping(value="/meetingReviewIsOver")
+    @ResponseBody
+    public ResponseEntity<?> meetingReviewIsOver(@RequestParam("fullname")String fullname){
+        return ResponseEntity.ok(operationService.meetingReviewIsOver(fullname));
+    }
 
 
 }

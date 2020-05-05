@@ -4,13 +4,12 @@ import javax.persistence.*;
 
 @Embeddable
 @Entity
+@IdClass(idAndUsername.class)
 @Table(name="AUTHOR")
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long trueId;
     private Long id;
-
+    @Id
     private String username;
     private String email;
     private String unit;
@@ -29,13 +28,6 @@ public class Author {
         this.index=index;
     }
 
-    public Long getTrueId() {
-        return trueId;
-    }
-
-    public void setTrueId(Long trueId) {
-        this.trueId = trueId;
-    }
 
     public void setId(Long id) {
         this.id = id;

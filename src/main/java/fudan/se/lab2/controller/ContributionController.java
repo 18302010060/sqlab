@@ -115,9 +115,7 @@ public class ContributionController {
         try {
             if (size == 0) {
                 authorRepository.deleteAllById(id);
-                Contribution contribution = contributionRepository.findContributionById(id);
-                contribution.setAuthors(new ArrayList<>());
-                contributionRepository.save(contribution);
+                logger.info("删除 ");
             }
         } catch (Exception e) {
             logger.info("error: " + e.getMessage());

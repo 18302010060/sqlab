@@ -24,15 +24,17 @@ public class OperationService {
     UserRepository userRepository;
     ContributionRepository contributionRepository;
     DistributionRespository distributionRespository;
+    AuthorRepository authorRepository;
     Logger logger = LoggerFactory.getLogger(InviteController.class);
     @Autowired
-    public OperationService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository, DistributionRespository distributionRespository){
+    public OperationService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository, DistributionRespository distributionRespository,AuthorRepository authorRepository){
         this.meetingAuthorityRepository = meetingAuthorityRepository;
         this.meetingRepository = meetingRepository;
         this.invitationRepository = invitationRepository;
         this.userRepository = userRepository;
         this.contributionRepository = contributionRepository;
         this.distributionRespository=distributionRespository;
+        this.authorRepository=authorRepository;
     }
 
     //根据会议名称返回该会议的topics
@@ -169,7 +171,7 @@ public class OperationService {
 
     }
 
-    public Contribution2 getContributionAndMeetingTopics(Long id){
+    public Contribution3 getContributionAndMeetingTopics(Long id){
         logger.info("contributionId:  "+id);
         try{
             Contribution contribution=contributionRepository.findContributionById(id);
@@ -177,8 +179,9 @@ public class OperationService {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             List<String> topics=meeting.getTopics();
             String topic=meeting.getTopic();
-            Contribution2 contribution2=new Contribution2(contribution,topics,topic);
-            return contribution2;
+            List<Author> authors=authorRepository.findAllById(id);
+            Contribution3 contribution3=new Contribution3(contribution,topics,topic,authors);
+            return contribution3;
 
         }catch (Exception e){
             logger.info("error:  "+e.getMessage());
@@ -225,7 +228,7 @@ public class OperationService {
             List<MeetingAuthority> reviewers = new ArrayList<>();//创建reviwers保存该稿的审稿人
             String topic = contribution.getTopic();//得到会议topic
             List<String> topics = JSONArray.parseArray(topic, String.class);
-            List<Author> authorList = contribution.getAuthors();//得到这个投稿的所有作者
+            List<Author> authorList = authorRepository.findAllById(contribution.getId());//得到这个投稿的所有作者
             //得到每个pcmember
             for (MeetingAuthority meetingAuthority : meetingAuthorityList) {//对于该会议的全部pcmember
                 String topic2 = meetingAuthority.getTopic();//得到该pcmember所负责的topic
@@ -320,7 +323,7 @@ public class OperationService {
 
             for (int i = 0; i < contributionList.size(); i++) {//对于该会议的每个投稿
                 Contribution contribution = contributionList.get(i);
-                List<Author> authorList = contribution.getAuthors();
+                List<Author> authorList = authorRepository.findAllById(contribution.getId());
                 for (int j = 0; j < meetingAuthorityList.size(); j++) {
                     for (Author author : authorList) {
                         if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除

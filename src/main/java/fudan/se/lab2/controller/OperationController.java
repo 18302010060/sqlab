@@ -60,7 +60,7 @@ public class OperationController {
     @PostMapping(value="/getContribution")
     @ResponseBody
     public ResponseEntity<?> getContribution(@RequestParam("id")Long id){
-        return ResponseEntity.ok(operationService.getContribution(id));
+        return ResponseEntity.ok(operationService.getContributionAndMeetingTopics(id));
     }
 
     //根据contributionId得到当前用户的待审稿的稿件信息

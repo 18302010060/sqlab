@@ -18,14 +18,13 @@ public class Contribution {
     @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String summary;
     private String path;
-    private String state;//wait等待审稿 inReview开启审稿 over审稿完成
+    private String state;//wait等待审稿 inReview开启审稿 over审稿完成  released发布结果
     private String topic;
     @ElementCollection
     private List<String> topics;
     /*@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "contribution_id")*/
-    @ElementCollection
-    private List<Author> authors=new ArrayList<Author>();
+
 
     public Contribution() {}
     public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics,String topic) {
@@ -75,13 +74,6 @@ public class Contribution {
         this.state = state;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
 
     public void setTopics(List<String> topics) {
         this.topics = topics;

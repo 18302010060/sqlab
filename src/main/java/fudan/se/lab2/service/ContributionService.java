@@ -103,19 +103,15 @@ public class ContributionService {
         logger.info("email:"+email);
 
         Author author=new Author(id,username,unit,area,email,index);
-        authorRepository.save(author);
-        Contribution contribution=contributionRepository.findContributionById(id);
-        List<Author> list=contribution.getAuthors();
-        list.add(author);
-        //List<Author> list=authorRepository.findAllById(id);
-        contribution.setAuthors(list);
-        try {
-            contributionRepository.save(contribution);
-            logger.info("add成功");
-            return true;
-        }catch (Exception e){
-            return false;
+        Optional<Author> author1=Optional.ofNullable(authorRepository.findByIdAndUsername(id,username));
+        if(!author1.isPresent()){
+            authorRepository.save(author);
+            logger.info("add成功！！！！！！！！！！！！！！1");
         }
+        else {
+            logger.info("Author存在" );
+        }
+       return true;
     }
 
 

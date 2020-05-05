@@ -362,6 +362,33 @@ public class OperationService {
         }
 
     }
+    public boolean releaseResults(String fullname) {
+        try {
+            Meeting meeting = meetingRepository.findByFullname(fullname);
+            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);
+            meeting.setState("resultsReleased");
+            meetingRepository.save(meeting);
+            for (int i = 0; i < contributionList.size(); i++) {
+                Contribution contribution = contributionList.get(i);
+                contribution.setState("released");
+                contributionRepository.save(contribution);
+            }
+            return true;
+
+        } catch (Exception e) {
+            logger.info("error:  "+e.getMessage());
+            return false;
+        }
+    }
+    public List<Contribution> getContributionByUsernameAndState(String username,String state){
+        try{
+            return contributionRepository.findAllByUsernameAndState(username,state);
+        }
+        catch(Exception e){
+            logger.info("error:  "+e.getMessage());
+            return null;
+        }
+    }
 
 
 

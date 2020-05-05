@@ -90,6 +90,17 @@ public class OperationController {
     public ResponseEntity<?> meetingReviewIsOver(@RequestParam("fullname")String fullname){
         return ResponseEntity.ok(operationService.meetingReviewIsOver(fullname));
     }
-
+    //发布审核结果
+    @PostMapping(value="/releaseResults")
+    @ResponseBody
+    public ResponseEntity<?> releaseResults(@RequestParam("fullname")String fullname){
+        return ResponseEntity.ok(operationService.releaseResults(fullname));
+    }
+    //查找当前用户不同状态下的投稿
+    @PostMapping(value="/getContributionByUsernameAndState")
+    @ResponseBody
+    public ResponseEntity<?> getContributionByUsernameAndState(@RequestParam("username")String username,@RequestParam("state")String state){
+        return ResponseEntity.ok(operationService.getContributionByUsernameAndState(username,state));
+    }
 
 }

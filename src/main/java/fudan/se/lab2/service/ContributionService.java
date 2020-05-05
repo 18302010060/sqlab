@@ -4,6 +4,7 @@ import fudan.se.lab2.controller.MeetingController;
 import fudan.se.lab2.domain.Author;
 import fudan.se.lab2.domain.Contribution;
 import fudan.se.lab2.domain.Meeting;
+import fudan.se.lab2.domain.MeetingAuthority;
 import fudan.se.lab2.repository.AuthorRepository;
 import fudan.se.lab2.repository.ContributionRepository;
 import fudan.se.lab2.repository.MeetingAuthorityRepository;
@@ -41,7 +42,35 @@ public class ContributionService {
         String summary = contribution.getSummary();
         String path = contribution.getPath();
         String username = contribution.getUsername();
+        Optional<MeetingAuthority> meetingAuthority = Optional
+                .ofNullable(meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname));
 
+        //不是该会议PCmemeber contributor chair
+        if (!meetingAuthority.isPresent()) {
+            MeetingAuthority meetingAuthority1 = new MeetingAuthority(username, meetingFullname, "contributor",contribution.getTopics(),contribution.getTopic());
+            meetingAuthorityRepository.save(meetingAuthority1);
+            contributionRepository.save(contribution);
+            logger.info("论文提交成功");
+
+        }
+        else{
+            //在该会议中，身份不是chair，可以投稿，并更改身份为contributor
+            if(!meetingAuthority.get().getAuthority().equals("chair")){
+                MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname);
+                logger.info("身份 "+meetingAuthority1.getAuthority());
+                meetingAuthority1.setAuthority("contributor");
+                meetingAuthorityRepository.save(meetingAuthority1);
+                contributionRepository.save(contribution);
+                logger.info("论文提交成功");
+
+            }
+            //身份为chair，不可投稿
+            else{
+                logger.info("提交失败");
+                return null;
+            }
+
+        }
         Optional<Meeting> meeting=Optional.ofNullable(meetingRepository.findMeetingByFullnameAndChair(meetingFullname,username));
         if(meeting.isPresent()){
             logger.info("投稿人是会议的chair，投稿失败");
@@ -52,6 +81,8 @@ public class ContributionService {
             logger.info("论文提交成功");
             return contribution1;
         }
+
+
     }
 
     public Boolean changeContribute(Long id, String path, String title, String summary, String username, String meetingFullname, List<String>topics,String topic){

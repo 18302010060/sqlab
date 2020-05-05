@@ -11,4 +11,5 @@ public interface AuthorRepository extends CrudRepository<Author,Long> {
     List<Author> findAllById(Long id);
     void deleteAllById(Long id);
     Author findByIdAndUsername(Long id,String username);
+    Author findByIdAndUsernameAndEmail(Long id,String username,String email);
 }

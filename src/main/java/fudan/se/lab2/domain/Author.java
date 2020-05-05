@@ -11,6 +11,7 @@ public class Author {
     private Long id;
     @Id
     private String username;
+    @Id
     private String email;
     private String unit;
     private String area;

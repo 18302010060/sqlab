@@ -101,16 +101,10 @@ public class ContributionService {
         logger.info("unit:"+unit);
         logger.info("area:"+area);
         logger.info("email:"+email);
-
         Author author=new Author(id,username,unit,area,email,index);
-        Optional<Author> author1=Optional.ofNullable(authorRepository.findByIdAndUsername(id,username));
-        if(!author1.isPresent()){
-            authorRepository.save(author);
-            logger.info("add成功！！！！！！！！！！！！！！1");
-        }
-        else {
-            logger.info("Author存在" );
-        }
+        authorRepository.save(author);
+        logger.info("add成功！！！！！！！！！！！！！！");
+
        return true;
     }
 

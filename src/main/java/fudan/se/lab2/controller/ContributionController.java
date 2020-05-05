@@ -33,103 +33,105 @@ public class ContributionController {
     Logger logger = LoggerFactory.getLogger(MeetingController.class);
 
     @Autowired
-    public ContributionController(ContributionService contributionService,AuthorRepository authorRepository,ContributionRepository contributionRepository){
-        this.contributionService=contributionService;
-        this.authorRepository=authorRepository;
-        this.contributionRepository=contributionRepository;
+    public ContributionController(ContributionService contributionService, AuthorRepository authorRepository, ContributionRepository contributionRepository) {
+        this.contributionService = contributionService;
+        this.authorRepository = authorRepository;
+        this.contributionRepository = contributionRepository;
     }
 
-    @PostMapping(value="/contribute")
+    @PostMapping(value = "/contribute")
     @ResponseBody
-    public ResponseEntity<?> contribute(@RequestParam("file") MultipartFile file, @RequestParam("title")String title,
-                                        @RequestParam("summary")String summary, @RequestParam("username") String username,
-                                        @RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<?> contribute(@RequestParam("file") MultipartFile file, @RequestParam("title") String title,
+                                        @RequestParam("summary") String summary, @RequestParam("username") String username,
+                                        @RequestParam("meetingFullname") String meetingFullname,
                                         @RequestParam("topics") String topics
-                                        )throws Exception
-    {
+    ) throws Exception {
 
-        logger.info("meetingFullname:"+meetingFullname);
-        logger.info("title:"+title);
-        logger.info("summary:"+summary);
-        logger.info("username: "+username);
-        long time=System.currentTimeMillis();
-        String filename=time+file.getOriginalFilename();
+        logger.info("meetingFullname:" + meetingFullname);
+        logger.info("title:" + title);
+        logger.info("summary:" + summary);
+        logger.info("username: " + username);
+        long time = System.currentTimeMillis();
+        String filename = time + file.getOriginalFilename();
         File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
         if (!file2.exists()) {//创建文件夹
             file2.mkdirs();
         }
-        String Filename="E:\\lab\\upload\\"+filename;//路径得更改成linus系统下的
-        FileOutputStream out=new FileOutputStream(Filename);
-        IOUtils.copy(file.getInputStream(),out);
+        String Filename = "E:\\lab\\upload\\" + filename;//路径得更改成linus系统下的
+        FileOutputStream out = new FileOutputStream(Filename);
+        IOUtils.copy(file.getInputStream(), out);
         out.close();
-       // List topics1= Arrays.asList(topics.split(",",-1));
-       // List authors1= Arrays.asList(authors.split(",",-1));
-        List<String> topics1= JSONArray.parseArray(topics,String.class);
-        Contribution contribution=new Contribution(username,meetingFullname,title,summary,Filename,topics1,topics);
+        // List topics1= Arrays.asList(topics.split(",",-1));
+        // List authors1= Arrays.asList(authors.split(",",-1));
+        List<String> topics1 = JSONArray.parseArray(topics, String.class);
+        Contribution contribution = new Contribution(username, meetingFullname, title, summary, Filename, topics1, topics);
         return ResponseEntity.ok(contributionService.submit(contribution));
     }
 
 
-    @PostMapping(value="/changeContribution")
+    @PostMapping(value = "/changeContribution")
     @ResponseBody
-    public ResponseEntity<?> changeContribution(@RequestParam("id")Long id,@RequestParam("path")String path,@RequestParam("whetherChangeAttachment")Boolean change,
-                                                @RequestParam(value = "file",required = false) MultipartFile file, @RequestParam("title")String title,
-                                                @RequestParam("summary")String summary, @RequestParam("username") String username,
-                                                @RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<?> changeContribution(@RequestParam("id") Long id, @RequestParam("path") String path, @RequestParam("whetherChangeAttachment") Boolean change,
+                                                @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("title") String title,
+                                                @RequestParam("summary") String summary, @RequestParam("username") String username,
+                                                @RequestParam("meetingFullname") String meetingFullname,
                                                 @RequestParam("topics") String topics
-                                               )throws Exception
-    {
-        logger.info("id是："+id);
-        logger.info("附件是否更改："+change);
-        if(change){
-            long time=System.currentTimeMillis();
-            String filename=time+file.getOriginalFilename();
+    ) throws Exception {
+        logger.info("id是：" + id);
+        logger.info("附件是否更改：" + change);
+        if (change) {
+            long time = System.currentTimeMillis();
+            String filename = time + file.getOriginalFilename();
             File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
             if (!file2.exists()) {//创建文件夹
                 file2.mkdirs();
             }
-            String Filename="E:\\lab\\upload\\"+filename;//路径得更改成linus系统下的
-            FileOutputStream out=new FileOutputStream(Filename);
-            IOUtils.copy(file.getInputStream(),out);
+            String Filename = "E:\\lab\\upload\\" + filename;//路径得更改成linus系统下的
+            FileOutputStream out = new FileOutputStream(Filename);
+            IOUtils.copy(file.getInputStream(), out);
             out.close();
-            path=Filename;
+            path = Filename;
         }
-        List<String> topics1= JSONArray.parseArray(topics,String.class);
-       // List topics1= Arrays.asList(topics.split(",",-1));
+        List<String> topics1 = JSONArray.parseArray(topics, String.class);
+        // List topics1= Arrays.asList(topics.split(",",-1));
         //List authors1= Arrays.asList(authors.split(",",-1));
 
-        return ResponseEntity.ok(contributionService.changeContribute(id,path,title,summary,username,meetingFullname,topics1,topics));
+        return ResponseEntity.ok(contributionService.changeContribute(id, path, title, summary, username, meetingFullname, topics1, topics));
 
     }
-
 
 
     //id当前稿件的id
-    @Transactional
-    @PostMapping(value="/addAuthorInfo")
+    @PostMapping(value = "/addAuthorInfo")
     @ResponseBody
-    public ResponseEntity<?> addAuthorInfo(@RequestParam("id")Long id,@RequestParam("username")String username,
-                                           @RequestParam("unit")String unit,@RequestParam("area")String area,@RequestParam("email")String email,
-                                           @RequestParam(value = "index",required = false)Long index,
-                                           @RequestParam("size")Long size){
+    public ResponseEntity<?> addAuthorInfo(@RequestParam("id") Long id, @RequestParam("username") String username,
+                                           @RequestParam("unit") String unit, @RequestParam("area") String area, @RequestParam("email") String email,
+                                           @RequestParam(value = "index", required = false) Long index,
+                                           @RequestParam("size") Long size) {
+
+        return ResponseEntity.ok(contributionService.addAuthor(id, username, unit, area, email, index));
+    }
+
+    @Transactional
+    @PostMapping(value = "/deleteAuthors")
+    @ResponseBody
+    public void delete(@RequestParam("id") Long id) {
         try {
-            if (size == 0) {
-                authorRepository.deleteAllById(id);
-                logger.info("删除 ");
-            }
+            authorRepository.deleteAllById(id);
+            logger.info("删除成功 ");
+
         } catch (Exception e) {
             logger.info("error: " + e.getMessage());
         }
-        return ResponseEntity.ok(contributionService.addAuthor(id,username,unit,area,email,index));
     }
 
-    @PostMapping(value="/getFile")
+    @PostMapping(value = "/getFile")
     @ResponseBody
-    public ResponseEntity<byte[]> getFile(@RequestParam("id")Long id)throws Exception{
-        Contribution contribution=contributionRepository.findContributionById(id);
-        logger.info("path:  "+contribution.getPath());
-        String path=contribution.getPath();
-        File file=new File(path);
+    public ResponseEntity<byte[]> getFile(@RequestParam("id") Long id) throws Exception {
+        Contribution contribution = contributionRepository.findContributionById(id);
+        logger.info("path:  " + contribution.getPath());
+        String path = contribution.getPath();
+        File file = new File(path);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);

@@ -55,7 +55,7 @@ public class ContributionService {
         }
         else{
             //在该会议中，身份不是chair，可以投稿，并更改身份为contributor
-            if(!meetingAuthority.get().getAuthority().equals("chair")){
+            if(meetingAuthority.get().getAuthority().equals("contributor")){
                 MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname);
                 logger.info("身份 "+meetingAuthority1.getAuthority());
                 meetingAuthority1.setAuthority("contributor");
@@ -63,6 +63,12 @@ public class ContributionService {
                 contributionRepository.save(contribution);
                 logger.info("论文提交成功");
 
+            }
+            else if(meetingAuthority.get().getAuthority().equals("PCmember")){
+                MeetingAuthority meetingAuthority1=meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname);
+                logger.info("身份 "+meetingAuthority1.getAuthority());
+                contributionRepository.save(contribution);
+                logger.info("论文提交成功");
             }
             //身份为chair，不可投稿
             else{

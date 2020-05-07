@@ -218,6 +218,7 @@ public class OperationService {
     //根据topic相关度分配稿件
     public Boolean distibuteContibutionsByTopicsRelevancy(String fullname) {
         logger.info("fullname"+fullname);
+        boolean state = true;
         try{
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的投稿
         List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
@@ -259,6 +260,7 @@ public class OperationService {
             if (reviewers.size() < 3) {//在全部pcmember中随机分配
                 if (meetingAuthorityList.size() < 3) {//审稿人小于3，分配失败
                     logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+                    state = false;
 
                 } else {
                     Random random = new Random();//随机分配
@@ -303,7 +305,7 @@ public class OperationService {
 
             }
         }
-        return true;
+        return state;
         }
         catch (Exception e){
             logger.info("error:  "+e.getMessage());
@@ -315,14 +317,14 @@ public class OperationService {
 
         //平均分配稿件
         public boolean distributeContributionsByAverage(String fullname){
+        boolean state = true;
         logger.info("fullname:  "+fullname);
         try {
             List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的所有投稿
             List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
             meetingAuthorityList.add(meetingAuthorityRepository.findByFullnameAndAuthority(fullname, "chair"));
 
-            for (int i = 0; i < contributionList.size(); i++) {//对于该会议的每个投稿
-                Contribution contribution = contributionList.get(i);
+            for (Contribution contribution : contributionList) {//对于该会议的每个投稿
                 List<Author> authorList = authorRepository.findAllById(contribution.getId());
                 for (int j = 0; j < meetingAuthorityList.size(); j++) {
                     for (Author author : authorList) {
@@ -333,6 +335,7 @@ public class OperationService {
                 }
                 if (meetingAuthorityList.size() < 3) {
                     logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+                    state = false;
                 } else {
                     List<Integer> list = new ArrayList();
                     Random random = new Random();
@@ -357,7 +360,7 @@ public class OperationService {
 
                 }
             }
-            return true;
+            return state;
         }
         catch (Exception e){
             logger.info("error:  "+e.getMessage());

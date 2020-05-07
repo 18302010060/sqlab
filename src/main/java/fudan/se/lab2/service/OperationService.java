@@ -71,20 +71,40 @@ public class OperationService {
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
             logger.info("state:  "+meeting.getState());
-            meeting.setState("inReview");
-            //更改该会议的稿件状态为inReview
-            List<Contribution> list=contributionRepository.findAllByMeetingFullname(fullname);
-            for (Contribution contribution : list) {
-                contribution.setState("inReview");
-                contributionRepository.save(contribution);
-            }
-            logger.info("稿件状态为开启审稿，处于审稿中（start）");
-            meetingRepository.save(meeting);
             if(strategy.equals("Topic Based on Allocation Strategy")){
-                distibuteContibutionsByTopicsRelevancy(fullname);
+                //distibuteContibutionsByTopicsRelevancy(fullname);
+                if(distibuteContibutionsByTopicsRelevancy(fullname)){//如果分配成功，改变会议状态为审核中
+                    meeting.setState("inReview");
+                    //更改该会议的稿件状态为inReview
+                    List<Contribution> list=contributionRepository.findAllByMeetingFullname(fullname);
+                    for (Contribution contribution : list) {
+                        contribution.setState("inReview");
+                        contributionRepository.save(contribution);
+                    }
+                    logger.info("稿件状态为开启审稿，处于审稿中（start）");
+                    meetingRepository.save(meeting);
+                }
+                else{
+                    logger.info("pcmember数不够，稿件分配失败，请再多邀请一些pcmember");
+                }
             }
             else if(strategy.equals("Average Burden Based on Allocation Strategy")){
-                distributeContributionsByAverage(fullname);
+                //distributeContributionsByAverage(fullname);
+                if(distributeContributionsByAverage(fullname)){
+                    meeting.setState("inReview");
+                    //更改该会议的稿件状态为inReview
+                    List<Contribution> list=contributionRepository.findAllByMeetingFullname(fullname);
+                    for (Contribution contribution : list) {
+                        contribution.setState("inReview");
+                        contributionRepository.save(contribution);
+                    }
+                    logger.info("稿件状态为开启审稿，处于审稿中（start）");
+                    meetingRepository.save(meeting);
+
+                }
+                else{
+                    logger.info("pcmember数不够，稿件分配失败，请再多邀请一些pcmember");
+                }
             }
             return true;
         }catch (Exception e){

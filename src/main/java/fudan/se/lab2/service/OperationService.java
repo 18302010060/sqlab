@@ -264,18 +264,26 @@ public class OperationService {
             }
             for (int j = 0; j < reviewers.size(); j++) {
                 for (Author author : authorList) {
-                    if (author.getUsername().equals(reviewers.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                    if (author.getUsername().equals(reviewers.get(j).getUsername())||contribution.getUsername().equals(reviewers.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                         reviewers.remove(j);
                     }
                 }
             }
+            for (MeetingAuthority reviewer : reviewers) {
+                logger.info("username:" + reviewer.getUsername());
+            }
             for (int j = 0; j < meetingAuthorityList.size(); j++) {
                 for (Author author : authorList) {
-                    if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                    if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())||contribution.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                         meetingAuthorityList.remove(j);
                     }
                 }
             }
+            for (MeetingAuthority meetingAuthority : meetingAuthorityList) {
+                logger.info("username:" + meetingAuthority.getUsername());
+            }
+
+
             List<Integer> list = new ArrayList();
             if (reviewers.size() < 3) {//在全部pcmember中随机分配
                 if (meetingAuthorityList.size() < 3) {//审稿人小于3，分配失败
@@ -348,7 +356,7 @@ public class OperationService {
                 List<Author> authorList = authorRepository.findAllById(contribution.getId());
                 for (int j = 0; j < meetingAuthorityList.size(); j++) {
                     for (Author author : authorList) {
-                        if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
+                        if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())||contribution.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                             meetingAuthorityList.remove(j);
                         }
                     }

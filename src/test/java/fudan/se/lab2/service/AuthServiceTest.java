@@ -22,14 +22,14 @@ class AuthServiceTest {
     @Test
     void register() throws UsernameNotFoundException{
         //正常注册
-        Boolean result=authService.register(new RegisterRequest("asdqwe","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        assertTrue(result);
+        //Boolean result=authService.register(new RegisterRequest("asdqwe","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        //assertTrue(result);
         //用户名已注册
-        Boolean result1=authService.register(new RegisterRequest("asdqwe","qwecd123","1452df46@163.com","fudan","shanghai","Lucy"));
-        assertFalse(result1);
+        //Boolean result1=authService.register(new RegisterRequest("asdqwe","qwecd123","1452df46@163.com","fudan","shanghai","Lucy"));
+        //assertFalse(result1);
 
-        Boolean result2=authService.register(new RegisterRequest("asdq01","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        assertTrue(result2);
+        //Boolean result2=authService.register(new RegisterRequest("asdq01","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        //assertTrue(result2);
 
         //正常登陆
         String token1=authService.login("asdqwe","qwe123");

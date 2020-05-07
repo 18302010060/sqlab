@@ -83,12 +83,14 @@ public class OperationService {
                     }
                     logger.info("稿件状态为开启审稿，处于审稿中（start）");
                     meetingRepository.save(meeting);
+                    return true;
                 }
                 else{
                     logger.info("pcmember数不够，稿件分配失败，请再多邀请一些pcmember");
+                    return false;
                 }
             }
-            else if(strategy.equals("Average Burden Based on Allocation Strategy")){
+            else{
                 //distributeContributionsByAverage(fullname);
                 if(distributeContributionsByAverage(fullname)){
                     meeting.setState("inReview");
@@ -100,13 +102,15 @@ public class OperationService {
                     }
                     logger.info("稿件状态为开启审稿，处于审稿中（start）");
                     meetingRepository.save(meeting);
+                    return true;
 
                 }
                 else{
                     logger.info("pcmember数不够，稿件分配失败，请再多邀请一些pcmember");
+                    return false;
                 }
             }
-            return true;
+
         }catch (Exception e){
             logger.info("error:  "+e.getMessage());
             return false;
@@ -288,6 +292,11 @@ public class OperationService {
             if (reviewers.size() < 3) {//在全部pcmember中随机分配
                 if (meetingAuthorityList.size() < 3) {//审稿人小于3，分配失败
                     logger.info(contribution.getId() + "  符合条件的pcmember数不足，分配失败");
+                    List<Distribution> distributionList = distributionRespository.findAllByFullname(fullname);
+                    for (Distribution distribution : distributionList) {
+                        distributionRespository.deleteById(distribution.getId());
+                    }
+;
                     state = false;
 
                 } else {

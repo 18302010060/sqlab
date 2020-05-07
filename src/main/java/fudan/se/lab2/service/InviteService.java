@@ -49,6 +49,11 @@ public class InviteService {
             logger.info("邀请失败");
             return false;
         }
+        else if(meeting.getState().equals("inReview")){
+            logger.info("会议已处于审稿阶段，无法邀请pcmember");
+            return false;
+
+        }
         else{
             //JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new JwtConfigProperties());
             //String chair = jwtTokenUtil.getUsernameFromToken(token);//根据token得到chair姓名
@@ -67,6 +72,7 @@ public class InviteService {
     public boolean acceptInvitation(AcceptInviteRequest request){
         //TODO:将接受邀请的用户加入人-身份-成员数据库
         String fullname = request.getFullname();//得到会议信息
+        Meeting meeting = meetingRepository.findByFullname(fullname);
         String inviteState = request.getInviteState();//得到用户选择的接受/邀请状态
 
         String username = request.getUsername();//得到用户姓名
@@ -77,18 +83,27 @@ public class InviteService {
 
        if(invitation2.isPresent()){
            Invitations invitation = invitationRepository.findByUsernameAndFullname(username,fullname);
-           invitation.setInviteState(inviteState);
-           if(inviteState.equals("rejected")){
-               logger.info("拒绝邀请");
+           if(meeting.getState().equals("inReview")){
+               logger.info("会议已在审稿阶段，不能接受邀请");
+               invitationRepository.delete(invitation);
+               return false;
            }
-           else if (inviteState.equals("accepted")){
-               logger.info("接受邀请");
-               MeetingAuthority meetingAuthority = new MeetingAuthority(username,fullname,"PCmember",topics,topics1);
-               meetingAuthorityRepository.save(meetingAuthority);
-           }
-           invitationRepository.save(invitation);
+           else {
 
-           return true;
+               invitation.setInviteState(inviteState);
+               if (inviteState.equals("rejected")) {
+                   logger.info("拒绝邀请");
+               } else if (inviteState.equals("accepted")) {
+
+                   logger.info("接受邀请");
+                   MeetingAuthority meetingAuthority = new MeetingAuthority(username, fullname, "PCmember", topics, topics1);
+                   meetingAuthorityRepository.save(meetingAuthority);
+               }
+
+               invitationRepository.save(invitation);
+               return true;
+           }
+
        }
        else{
            logger.info("邀请信息不存在");

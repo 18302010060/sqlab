@@ -95,8 +95,8 @@ class InitServiceTest {
 
         authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
         authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting1", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting",list,""));
-        contributionService.submit(new Contribution("Jack000","The SoftWare Meeting1", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting",list,""));
+        contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting1", "The SoftWare Meeting1", "The SoftWare Meeting", "The SoftWare Meeting",list,"",""));
+        contributionService.submit(new Contribution("Jack000","The SoftWare Meeting1", "The SoftWare Meeting2", "The SoftWare Meeting", "The SoftWare Meeting",list,"",""));
         //根据username得到该会议的所有的投稿信息
         getAllSubmissions() ;
 

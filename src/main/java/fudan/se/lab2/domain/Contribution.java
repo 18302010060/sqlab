@@ -18,6 +18,7 @@ public class Contribution {
     @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String summary;
     private String path;
+    private String filename;
     private String state;//wait等待审稿 inReview开启审稿 over审稿完成  released发布结果
     private String topic;
     @ElementCollection
@@ -27,7 +28,7 @@ public class Contribution {
 
 
     public Contribution() {}
-    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics,String topic) {
+    public Contribution(String username, String meetingFullname, String title, String summary, String path,List<String> topics,String topic,String filename) {
         this.meetingFullname=meetingFullname;
         this.username=username;
         this.title=title;
@@ -36,6 +37,7 @@ public class Contribution {
         this.topics=topics;
         this.state="wait";
         this.topic=topic;
+        this.filename=filename;
     }
 
     public Long getId(){
@@ -89,5 +91,13 @@ public class Contribution {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 }

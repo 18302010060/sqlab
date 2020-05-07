@@ -46,21 +46,21 @@ class ContributionServiceTest {
         String token1=authService.login("asdqwe","qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe","dasda"));
+        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe",""));
         assertTrue(result1);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe","sada"));
+        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe",""));
         assertTrue(result4);
        //会议通过
         Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
         assertTrue(result5);
 
         //情况一：chair不可以投稿
-        Contribution submission=contributionService.submit(new Contribution("asdqwe","The SoftWare Meeting", "The SoftWare Meetingvxv", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds",list,""));
+        Contribution submission=contributionService.submit(new Contribution("asdqwe","The SoftWare Meeting", "The SoftWare Meetingvxv", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds",list,"",""));
         //assertFalse(submission);
 
         //情况二：其余人可以投稿
-        Contribution submission1=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingbcvbvbc", "The SoftWare cvbvcvb", "The SoftWare Meetingfgdg",list,""));
+        Contribution submission1=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingbcvbvbc", "The SoftWare cvbvcvb", "The SoftWare Meetingfgdg",list,"",""));
         //assertTrue(submission1);
 
         //会议通过审核后用户
@@ -74,14 +74,14 @@ class ContributionServiceTest {
 
         assertTrue(accept);
         //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败
-        Contribution submission3=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingfdsgsd", "The SoftWare Meetingfgfdg", "The SoftWare Meetingfgdsd",list,""));
+        Contribution submission3=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingfdsgsd", "The SoftWare Meetingfgfdg", "The SoftWare Meetingfgdsd",list,"",""));
         //assertTrue(submission3);
 
         //情况四：未投稿的PCmember，可以投稿
-        Contribution submission4=contributionService.submit(new Contribution("Jack000","The SoftWare Meeting", "The SoftWare Meetinggfdfs", "The SoftWare Meetingfgdfgdf", "The SoftWare Meetingfdgdgd",list,""));
+        Contribution submission4=contributionService.submit(new Contribution("Jack000","The SoftWare Meeting", "The SoftWare Meetinggfdfs", "The SoftWare Meetingfgdfgdf", "The SoftWare Meetingfdgdgd",list,"",""));
 
 
-        Boolean change =contributionService.changeContribute((long)12,"fdsfsd","sdfsdd","dsfsdfsd","dsfsdsd","fdssds",list,"");
+        Boolean change =contributionService.changeContribute((long)12,"fdsfsd","sdfsdd","dsfsdfsd","dsfsdsd","fdssds",list,"","");
 
         assertTrue(change);
 

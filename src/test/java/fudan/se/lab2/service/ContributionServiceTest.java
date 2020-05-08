@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 class ContributionServiceTest {
-   @Autowired
+    @Autowired
     private AuthService authService;
 
     @Autowired
@@ -33,59 +33,64 @@ class ContributionServiceTest {
 
     @Autowired
     private InviteService inviteService;
+
     @Test
     void meetingApplyAndsubmitTest() {
-        List<String> list=new ArrayList<>();
+        List<String> list = new ArrayList<>();
         //注册
-        authService.register(new RegisterRequest("Lucy123","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        authService.register(new RegisterRequest("Jack000","qwe123","145246@163.com","fudan","shanghai","Lucy"));
+        authService.register(new RegisterRequest("Lucy123", "qwe123", "1@163.com", "fudan", "shanghai", "Lucy"));
+        authService.register(new RegisterRequest("Jack000", "qwe123", "12@163.com", "fudan", "shanghai", "Lucy"));
+        authService.register(new RegisterRequest("asdqwe", "qwe123", "145246@163.com", "fudan", "shanghai", "Lucy"));
 
-        //Boolean result=authService.register(new RegisterRequest("asdqwe","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        //assertTrue(result);
         //登录
-        String token1=authService.login("asdqwe","qwe123");
+        String token1 = authService.login("asdqwe", "qwe123");
         assertNotNull(token1);
         //会议申请
-        Boolean result1=meetingService.apply(new ApplyRequest("Ics2020","The SoftWare Meeting","shanghai",new Date(),new Date(),new Date(), "asdqwe",""));
+        Boolean result1 = meetingService.apply(new ApplyRequest("Ics2020", "The SoftWare Meeting", "shanghai", new Date(), new Date(), new Date(), "asdqwe", "['a','b','c']"));
         assertTrue(result1);
         //缩写、全称都不相同，申请成功
-        Boolean result4=meetingService.apply(new ApplyRequest("Ics202000","The SoftWare Meeting on","shanghai",new Date(),new Date(),new Date(),"asdqwe",""));
+        Boolean result4 = meetingService.apply(new ApplyRequest("Ics202000", "The SoftWare Meeting on", "shanghai", new Date(), new Date(), new Date(), "asdqwe", "['a','b','c']"));
         assertTrue(result4);
-       //会议通过
-        Boolean result5=meetingService.audit(new AuditRequest("The SoftWare Meeting","passed"));
+        //会议通过
+        Boolean result5 = meetingService.audit(new AuditRequest("The SoftWare Meeting", "passed"));
         assertTrue(result5);
 
         //情况一：chair不可以投稿
-        Contribution submission=contributionService.submit(new Contribution("asdqwe","The SoftWare Meeting", "The SoftWare Meetingvxv", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds",list,"",""));
+        Contribution submission = contributionService.submit(new Contribution("asdqwe", "The SoftWare Meeting", "The SoftWare Meetingvxv", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds", list, "['a','b','c']", ""));
         //assertFalse(submission);
 
         //情况二：其余人可以投稿
-        Contribution submission1=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingbcvbvbc", "The SoftWare cvbvcvb", "The SoftWare Meetingfgdg",list,"",""));
-        //assertTrue(submission1);
+        Contribution submission1 = contributionService.submit(new Contribution("Lucy123", "The SoftWare Meeting", "The SoftWare Meetingbcvbvbc", "The SoftWare cvbvcvb", "The SoftWare Meetingfgdg", list, "['a','b','c']", ""));
+        Long id = submission1.getId();
+
+        //重复投稿
+        Contribution submission2 = contributionService.submit(new Contribution("Lucy123", "The SoftWare Meeting", "The SoftWare Meetingbcvbvbc", "The SoftWare cvbvcvb", "The SoftWare Meetingfgdg", list, "['a','b','c']", ""));
+
 
         //会议通过审核后用户
-        Boolean invite=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Lucy123","asdqwe"));
-        Boolean invite2=inviteService.invite(new InviteRequest("The SoftWare Meeting", "Jack000","asdqwe"));
+        Boolean invite = inviteService.invite(new InviteRequest("The SoftWare Meeting", "Lucy123", "asdqwe"));
+        Boolean invite2 = inviteService.invite(new InviteRequest("The SoftWare Meeting", "Jack000", "asdqwe"));
 
         assertTrue(invite);
         //用户接受身份为chair
-        Boolean accept=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Lucy123","dsada"));
-        Boolean accept3=inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted","Jack000","dsada"));
+        Boolean accept = inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted", "Lucy123", "['a','b','c']"));
+        Boolean accept3 = inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted", "Jack000", "['a','b','c']"));
 
         assertTrue(accept);
         //情况三：pcMember可以投稿，但是该成员已经提交过，投稿失败
-        Contribution submission3=contributionService.submit(new Contribution("Lucy123","The SoftWare Meeting", "The SoftWare Meetingfdsgsd", "The SoftWare Meetingfgfdg", "The SoftWare Meetingfgdsd",list,"",""));
+        Contribution submission3 = contributionService.submit(new Contribution("Lucy123", "The SoftWare Meeting", "The SoftWare Meetingfdsgsd", "The SoftWare Meetingfgfdg", "The SoftWare Meetingfgdsd", list, "['a','b','c']", ""));
         //assertTrue(submission3);
 
         //情况四：未投稿的PCmember，可以投稿
-        Contribution submission4=contributionService.submit(new Contribution("Jack000","The SoftWare Meeting", "The SoftWare Meetinggfdfs", "The SoftWare Meetingfgdfgdf", "The SoftWare Meetingfdgdgd",list,"",""));
+        Contribution submission4 = contributionService.submit(new Contribution("Jack000", "The SoftWare Meeting", "The SoftWare Meetinggfdfs", "The SoftWare Meetingfgdfgdf", "The SoftWare Meetingfdgdgd", list, "['a','b','c']", ""));
 
 
-        Boolean change =contributionService.changeContribute((long)12,"fdsfsd","sdfsdd","dsfsdfsd","dsfsdsd","fdssds",list,"","");
+        Boolean change = contributionService.changeContribute((long) 12, "fdsfsd", "sdfsdd", "dsfsdfsd", "dsfsdsd", "fdssds", list, "['a','b','c']", "");
 
         assertTrue(change);
 
-
+        Boolean addResult = contributionService.addAuthor(id, "Mary", "Fudan", "Shanghai", "11111@163.com", (long) 1);
+        assertTrue(addResult);
 
 
     }

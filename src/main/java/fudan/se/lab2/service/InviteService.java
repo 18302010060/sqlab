@@ -49,7 +49,7 @@ public class InviteService {
             logger.info("邀请失败");
             return false;
         }
-        else if(meeting.getState().equals("inReview")){
+        else if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")){
             logger.info("会议已处于审稿阶段，无法邀请pcmember");
             return false;
 
@@ -83,7 +83,7 @@ public class InviteService {
 
        if(invitation2.isPresent()){
            Invitations invitation = invitationRepository.findByUsernameAndFullname(username,fullname);
-           if(meeting.getState().equals("inReview")){
+           if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")){
                logger.info("会议已在审稿阶段，不能接受邀请");
                invitationRepository.delete(invitation);
                return false;

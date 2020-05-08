@@ -20,6 +20,7 @@ public class Distribution {
     private String topic;
     private Boolean state=false;//false该审稿人未审稿 true该审稿人已经审稿完成
     private String grade;
+    @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String comment;
     private String confidence;
 

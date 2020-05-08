@@ -58,11 +58,13 @@ public class ContributionController {
         logger.info("username: " + username);
         long time = System.currentTimeMillis();
         String filename = time + file.getOriginalFilename();
-        File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
+        //File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
+        File file2 = new File("lab/upload");//路径得更改成linus系统下的
         if (!file2.exists()) {//创建文件夹
             file2.mkdirs();
         }
-        String Filename = "E:\\lab\\upload\\" + filename;//路径得更改成linus系统下的
+        //String Filename = "E:\\lab\\upload\\" + filename;//路径得更改成linus系统下的
+        String Filename = "lab/upload" + filename;//路径得更改成linus系统下的
         FileOutputStream out = new FileOutputStream(Filename);
         IOUtils.copy(file.getInputStream(), out);
         out.close();
@@ -88,11 +90,13 @@ public class ContributionController {
             long time = System.currentTimeMillis();
             filename=file.getOriginalFilename();
             String filename2 = time + file.getOriginalFilename();
-            File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
+          //  File file2 = new File("E:\\lab\\upload\\");//路径得更改成linus系统下的
+            File file2 = new File("lab/upload");//路径得更改成linus系统下的
             if (!file2.exists()) {//创建文件夹
                 file2.mkdirs();
             }
-            String Filename = "E:\\lab\\upload\\" + filename2;//路径得更改成linus系统下的
+            //String Filename = "E:\\lab\\upload\\" + filename2;//路径得更改成linus系统下的
+            String Filename = "lab/upload" + filename2;//路径得更改成linus系统下的
             FileOutputStream out = new FileOutputStream(Filename);
             IOUtils.copy(file.getInputStream(), out);
             out.close();

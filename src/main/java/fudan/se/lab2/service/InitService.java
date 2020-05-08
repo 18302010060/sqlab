@@ -317,4 +317,48 @@ public class InitService {
             return "error";
         }
     }
+    public void getSomething(){
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+
+
+    }
 }

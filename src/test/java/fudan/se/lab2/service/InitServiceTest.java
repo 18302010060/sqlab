@@ -362,6 +362,7 @@ class InitServiceTest {
         initRequest.setFullname("The SoftWare Meeting4");
         state = initService.getMeetingStatee(initRequest);
         assertEquals("passed", state);
+        initService.getSomething();
         //错误的会议名称
         initRequest.setFullname("The SoftWare Meeting4sdssd");
         state = initService.getMeetingStatee(initRequest);

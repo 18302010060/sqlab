@@ -82,6 +82,7 @@ class InviteServiceTest {
         //用户接受
         Boolean accept4 = inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted", "Jackjds000", "['a','b','c']"));
         assertTrue(accept4);
+        initService.getSomething();;
 
 
     }

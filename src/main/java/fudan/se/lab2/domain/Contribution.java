@@ -109,5 +109,27 @@ public class Contribution {
         return filename;
     }
 
+    public String getRebuttal() {
+        return rebuttal;
+    }
 
+    public void setRebuttal(String rebuttal) {
+        this.rebuttal = rebuttal;
+    }
+
+    public Boolean getRebuttalState() {
+        return rebuttalState;
+    }
+
+    public void setRebuttalState(Boolean rebuttalState) {
+        this.rebuttalState = rebuttalState;
+    }
+
+    public Boolean getEmployState() {
+        return employState;
+    }
+
+    public void setEmployState(Boolean employState) {
+        this.employState = employState;
+    }
 }

@@ -44,21 +44,28 @@ public class DiscussController {
 
     @PostMapping(value="/discuss")
     @ResponseBody
-    public ResponseEntity<?> invite(@RequestParam("meetingFullname")String meetingFullname,@RequestParam("username")String username,@RequestParam("discussion")String discussion,@RequestParam("contributionId")long contributionId){
+    public ResponseEntity<?> invite(@RequestParam("meetingFullname")String meetingFullname,
+                                    @RequestParam("username")String username,
+                                    @RequestParam("discussion")String discussion,
+                                    @RequestParam("contributionId")Long contributionId){
         //String meetingFullname,String username,String discussion,long contributionId
         return ResponseEntity.ok(discussService.discuss(meetingFullname,username,discussion,contributionId));
     }
 
     @PostMapping(value="/showDiscussion")
     @ResponseBody
-    public ResponseEntity<?> acceptInvite(@RequestParam("contributionId")long contributionId){
+    public ResponseEntity<?> acceptInvite(@RequestParam("contributionId")Long contributionId){
 
         return ResponseEntity.ok(discussService.showDiscussion(contributionId));
     }
 
     @PostMapping(value = "/firstConfirm")
     @ResponseBody
-    public ResponseEntity<?> firstConfirm(@RequestParam("contributionId")long contributionId,@RequestParam("username")String username,@RequestParam("grade")String grade,@RequestParam("comment")String comment,@RequestParam("confidence")String confidence){
+    public ResponseEntity<?> firstConfirm(@RequestParam("contributionId")Long contributionId,
+                                          @RequestParam("username")String username,
+                                          @RequestParam("grade")String grade,
+                                          @RequestParam("comment")String comment,
+                                          @RequestParam("confidence")String confidence){
         //Long contributionId,String username,String grade,String comment,String confidence
         return ResponseEntity.ok(discussService.firstConfirm(contributionId,username,grade,comment,confidence));
     }

@@ -1,5 +1,6 @@
 package fudan.se.lab2.service;
 
+import fudan.se.lab2.controller.DiscussController;
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.InitRequest;
 import fudan.se.lab2.controller.request.InitRequest1;
@@ -26,7 +27,7 @@ public class DiscussService {
     ContributionRepository contributionRepository;
     DiscussionRepository discussionRepository;
     DistributionRespository distributionRespository;
-    Logger logger = LoggerFactory.getLogger(InviteController.class);
+    Logger logger = LoggerFactory.getLogger(DiscussController.class);
     @Autowired
     public DiscussService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository,DiscussionRepository discussionRepository,DistributionRespository distributionRespository){
         this.meetingAuthorityRepository = meetingAuthorityRepository;
@@ -42,7 +43,7 @@ public class DiscussService {
         try{
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             String title = contribution.getTitle();
-            Boolean contributionState = contribution.getEmployState();//待修改为录用结果
+            Boolean contributionState = contribution.getEmployState();
             Discussion discussion1 = new Discussion(meetingFullname,username,discussion,title,contributionId,contributionState);
             discussionRepository.save(discussion1);
             return true;}
@@ -60,32 +61,40 @@ public class DiscussService {
             Distribution distribution = distributionRespository.findDistributionByContributionIdAndUsername(contributionId, username);
             Discussion discussion = discussionRepository.findDiscussionByContributionId(contributionId);
             String meetingFullname = distribution.getFullname();
-            distribution.setComment(comment);
-            distribution.setConfidence(confidence);
-            distribution.setGrade(grade);
-            distribution.setConfirmState("firstConfirm");
-            distributionRespository.save(distribution);
-            List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);
-            int flag1 = 0;
-            int flag2 = 0;
-            for (Distribution value : distributionList) {
-                if (value.getConfirmState().equals("firstConfirm")) {
-                    flag1++;
+            if (distribution.getConfirmState().equals("firstConfirm")) {
+                logger.info("只能修改一次评审结果");
+                return false;
+            } else {
+                distribution.setComment(comment);
+                distribution.setConfidence(confidence);
+                distribution.setGrade(grade);
+                distribution.setConfirmState("firstConfirm");
+                distributionRespository.save(distribution);
+                logger.info("已修改评审结果");
+                List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);
+                int flag1 = 0;
+                int flag2 = 0;
+                for (Distribution value : distributionList) {
+                    if (value.getConfirmState().equals("firstConfirm")) {
+                        flag1++;
+                    }
                 }
-            }
-            if (flag1 == 3) {
-                contributionRepository.findContributionById(contributionId).setState("firstConfirm");
-            }
-            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
-            for (Contribution contribution : contributionList) {
-                if (contribution.getState().equals("firstConfirm")) {
-                    flag2++;
+                if (flag1 == 3) {
+                    contributionRepository.findContributionById(contributionId).setState("firstConfirm");
+                    logger.info("改投稿全部审稿人已确认评审结果");
                 }
+                List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
+                for (Contribution contribution : contributionList) {
+                    if (contribution.getState().equals("firstConfirm")) {
+                        flag2++;
+                    }
+                }
+                if (flag2 == contributionList.size()) {
+                    discussion.setDiscussionState("firstDiscussionFinished");
+                    logger.info("会议全部投稿结果已确认，可以发布初次结果");
+                }
+                return true;
             }
-            if(flag2==contributionList.size()){
-                discussion.setDiscussionState("firstDiscussionFinished");
-            }
-            return true;
         }
         catch(Exception e){
             return false;

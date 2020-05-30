@@ -1,12 +1,6 @@
 package fudan.se.lab2.domain;
 
-import fudan.se.lab2.service.AuthService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.*;
 
 /**
  * @author LBW
@@ -21,17 +15,27 @@ public class Discussion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String meetingFullname;
-    private String username;
-    private String discussion;
+    private String meetingFullname;//会议名称
+    private String username;//发帖人
+    private String discussion;//讨论内容
+    private String discussionState;//帖子状态
+    private String title;//稿件名称
+    private Long contributionId;//投稿id
+    private Boolean employState;
+
+
 
     public Discussion() {
     }
 
-    public Discussion(String meetingFullname, String username, String discussion) {
+    public Discussion(String meetingFullname, String username, String discussion,String title,Long contributionId,Boolean employState) {
         this.meetingFullname = meetingFullname;
         this.username = username;
         this.discussion = discussion;
+        this.discussionState = "firstDiscussion";
+        this.title = title;
+        this.contributionId = contributionId;
+        this.employState = employState;
     }
 
     public String getMeetingFullname() {
@@ -56,5 +60,37 @@ public class Discussion {
 
     public void setDiscussion(String discussion) {
         this.discussion = discussion;
+    }
+
+    public String getDiscussionState() {
+        return discussionState;
+    }
+
+    public void setDiscussionState(String discussionState) {
+        this.discussionState = discussionState;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getContributionId() {
+        return contributionId;
+    }
+
+    public void setContributionId(Long contributionId) {
+        this.contributionId = contributionId;
+    }
+
+    public Boolean getEmployState() {
+        return employState;
+    }
+
+    public void setEmployState(Boolean employState) {
+        this.employState = employState;
     }
 }

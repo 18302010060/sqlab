@@ -38,32 +38,52 @@ public class DiscussService {
         this.distributionRespository = distributionRespository;
     }
 
-    public boolean discuss(String meetingFullname,String username,String discussion){
+    public boolean discuss(String meetingFullname,String username,String discussion,long contributionId){
         try{
-        Discussion discussion1 = new Discussion(meetingFullname,username,discussion);
-        discussionRepository.save(discussion1);
-        return true;}
+            Contribution contribution = contributionRepository.findContributionById(contributionId);
+            String title = contribution.getTitle();
+            Boolean contributionState = contribution.getEmployState();//待修改为录用结果
+            Discussion discussion1 = new Discussion(meetingFullname,username,discussion,title,contributionId,contributionState);
+            discussionRepository.save(discussion1);
+            return true;}
         catch(Exception e){
             return false;
         }
     }
-    public boolean firstConfirm(Long contributionId,String username ,String meetingFullname,String grade,String comment,String confidence){
+    public List<Discussion> showDiscussion(Long contributionId){
+        return discussionRepository.findAllByContributionId(contributionId);
+
+
+    }
+    public boolean firstConfirm(Long contributionId,String username,String grade,String comment,String confidence){
         try {
             Distribution distribution = distributionRespository.findDistributionByContributionIdAndUsername(contributionId, username);
+            Discussion discussion = discussionRepository.findDiscussionByContributionId(contributionId);
+            String meetingFullname = distribution.getFullname();
             distribution.setComment(comment);
             distribution.setConfidence(confidence);
             distribution.setGrade(grade);
             distribution.setConfirmState("firstConfirm");
             distributionRespository.save(distribution);
             List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);
-            int flag = 0;
+            int flag1 = 0;
+            int flag2 = 0;
             for (Distribution value : distributionList) {
                 if (value.getConfirmState().equals("firstConfirm")) {
-                    flag++;
+                    flag1++;
                 }
             }
-            if (flag == 3) {
+            if (flag1 == 3) {
                 contributionRepository.findContributionById(contributionId).setState("firstConfirm");
+            }
+            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
+            for (Contribution contribution : contributionList) {
+                if (contribution.getState().equals("firstConfirm")) {
+                    flag2++;
+                }
+            }
+            if(flag2==contributionList.size()){
+                discussion.setDiscussionState("firstDiscussionFinished");
             }
             return true;
         }
@@ -71,23 +91,7 @@ public class DiscussService {
             return false;
         }
     }
-    public boolean allContributionHasBeenConfirmed(String meetingFullname){
-        try {
-            boolean state = true;
-            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
-            for (Contribution contribution : contributionList) {
-                if (!contribution.getState().equals("firstConfirm")) {
-                    state = false;
-                    break;
-                }
-            }
-            return state;
-        }
-        catch(Exception e){
-            return false;
-        }
 
-    }
 
 
 

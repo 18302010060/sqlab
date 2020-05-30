@@ -23,8 +23,9 @@ public class Contribution {
     private String topic;
     @ElementCollection
     private List<String> topics;
-    /*@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "contribution_id")*/
+    @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
+    private String rebuttal;
+    private Boolean rebuttalState=false;//false未rebuttal true有rebuttal
 
 
     public Contribution() {}
@@ -100,4 +101,21 @@ public class Contribution {
     public String getFilename() {
         return filename;
     }
+
+    public void setRebuttal(String rebuttal) {
+        this.rebuttal = rebuttal;
+    }
+
+    public String getRebuttal() {
+        return rebuttal;
+    }
+
+    public void setRebuttalState(Boolean rebuttalState) {
+        this.rebuttalState = rebuttalState;
+    }
+
+    public Boolean getRebuttalState() {
+        return rebuttalState;
+    }
+
 }

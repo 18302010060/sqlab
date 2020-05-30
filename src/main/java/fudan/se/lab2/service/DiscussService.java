@@ -89,6 +89,25 @@ public class DiscussService {
 
     }
 
+    public Boolean rebuttal(Long id,String rebuttal){
+        try {
+            Contribution contribution=contributionRepository.findContributionById(id);
+            if(contribution.getRebuttalState()){
+                logger.info("论文已经rebuttal");
+                return false;
+            }else {
+                contribution.setRebuttal(rebuttal);
+                contribution.setRebuttalState(true);
+                contributionRepository.save(contribution);
+                return true;
+
+            }
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return false;
+        }
+
+    }
 
 
 

@@ -19,10 +19,12 @@ public class Distribution {
     private String title;
     private String topic;
     private Boolean state=false;//false该审稿人未审稿 true该审稿人已经审稿完成
+    private String confirmState;
     private String grade;
     @Lob @Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String comment;
     private String confidence;
+
 
 
     public Distribution(){}
@@ -33,6 +35,7 @@ public class Distribution {
         this.title=title;
         this.contributor=contributor;
         this.topic=topic;
+        this.confirmState = "";
     }
 
     public Long getId() {
@@ -128,5 +131,13 @@ public class Distribution {
 
     public String getTopic() {
         return topic;
+    }
+
+    public String getConfirmState() {
+        return confirmState;
+    }
+
+    public void setConfirmState(String confirmState) {
+        this.confirmState = confirmState;
     }
 }

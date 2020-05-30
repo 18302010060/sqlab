@@ -109,25 +109,6 @@ public class OperationService {
         logger.info("comment:  "+comment);
         logger.info("confidence:  "+confidence);
         try {
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-            logger.info("审核信息提交");
-
             Distribution distribution=distributionRespository.findDistributionById(id);
             distribution.setReview(grade,comment,confidence);
             distribution.setState(true);

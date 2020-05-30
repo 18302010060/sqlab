@@ -1,5 +1,6 @@
 package fudan.se.lab2.controller;
 
+
 import fudan.se.lab2.controller.request.*;
 import fudan.se.lab2.domain.Discussion;
 import fudan.se.lab2.domain.Invitations;
@@ -10,11 +11,16 @@ import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.service.DiscussService;
 import fudan.se.lab2.service.InviteService;
+
+
+import fudan.se.lab2.service.DiscussService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * @author LBW
@@ -55,6 +61,15 @@ public class DiscussController {
     public ResponseEntity<?> firstConfirm(@RequestParam("contributionId")long contributionId,@RequestParam("username")String username,@RequestParam("grade")String grade,@RequestParam("comment")String comment,@RequestParam("confidence")String confidence){
         //Long contributionId,String username,String grade,String comment,String confidence
         return ResponseEntity.ok(discussService.firstConfirm(contributionId,username,grade,comment,confidence));
+    }
+
+    //rebuttal     前端传稿件的id和rebuttal信息
+    @PostMapping(value = "/rebuttal")
+    @ResponseBody
+    public ResponseEntity<Boolean> rebuttal(@RequestParam("id") Long id, @RequestParam("rebuttal") String rebuttal) {
+        logger.info("稿件Id：  "+id);
+        logger.info("rebuttal:  "+rebuttal);
+        return ResponseEntity.ok(discussService.rebuttal(id,rebuttal));
     }
 
 

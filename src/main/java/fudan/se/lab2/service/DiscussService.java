@@ -178,11 +178,11 @@ public class DiscussService {
 
     }
 
-    public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String username,String state){
+    public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String username,Boolean employState){
        List<Contribution> contributionList = showContributionByMeetingFullnameAndUsername(meetingFullname,username);
        List<Contribution> contributionList1 = new ArrayList<>();
         for (Contribution contribution : contributionList) {
-            if (contribution.getState().equals(state)) {
+            if (contribution.getEmployState()==employState) {
                 contributionList1.add(contribution);
             }
         }

@@ -69,11 +69,11 @@ public class DiscussController {
     @ResponseBody
     public ResponseEntity<?> showDiscussionByMeetingFullname(@RequestParam("meetingFullname")String meetingFullname,
                                                              @RequestParam("username")String username,
-                                                             @RequestParam("state")String state){
+                                                             @RequestParam("state")Boolean employState){
         logger.info("meetingFullname:"+meetingFullname);
         logger.info("username:"+username);
-        logger.info("state:"+state);
-        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,username,state));
+        logger.info("state:"+employState);
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,username,employState));
     }
 
     @PostMapping(value = "/firstConfirm")

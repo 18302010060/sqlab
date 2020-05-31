@@ -108,6 +108,29 @@ public class DiscussService {
             return false;
         }
     }
+    public Boolean ifAllContributionHasBeenConfirmed(String meetingFullname){
+        try {
+            Meeting meeting = meetingRepository.findByFullname(meetingFullname);
+            String state = meeting.getState();
+            return state.equals("firstConfirm");
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    public Boolean releaseFirstResult(String meetingFullname){
+        try{
+        Meeting meeting = meetingRepository.findByFullname(meetingFullname);
+        meeting.setState("firstDiscussionResultReleased");
+        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
+            for (Contribution contribution : contributionList) {
+                contribution.setState("firstDiscussionResultReleased");
+            }
+        return true;}
+        catch(Exception e){
+            return false;
+        }
+    }
 
 
    public Boolean openFirstDiscussion(String meetingFullname){

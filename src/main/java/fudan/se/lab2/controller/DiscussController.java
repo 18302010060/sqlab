@@ -131,6 +131,16 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,state));
 
     }
+    @PostMapping(value = "/ifAllContributionHasBeenConfirmed")
+    @ResponseBody
+    public ResponseEntity<?> ifAllContributionHasBeenConfirmed(@RequestParam("meetingFullname")String meetingFullname){
+        return ResponseEntity.ok(discussService.ifAllContributionHasBeenConfirmed(meetingFullname));
+    }
+    @PostMapping(value = "/releaseFirstResult")
+    @ResponseBody
+    public ResponseEntity<?> releaseFirstResult(@RequestParam("meetingFullname")String meetingFullname){
+        return ResponseEntity.ok(discussService.releaseFirstResult(meetingFullname));
+    }
 
 
 }

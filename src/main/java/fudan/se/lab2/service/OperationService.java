@@ -110,6 +110,9 @@ public class OperationService {
         logger.info("confidence:  "+confidence);
         try {
             Distribution distribution=distributionRespository.findDistributionById(id);
+            String meetingFullname = distribution.getFullname();
+            List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
+            Meeting meeting = meetingRepository.findByFullname(meetingFullname);
             distribution.setReview(grade,comment,confidence);
             distribution.setState(true);
             distributionRespository.save(distribution);
@@ -127,6 +130,15 @@ public class OperationService {
                 contribution.setState("over");
                 contributionRepository.save(contribution);
                  }
+            int flag = 0;
+            for (Contribution contribution : contributionList) {
+                if (contribution.getState().equals("over")) {
+                    flag++;
+                }
+            }
+            if(flag==contributionList.size()){
+                meeting.setState("inFirstDiscussion");
+            }
             return true;
         }catch (Exception e){
             return false;

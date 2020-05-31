@@ -19,7 +19,7 @@ public class Contribution {
     private String summary;
     private String path;
     private String filename;
-    private String state;//wait等待审稿 inReview开启审稿 over审稿完成  released发布结果
+    private String state;//wait等待审稿 inReview开启审稿 over审稿完成 firstConfirm初次确认 released发布结果
     private String topic;
     @ElementCollection
     private List<String> topics;

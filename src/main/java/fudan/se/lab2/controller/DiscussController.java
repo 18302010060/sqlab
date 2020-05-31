@@ -44,19 +44,36 @@ public class DiscussController {
 
     @PostMapping(value="/discuss")
     @ResponseBody
-    public ResponseEntity<?> invite(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<?> discuss(@RequestParam("meetingFullname")String meetingFullname,
                                     @RequestParam("username")String username,
                                     @RequestParam("discussion")String discussion,
                                     @RequestParam("contributionId")Long contributionId){
         //String meetingFullname,String username,String discussion,long contributionId
-        return ResponseEntity.ok(discussService.discuss(meetingFullname,username,discussion,contributionId));
+        logger.info("meetingFullname:"+meetingFullname);
+        logger.info("username:"+username);
+        logger.info("discussion:"+discussion);
+        logger.info("contributionId:"+contributionId);
+        return ResponseEntity.ok(discussService.discuss(username,discussion,contributionId));
     }
 
     @PostMapping(value="/showDiscussion")
     @ResponseBody
-    public ResponseEntity<?> acceptInvite(@RequestParam("contributionId")Long contributionId){
+    public ResponseEntity<?> showDiscussion(@RequestParam("meetingFullname")String meetingFullname,
+                                            @RequestParam("username")String username){
+        logger.info("meetingFullname:"+meetingFullname);
+        logger.info("username:"+username);
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndUsername(meetingFullname,username));
+    }
 
-        return ResponseEntity.ok(discussService.showDiscussion(contributionId));
+    @PostMapping(value = "/showDiscussionByMeetingFullnameAndState")
+    @ResponseBody
+    public ResponseEntity<?> showDiscussionByMeetingFullname(@RequestParam("meetingFullname")String meetingFullname,
+                                                             @RequestParam("username")String username,
+                                                             @RequestParam("state")String state){
+        logger.info("meetingFullname:"+meetingFullname);
+        logger.info("username:"+username);
+        logger.info("state:"+state);
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,username,state));
     }
 
     @PostMapping(value = "/firstConfirm")
@@ -67,7 +84,20 @@ public class DiscussController {
                                           @RequestParam("comment")String comment,
                                           @RequestParam("confidence")String confidence){
         //Long contributionId,String username,String grade,String comment,String confidence
+        logger.info("id:"+contributionId);
+        logger.info("comment:"+ comment);
+        logger.info("username:"+username);
+        logger.info("grade:"+grade);
+        logger.info("confidence:"+confidence);
         return ResponseEntity.ok(discussService.firstConfirm(contributionId,username,grade,comment,confidence));
+    }
+
+    @PostMapping(value = "/openFirstDiscussion")
+    @ResponseBody
+    public ResponseEntity<?> openFirstDiscussion(@RequestParam("meetingFullname")String meetingFullname) {
+        logger.info("会议全称：  "+meetingFullname);
+
+        return ResponseEntity.ok(discussService.openFirstDiscussion(meetingFullname));
     }
 
     //rebuttal     前端传稿件的id和rebuttal信息
@@ -77,6 +107,12 @@ public class DiscussController {
         logger.info("稿件Id：  "+id);
         logger.info("rebuttal:  "+rebuttal);
         return ResponseEntity.ok(discussService.rebuttal(id,rebuttal));
+    }
+
+    @PostMapping(value = "/showDiscussion")
+    @ResponseBody
+    public ResponseEntity<?> showDiscussion(@RequestParam("contributionId")Long contributionId){
+        return ResponseEntity.ok(discussService.showDiscussion(contributionId));
     }
 
 

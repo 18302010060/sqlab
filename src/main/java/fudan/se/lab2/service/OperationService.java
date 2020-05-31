@@ -130,15 +130,7 @@ public class OperationService {
                 contribution.setState("over");
                 contributionRepository.save(contribution);
                  }
-            int flag = 0;
-            for (Contribution contribution : contributionList) {
-                if (contribution.getState().equals("over")) {
-                    flag++;
-                }
-            }
-            if(flag==contributionList.size()){
-                meeting.setState("inFirstDiscussion");
-            }
+
             return true;
         }catch (Exception e){
             return false;

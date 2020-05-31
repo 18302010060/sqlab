@@ -13,8 +13,11 @@ import java.util.List;
  */
 @Repository
 public interface DiscussionRepository extends CrudRepository<Discussion, Long> {
-    Discussion findDiscussionByContributionId(long contributionId);
-    List<Discussion> findAllByContributionId(long contributionId);
+    Discussion findDiscussionByContributionId(Long contributionId);
+    List<Discussion> findAllByContributionId(Long contributionId);
+    List<Discussion> findAllByMeetingFullnameAndAndDiscussionState(String meetingFullname,String discussionState);
+    List<Discussion> findAllByMeetingFullname(String meetingFullname);
+
 
 
 }

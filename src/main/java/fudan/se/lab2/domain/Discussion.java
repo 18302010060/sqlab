@@ -32,10 +32,13 @@ public class Discussion {
         this.meetingFullname = meetingFullname;
         this.username = username;
         this.discussion = discussion;
-        this.discussionState = "firstDiscussion";
+        this.discussionState = "inFirstDiscussion";
         this.title = title;
         this.contributionId = contributionId;
         this.employState = employState;
+    }
+    public Discussion(Long contributionId){
+        this.contributionId = contributionId;
     }
 
     public String getMeetingFullname() {

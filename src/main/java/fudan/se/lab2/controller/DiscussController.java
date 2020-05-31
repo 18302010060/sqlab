@@ -56,7 +56,7 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.discuss(username,discussion,contributionId));
     }
 
-    @PostMapping(value="/showDiscussion")
+    @PostMapping(value="/showDiscussionByMeetingFullnameAndUsername")
     @ResponseBody
     public ResponseEntity<?> showDiscussion(@RequestParam("meetingFullname")String meetingFullname,
                                             @RequestParam("username")String username){

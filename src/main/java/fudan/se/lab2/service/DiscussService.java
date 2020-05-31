@@ -164,16 +164,16 @@ public class DiscussService {
     public List<Contribution> showContributionByMeetingFullnameAndUsername(String meetingFullname,String username){
        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
        List<Contribution> contributionList1 = new ArrayList<>();
-       for(int i = 0;i<contributionList.size();i++){//对于所有投稿
-           Long id = contributionList.get(i).getId();
-           List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);//得到负责该投稿的人
-           for(int j = 0;j<distributionList.size();j++){
-               String username1 = distributionList.get(i).getUsername();//得到负责人的用户名
-               if(username.equals(username1)){//如果username相等
-                   contributionList1.add(contributionList.get(i));//则可见该投稿
-               }
-           }
-       }
+        for (Contribution contribution : contributionList) {//对于所有投稿
+            Long id = contribution.getId();
+            List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);//得到负责该投稿的人
+            for (Distribution distribution : distributionList) {
+                String username1 = distribution.getUsername();//得到负责人的用户名
+                if (username.equals(username1)) {//如果username相等
+                    contributionList1.add(contribution);//则可见该投稿
+                }
+            }
+        }
        return contributionList1;
 
     }

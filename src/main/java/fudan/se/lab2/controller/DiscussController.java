@@ -65,15 +65,25 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndUsername(meetingFullname,username));
     }
 
-    @PostMapping(value = "/showDiscussionByMeetingFullnameAndState")
+    @PostMapping(value = "/showDiscussionByMeetingFullnameAndEmployState")
     @ResponseBody
-    public ResponseEntity<?> showDiscussionByMeetingFullname(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<?> showDiscussionByMeetingFullnameAndEmployState(@RequestParam("meetingFullname")String meetingFullname,
                                                              @RequestParam("username")String username,
                                                              @RequestParam("state")Boolean employState){
         logger.info("meetingFullname:"+meetingFullname);
         logger.info("username:"+username);
         logger.info("state:"+employState);
-        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,username,employState));
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndEmployState(meetingFullname,username,employState));
+    }
+    @PostMapping(value = "/showDiscussionByMeetingFullnameAndState")
+    @ResponseBody
+    public ResponseEntity<?> showDiscussionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
+                                                             @RequestParam("username")String username,
+                                                             @RequestParam("state")String state){
+        logger.info("meetingFullname:"+meetingFullname);
+        logger.info("username:"+username);
+        logger.info("state:"+state);
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,username,state));
     }
 
     @PostMapping(value = "/firstConfirm")

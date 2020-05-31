@@ -178,11 +178,22 @@ public class DiscussService {
 
     }
 
-    public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String username,Boolean employState){
+    public List<Contribution> showContributionByMeetingFullnameAndEmployState(String meetingFullname,String username,Boolean employState){
        List<Contribution> contributionList = showContributionByMeetingFullnameAndUsername(meetingFullname,username);
        List<Contribution> contributionList1 = new ArrayList<>();
         for (Contribution contribution : contributionList) {
             if (contribution.getEmployState()==employState) {
+                contributionList1.add(contribution);
+            }
+        }
+        return contributionList1;
+
+    }
+    public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String username,String state){
+        List<Contribution> contributionList = showContributionByMeetingFullnameAndUsername(meetingFullname,username);
+        List<Contribution> contributionList1 = new ArrayList<>();
+        for (Contribution contribution : contributionList) {
+            if (contribution.getState().equals(state)) {
                 contributionList1.add(contribution);
             }
         }

@@ -114,6 +114,13 @@ public class DiscussController {
     public ResponseEntity<?> showDiscussion(@RequestParam("contributionId")Long contributionId){
         return ResponseEntity.ok(discussService.showDiscussion(contributionId));
     }
+    @PostMapping(value="/showContributionByMeetingFullnameAndState")
+    @ResponseBody
+    public ResponseEntity<?> showContributionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
+                                                                       @RequestParam("state")String state){
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,state));
+
+    }
 
 
 }

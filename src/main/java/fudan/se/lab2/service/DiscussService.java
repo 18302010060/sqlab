@@ -193,6 +193,9 @@ public class DiscussService {
     public List<Discussion> showDiscussion(Long contributionId){
         return discussionRepository.findAllByContributionId(contributionId);
     }
+    public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String state){
+        return contributionRepository.findAllByMeetingFullnameAndState(meetingFullname,state);
+    }
 
 
 

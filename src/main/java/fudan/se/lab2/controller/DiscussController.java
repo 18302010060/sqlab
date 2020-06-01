@@ -2,10 +2,7 @@ package fudan.se.lab2.controller;
 
 
 import fudan.se.lab2.controller.request.*;
-import fudan.se.lab2.domain.Discussion;
-import fudan.se.lab2.domain.Invitations;
-import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.User;
+import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.DiscussionRepository;
 import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.UserRepository;
@@ -22,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -120,14 +118,7 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.openFirstDiscussion(meetingFullname));
     }
 
-    //rebuttal     前端传稿件的id和rebuttal信息
-    @PostMapping(value = "/rebuttal")
-    @ResponseBody
-    public ResponseEntity<Boolean> rebuttal(@RequestParam("id") Long id, @RequestParam("rebuttal") String rebuttal) {
-        logger.info("稿件Id：  "+id);
-        logger.info("rebuttal:  "+rebuttal);
-        return ResponseEntity.ok(discussService.rebuttal(id,rebuttal));
-    }
+
 
     @PostMapping(value = "/showDiscussion")
     @ResponseBody
@@ -150,6 +141,27 @@ public class DiscussController {
     @ResponseBody
     public ResponseEntity<?> releaseFirstResult(@RequestParam("meetingFullname")String meetingFullname){
         return ResponseEntity.ok(discussService.releaseFirstResult(meetingFullname));
+    }
+
+    //关于rebutta
+    //rebuttal     前端传稿件的id和rebuttal信息
+    @PostMapping(value = "/rebuttal")
+    @ResponseBody
+    public ResponseEntity<Boolean> rebuttal(@RequestParam("id") Long id, @RequestParam("rebuttal") String rebuttal) {
+        logger.info("稿件Id：  "+id);
+        logger.info("rebuttal:  "+rebuttal);
+        return ResponseEntity.ok(discussService.rebuttal(id,rebuttal));
+    }
+
+    //返回第一次讨论结束后未录取稿件信息
+    //参数：@RequestParam("username") String username,@RequestParam("rebuttalState") Boolean rebuttalState（false未rebuttal true已经rebuttal）
+
+    @PostMapping(value = "/showContributionsByUsernameAndEmployStateAndState")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> showContributionsByUsernameAndEmployStateAndState(@RequestParam("username") String username,
+                                                                                                @RequestParam("rebuttalState") Boolean rebuttalState) {
+        logger.info("username：  "+username);
+        return ResponseEntity.ok(discussService.showContributionsByUsernameAndRebuttalState(username,rebuttalState));
     }
 
 

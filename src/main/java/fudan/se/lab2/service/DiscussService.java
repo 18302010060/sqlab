@@ -185,25 +185,6 @@ public class DiscussService {
         }
    }
 
-    public Boolean rebuttal(Long id,String rebuttal){
-        try {
-            Contribution contribution=contributionRepository.findContributionById(id);
-            if(contribution.getRebuttalState()){
-                logger.info("论文已经rebuttal");
-                return false;
-            }else {
-                contribution.setRebuttal(rebuttal);
-                contribution.setRebuttalState(true);
-                contributionRepository.save(contribution);
-                return true;
-
-            }
-        }catch (Exception e){
-            logger.info("error信息："+e.getMessage());
-            return false;
-        }
-
-    }
 
     public List<Contribution> showContributionByMeetingFullnameAndUsername(String meetingFullname,String username){
        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
@@ -271,6 +252,27 @@ public class DiscussService {
     }
     public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String state){
         return contributionRepository.findAllByMeetingFullnameAndState(meetingFullname,state);
+    }
+
+
+    public List<Contribution> showContributionsByUsernameAndRebuttalState(String username,Boolean rebuttalState){
+        try {
+            List<Contribution> contributionList=contributionRepository
+                    .findContributionsByUsernameAndStateAndEmployStateAndRebuttalState(username,"firstDiscussionResultReleased",false,rebuttalState);
+            return contributionList;
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+
+    }
+
+    public Boolean rebuttal(Long id,String rebuttal){
+        Contribution contribution=contributionRepository.findContributionById(id);
+        contribution.setRebuttal(rebuttal);
+        contribution.setRebuttalState(true);
+        contributionRepository.save(contribution);
+        return true;
     }
 
 

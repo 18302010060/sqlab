@@ -88,6 +88,7 @@ public class DiscussService {
                     contributionRepository.save(contribution);
                     for (Discussion value : discussion) {
                         value.setDiscussionState("firstConfirm");
+                        discussionRepository.save(value);
                     }
                     logger.info("改投稿全部审稿人已确认评审结果");
                 }
@@ -100,6 +101,7 @@ public class DiscussService {
                 if (flag2 == contributionList.size()) {//如果该会议全部投稿已经确认结果，则改变会议状态为firstConfirmFinished
                     Meeting meeting = meetingRepository.findByFullname(meetingFullname);
                     meeting.setState("firstConfirm");
+                    meetingRepository.save(meeting);
 
                     logger.info("会议全部投稿结果已确认，可以发布初次结果");
                 }
@@ -125,9 +127,11 @@ public class DiscussService {
         try{
         Meeting meeting = meetingRepository.findByFullname(meetingFullname);
         meeting.setState("firstDiscussionResultReleased");
+        meetingRepository.save(meeting);
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
             for (Contribution contribution : contributionList) {
                 contribution.setState("firstDiscussionResultReleased");
+                contributionRepository.save(contribution);
             }
         return true;}
         catch(Exception e){

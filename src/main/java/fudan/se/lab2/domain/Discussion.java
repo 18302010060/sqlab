@@ -17,30 +17,34 @@ public class Discussion {
     private Long id;
 
     private String meetingFullname;//会议名称
-    private String username;//发帖人
-    private String discussion;//讨论内容
     private String discussionState;//帖子状态
     private String title;//稿件名称
-    private Long contributionId;//投稿id
     private Boolean employState;
-    private String reply;//被回复人
-    private Date discussTime; //回复时间
 
-
-
+    private Long contributionId;//投稿id
+    private String username;//发帖人
+    private String comment;//讨论内容
+    private String subusername;//被回复人
+    private String subcomment;
+    private String responseUsername;
+    private Date time; //回复时间
+    private Date subtime;
     public Discussion() {
     }
 
-    public Discussion(String meetingFullname, String username, String discussion,String title,Long contributionId,Boolean employState,String reply,Date discussTime) {
+    public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,Date time,String subcomment,String responseUsername,Date subtime) {
         this.meetingFullname = meetingFullname;
         this.username = username;
-        this.discussion = discussion;
+        this.comment = comment;
         this.discussionState = "inFirstDiscussion";
         this.title = title;
         this.contributionId = contributionId;
         this.employState = employState;
-        this.reply = reply;
-        this.discussTime = discussTime;
+        this.subusername = subusername;
+        this.time = time;
+        this.subcomment = subcomment;
+        this.responseUsername = responseUsername;
+        this.subtime = subtime;
     }
     public Discussion(Long contributionId){
         this.contributionId = contributionId;
@@ -62,12 +66,12 @@ public class Discussion {
         this.username = username;
     }
 
-    public String getDiscussion() {
-        return discussion;
+    public String getComment() {
+        return comment;
     }
 
-    public void setDiscussion(String discussion) {
-        this.discussion = discussion;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getDiscussionState() {
@@ -102,19 +106,35 @@ public class Discussion {
         this.employState = employState;
     }
 
-    public String getReply() {
-        return reply;
+    public String getSubusername() {
+        return subusername;
     }
 
-    public void setReply(String reply) {
-        this.reply = reply;
+    public void setSubusername(String subusername) {
+        this.subusername = subusername;
     }
 
-    public Date getDiscussTime() {
-        return discussTime;
+    public Date getTime() {
+        return time;
     }
 
-    public void setDiscussTime(Date discussTime) {
-        this.discussTime = discussTime;
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getSubcomment() {
+        return subcomment;
+    }
+
+    public void setSubcomment(String subcomment) {
+        this.subcomment = subcomment;
+    }
+
+    public String getResponseUsername() {
+        return responseUsername;
+    }
+
+    public void setResponseUsername(String responseUsername) {
+        this.responseUsername = responseUsername;
     }
 }

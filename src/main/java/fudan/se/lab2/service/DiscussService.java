@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,14 +40,15 @@ public class DiscussService {
         this.discussionRepository = discussionRepository;
         this.distributionRespository = distributionRespository;
     }
-
-    public boolean discuss(String username, String discussion, long contributionId, String reply, Date discussTime){
+//public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,Date time,String subcomment,String responseUsername,Date subtime)
+    public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,Date time,Date subtime){
         try{
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             String meetingFullname = contribution.getMeetingFullname();
             String title = contribution.getTitle();
             Boolean contributionState = contribution.getEmployState();
-            Discussion discussion1 = new Discussion(meetingFullname,username,discussion,title,contributionId,contributionState,reply,discussTime);
+
+            Discussion discussion1 = new Discussion(meetingFullname,username,comment,title,contributionId,contributionState,subusername,time,subcomment,responseUsername,subtime);
             discussionRepository.save(discussion1);
             return true;}
         catch(Exception e){
@@ -228,8 +230,23 @@ public class DiscussService {
 
     }
 
-    public List<Discussion> showDiscussion(Long contributionId){
-        return discussionRepository.findAllByContributionId(contributionId);
+    public List<List> showDiscussion(Long contributionId){
+        List<Discussion> discussionList = discussionRepository.findAllBySubcomment("");//找出所有主贴，即回复内容为空的帖子
+
+        List<List> allDiscussion1 = new ArrayList<List>();
+        for (Discussion discussion : discussionList) {//遍历主贴
+            List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
+            Date time = discussion.getTime();//得到主贴时间
+            String username = discussion.getUsername();//得到主贴发帖人
+            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndTime(contributionId, username, time);//找到当前讨论下，该用户在当前时间下的所有回帖
+            allDiscussion.add(discussion);
+            allDiscussion.add(discussionList1);
+            allDiscussion1.add(allDiscussion);
+
+
+        }
+
+        return allDiscussion1;
     }
     public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String state){
         return contributionRepository.findAllByMeetingFullnameAndState(meetingFullname,state);

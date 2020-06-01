@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public interface DiscussionRepository extends CrudRepository<Discussion, Long> {
     List<Discussion> findAllByContributionId(Long contributionId);
     List<Discussion> findAllByMeetingFullnameAndAndDiscussionState(String meetingFullname,String discussionState);
     List<Discussion> findAllByMeetingFullname(String meetingFullname);
+    List<Discussion> findAllBySubcomment(String subcomment);
+    List<Discussion> findAllByContributionIdAndUsernameAndTime(Long contributionId, String username, Date time);
 
 
 

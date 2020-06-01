@@ -46,17 +46,26 @@ public class DiscussController {
 
     @PostMapping(value="/discuss")
     @ResponseBody
-    public ResponseEntity<?> discuss(@RequestParam("username")String username,
-                                     @RequestParam("discussion")String discussion,
-                                     @RequestParam("contributionId")Long contributionId,
-                                     @RequestParam("reply")String reply,
-                                     @RequestParam("discussTime")Date discussTime){
-        //String meetingFullname,String username,String discussion,long contributionId
-
-        logger.info("username:"+username);
-        logger.info("discussion:"+discussion);
+    public ResponseEntity<?> discuss(@RequestParam("contributionId")Long contributionId,
+                                     @RequestParam("username")String username,
+                                     @RequestParam("comment")String comment,
+                                     @RequestParam("subusername")String subusername,
+                                     @RequestParam("subcomment")String subcomment,
+                                     @RequestParam("responseUsername")String responseUsername,
+                                     @RequestParam("time")Date time,
+                                     @RequestParam("subtime")Date subtime){
+        //public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,Date time,Date subtime)
         logger.info("contributionId:"+contributionId);
-        return ResponseEntity.ok(discussService.discuss(username,discussion,contributionId,reply,discussTime));
+        logger.info("username:"+username);
+        logger.info("comment:"+comment);
+        logger.info("subusername:"+subusername);
+        logger.info("subcomment:"+subcomment);
+        logger.info("responseUsername:"+responseUsername);
+        logger.info("time:"+time);
+        logger.info("subtime:"+subtime);
+
+
+        return ResponseEntity.ok(discussService.discuss(contributionId,username,comment,subusername,subcomment,responseUsername,time,subtime));
     }
 
     @PostMapping(value="/showDiscussionByMeetingFullnameAndUsername")

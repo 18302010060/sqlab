@@ -1,6 +1,7 @@
 package fudan.se.lab2.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author LBW
@@ -22,13 +23,15 @@ public class Discussion {
     private String title;//稿件名称
     private Long contributionId;//投稿id
     private Boolean employState;
+    private String reply;//被回复人
+    private Date discussTime; //回复时间
 
 
 
     public Discussion() {
     }
 
-    public Discussion(String meetingFullname, String username, String discussion,String title,Long contributionId,Boolean employState) {
+    public Discussion(String meetingFullname, String username, String discussion,String title,Long contributionId,Boolean employState,String reply,Date discussTime) {
         this.meetingFullname = meetingFullname;
         this.username = username;
         this.discussion = discussion;
@@ -36,6 +39,8 @@ public class Discussion {
         this.title = title;
         this.contributionId = contributionId;
         this.employState = employState;
+        this.reply = reply;
+        this.discussTime = discussTime;
     }
     public Discussion(Long contributionId){
         this.contributionId = contributionId;
@@ -95,5 +100,21 @@ public class Discussion {
 
     public void setEmployState(Boolean employState) {
         this.employState = employState;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public Date getDiscussTime() {
+        return discussTime;
+    }
+
+    public void setDiscussTime(Date discussTime) {
+        this.discussTime = discussTime;
     }
 }

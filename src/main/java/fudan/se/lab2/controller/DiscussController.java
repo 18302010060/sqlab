@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 
 /**
  * @author LBW
@@ -44,16 +46,17 @@ public class DiscussController {
 
     @PostMapping(value="/discuss")
     @ResponseBody
-    public ResponseEntity<?> discuss(@RequestParam("meetingFullname")String meetingFullname,
-                                    @RequestParam("username")String username,
-                                    @RequestParam("discussion")String discussion,
-                                    @RequestParam("contributionId")Long contributionId){
+    public ResponseEntity<?> discuss(@RequestParam("username")String username,
+                                     @RequestParam("discussion")String discussion,
+                                     @RequestParam("contributionId")Long contributionId,
+                                     @RequestParam("reply")String reply,
+                                     @RequestParam("discussTime")Date discussTime){
         //String meetingFullname,String username,String discussion,long contributionId
-        logger.info("meetingFullname:"+meetingFullname);
+
         logger.info("username:"+username);
         logger.info("discussion:"+discussion);
         logger.info("contributionId:"+contributionId);
-        return ResponseEntity.ok(discussService.discuss(username,discussion,contributionId));
+        return ResponseEntity.ok(discussService.discuss(username,discussion,contributionId,reply,discussTime));
     }
 
     @PostMapping(value="/showDiscussionByMeetingFullnameAndUsername")
@@ -73,7 +76,7 @@ public class DiscussController {
         logger.info("meetingFullname:"+meetingFullname);
         logger.info("username:"+username);
         logger.info("state:"+employState);
-        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndEmployState(meetingFullname,username,employState));
+        return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndEmployState(meetingFullname,employState));
     }
     @PostMapping(value = "/showDiscussionByMeetingFullnameAndState")
     @ResponseBody

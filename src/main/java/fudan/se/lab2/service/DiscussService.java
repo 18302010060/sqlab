@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,13 +40,13 @@ public class DiscussService {
         this.distributionRespository = distributionRespository;
     }
 
-    public boolean discuss(String username,String discussion,long contributionId){
+    public boolean discuss(String username, String discussion, long contributionId, String reply, Date discussTime){
         try{
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             String meetingFullname = contribution.getMeetingFullname();
             String title = contribution.getTitle();
             Boolean contributionState = contribution.getEmployState();
-            Discussion discussion1 = new Discussion(meetingFullname,username,discussion,title,contributionId,contributionState);
+            Discussion discussion1 = new Discussion(meetingFullname,username,discussion,title,contributionId,contributionState,reply,discussTime);
             discussionRepository.save(discussion1);
             return true;}
         catch(Exception e){
@@ -187,12 +188,13 @@ public class DiscussService {
     public List<Contribution> showContributionByMeetingFullnameAndUsername(String meetingFullname,String username){
        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
        List<Contribution> contributionList1 = new ArrayList<>();
+       MeetingAuthority meetingAuthority = meetingAuthorityRepository.findByUsername(username);
         for (Contribution contribution : contributionList) {//对于所有投稿
             Long id = contribution.getId();
             List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);//得到负责该投稿的人
             for (Distribution distribution : distributionList) {
                 String username1 = distribution.getUsername();//得到负责人的用户名
-                if (username.equals(username1)) {//如果username相等
+                if (username.equals(username1)||meetingAuthority.getAuthority().equals("chair")) {//如果username相等
                     contributionList1.add(contribution);//则可见该投稿
                 }
             }
@@ -201,15 +203,17 @@ public class DiscussService {
 
     }
 
-    public List<Contribution> showContributionByMeetingFullnameAndEmployState(String meetingFullname,String username,Boolean employState){
-       List<Contribution> contributionList = showContributionByMeetingFullnameAndUsername(meetingFullname,username);
+    public List<Contribution> showContributionByMeetingFullnameAndEmployState(String meetingFullname,Boolean employState){
+       /*List<Contribution> contributionList = showContributionByMeetingFullnameAndUsername(meetingFullname,username);
        List<Contribution> contributionList1 = new ArrayList<>();
         for (Contribution contribution : contributionList) {
             if (contribution.getEmployState()==employState) {
                 contributionList1.add(contribution);
             }
         }
-        return contributionList1;
+        return contributionList1;*/
+        return contributionRepository.findAllByMeetingFullnameAndEmployState(meetingFullname,employState);
+
 
     }
     public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String username,String state){

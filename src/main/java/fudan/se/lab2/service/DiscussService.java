@@ -255,6 +255,14 @@ public class DiscussService {
     }
 
 
+    //关于rebuttal
+    public Boolean rebuttal(Long id,String rebuttal){
+        Contribution contribution=contributionRepository.findContributionById(id);
+        contribution.setRebuttal(rebuttal);
+        contribution.setRebuttalState(true);
+        contributionRepository.save(contribution);
+        return true;
+    }
     public List<Contribution> showContributionsByUsernameAndRebuttalState(String username,Boolean rebuttalState){
         try {
             List<Contribution> contributionList=contributionRepository
@@ -267,13 +275,85 @@ public class DiscussService {
 
     }
 
-    public Boolean rebuttal(Long id,String rebuttal){
-        Contribution contribution=contributionRepository.findContributionById(id);
-        contribution.setRebuttal(rebuttal);
-        contribution.setRebuttalState(true);
-        contributionRepository.save(contribution);
-        return true;
+
+    public List<Contribution> showContributionsByMeetingfullnameAndRebuttalState(String username,String meetingFullname,Boolean rebuttalState){
+        try {
+            Optional<Meeting> meeting = Optional.ofNullable(meetingRepository.findMeetingByFullnameAndChair(meetingFullname,username));
+            if(meeting.isPresent()){//对于chair返回所有未录取稿件
+                List<Contribution> contributionList=contributionRepository
+                        .findContributionsByMeetingFullnameAndStateAndEmployStateAndRebuttalState(meetingFullname,"firstDiscussionResultReleased",false,rebuttalState);
+                return contributionList;
+            }
+            else {//对该会议的PCmember返回审稿的
+                List<Distribution> distributionList=distributionRespository.findAllByFullnameAndUsername(meetingFullname,username);
+                List<Contribution> contributions=new ArrayList<>();
+                Contribution contribution;
+                for (Distribution distribution:distributionList) {
+                    Long contributionId=distribution.getContributionId();
+                    contribution=contributionRepository.findContributionById(contributionId);
+                    if(contribution.getState().equals("firstDiscussionResultReleased")&&contribution.getRebuttalState()==rebuttalState&&!contribution.getEmployState())
+                    contributions.add(contribution);
+                }
+                return contributions;
+            }
+
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+
     }
+    public Boolean releaseResults(String meetingFullname){
+        List<Contribution> contributionList=contributionRepository.findContributionsByMeetingFullnameAndRebuttalState(meetingFullname,true);
+        for(Contribution contribution:contributionList){
+            if(contribution.getState().equals("secondConfirm")){
+                logger.info("该稿件已经二次讨论完成");
+            }else {
+                logger.info("该稿件二次讨论未完成");
+                return false;
+            }
+        }
+        logger.info("可以进行结果发布");
+        Meeting meeting=meetingRepository.findByFullname(meetingFullname);
+        meeting.setState("secondDiscussionResultReleased");
+        meetingRepository.save(meeting);
+        for(Contribution contribution:contributionList){
+            contribution.setState("secondDiscussionResultReleased");
+            contributionRepository.save(contribution);
+        }
+        return true;
+
+    }
+
+    public List<Contribution> getEmployContributions(String username,Boolean employState){
+        try {
+            if(employState){
+            List<Contribution> contributionList=contributionRepository.findContributionsByUsernameAndEmployState(username,true);
+            return contributionList;
+            }
+            else {
+                List<Contribution> contributionList=contributionRepository.findContributionsByUsernameAndStateAndEmployState(username,"secondDiscussionResultReleased",false);
+                return contributionList;
+            }
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+
+    }
+
+    public List<Contribution> getInRebuttalContributions(String username){
+        try {
+            List<Contribution> contributionList=contributionRepository
+                    .findContributionsByUsernameAndStateAndEmployState(username,"firstDiscussionResultReleased",false);
+            return contributionList;
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+
+    }
+
 
 
 

@@ -164,6 +164,47 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.showContributionsByUsernameAndRebuttalState(username,rebuttalState));
     }
 
+    //  帖子中心展示  返回会议的第一次讨论后未录取的稿件信息即需要 rebuttal
+    //参数：@RequestParam("username") String username,@RequestParam("meetingFullname") String meetingFullname,@RequestParam("rebuttalState") Boolean rebuttalState
+    @PostMapping(value = "/showContributionsByMeetingFullnameAndStateAndEmployStateAndRebuttalState")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> showContributionsByMeetingfullnameAndRebuttalState(@RequestParam("username") String username,
+                                                                                                 @RequestParam("meetingFullname") String meetingFullname,
+                                                                                                @RequestParam("rebuttalState") Boolean rebuttalState) {
+        logger.info("meetingFullname：  "+meetingFullname);
+        return ResponseEntity.ok(discussService.showContributionsByMeetingfullnameAndRebuttalState(username,meetingFullname,rebuttalState));
+    }
+
+    //具体会议界面按钮开启发布审核结果
+    @PostMapping(value="/releaseFinalResults")
+    @ResponseBody
+    public ResponseEntity<Boolean> releaseFinalResults(@RequestParam("meetingFullname")String meetingFullname){
+        logger.info("meetingFullname：  "+meetingFullname);
+        return ResponseEntity.ok(discussService.releaseResults(meetingFullname));
+    }
+
+    //返回 录用/未被录用的稿件
+    //参数@RequestParam("username")String username,@RequestParam("employState")Boolean employState  false未录用(最终发布)，true录用
+    @PostMapping(value="/employContributions")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> getEmployContributions(@RequestParam("username")String username,@RequestParam("employState")Boolean employState){
+        logger.info("username：  "+username);
+        logger.info("employState：  "+employState);
+
+        return ResponseEntity.ok(discussService.getEmployContributions(username,employState));
+    }
+
+    //返回 需要rebuttal的稿件 即出于"firstDiscussionResultReleased"
+    //参数： @RequestParam("username")String username
+    @PostMapping(value="/inRebuttalContributions")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> getInRebuttalContributions(@RequestParam("username")String username){
+        logger.info("username：  "+username);
+        return ResponseEntity.ok(discussService.getInRebuttalContributions(username));
+    }
+
+
+
 
 }
 

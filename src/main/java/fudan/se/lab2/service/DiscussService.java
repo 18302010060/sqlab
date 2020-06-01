@@ -194,15 +194,18 @@ public class DiscussService {
     public List<Contribution> showContributionByMeetingFullnameAndUsername(String meetingFullname,String username){
        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
        List<Contribution> contributionList1 = new ArrayList<>();
-       MeetingAuthority meetingAuthority = meetingAuthorityRepository.findByUsername(username);
+       MeetingAuthority meetingAuthority = meetingAuthorityRepository.findByUsernameAndFullname(username,meetingFullname);
         for (Contribution contribution : contributionList) {//对于所有投稿
             Long id = contribution.getId();
             List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);//得到负责该投稿的人
             for (Distribution distribution : distributionList) {
                 String username1 = distribution.getUsername();//得到负责人的用户名
-                if (username.equals(username1)||meetingAuthority.getAuthority().equals("chair")) {//如果username相等
+                if (username.equals(username1)&&!meetingAuthority.getAuthority().equals("chair")) {//如果username相等   或当前用户是chair
                     contributionList1.add(contribution);//则可见该投稿
                 }
+            }
+            if(meetingAuthority.getAuthority().equals("chair")){
+                contributionList1.add(contribution);
             }
         }
        return contributionList1;

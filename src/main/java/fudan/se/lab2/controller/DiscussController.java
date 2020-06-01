@@ -80,10 +80,8 @@ public class DiscussController {
     @PostMapping(value = "/showDiscussionByMeetingFullnameAndEmployState")
     @ResponseBody
     public ResponseEntity<?> showDiscussionByMeetingFullnameAndEmployState(@RequestParam("meetingFullname")String meetingFullname,
-                                                             @RequestParam("username")String username,
                                                              @RequestParam("state")Boolean employState){
         logger.info("meetingFullname:"+meetingFullname);
-        logger.info("username:"+username);
         logger.info("state:"+employState);
         return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndEmployState(meetingFullname,employState));
     }

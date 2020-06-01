@@ -130,8 +130,22 @@ public class DiscussService {
         meetingRepository.save(meeting);
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
             for (Contribution contribution : contributionList) {
+                int flag = 0;
                 contribution.setState("firstDiscussionResultReleased");
                 contributionRepository.save(contribution);
+                Long id = contribution.getId();
+                List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);
+                for (Distribution distribution : distributionList) {
+                    if (distribution.getGrade().equals("0") || distribution.equals("1") || distribution.equals("")) {
+                        flag++;
+                    }
+                }
+                if(flag==3){
+                    contribution.setEmployState(true);
+                }
+                else{
+                    contribution.setEmployState(false);
+                }
             }
         return true;}
         catch(Exception e){

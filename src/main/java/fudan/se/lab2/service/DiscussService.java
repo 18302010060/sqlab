@@ -136,7 +136,7 @@ public class DiscussService {
                 Long id = contribution.getId();
                 List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);
                 for (Distribution distribution : distributionList) {
-                    if (distribution.getGrade().equals("0") || distribution.equals("1") || distribution.equals("")) {
+                    if (distribution.getGrade().equals("0") || distribution.getGrade().equals("1") || distribution.getGrade().equals("2")) {
                         flag++;
                     }
                 }

@@ -343,7 +343,8 @@ public class DiscussService {
         Meeting meeting=meetingRepository.findByFullname(meetingFullname);
         meeting.setState("secondDiscussionResultReleased");
         meetingRepository.save(meeting);
-        for(Contribution contribution:contributionList){
+        List<Contribution> contributionList1=contributionRepository.findAllByMeetingFullname(meetingFullname);
+        for(Contribution contribution:contributionList1){
             contribution.setState("secondDiscussionResultReleased");
             contributionRepository.save(contribution);
         }

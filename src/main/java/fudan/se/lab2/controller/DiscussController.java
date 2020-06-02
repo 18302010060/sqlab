@@ -22,9 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * @author LBW
- */
 @RestController
 @RequestMapping
 public class DiscussController {
@@ -201,6 +198,14 @@ public class DiscussController {
     public ResponseEntity<List<Contribution>> getInRebuttalContributions(@RequestParam("username")String username){
         logger.info("username：  "+username);
         return ResponseEntity.ok(discussService.getInRebuttalContributions(username));
+    }
+
+    //得到当前用户所有不可编辑状态的稿件
+    @PostMapping(value="/getNonEditableContributions")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> getNonEditableContributions(@RequestParam("username")String username){
+        logger.info("username：  "+username);
+        return ResponseEntity.ok(discussService.getNonEditableContributions(username));
     }
 
 

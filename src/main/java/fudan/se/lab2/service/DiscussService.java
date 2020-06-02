@@ -354,7 +354,21 @@ public class DiscussService {
 
     }
 
-
+    public List<Contribution> getNonEditableContributions(String username){
+        try {
+            List<Contribution> contributionList=contributionRepository.findAllByUsername(username);
+            List<Contribution> contributions=new ArrayList<Contribution>();
+            for (Contribution contribution:contributionList){
+                if(!contribution.getState().equals("wait")){
+                    contributions.add(contribution);
+                }
+            }
+            return contributions;
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+    }
 
 
 

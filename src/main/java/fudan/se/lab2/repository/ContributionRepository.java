@@ -23,4 +23,10 @@ public interface ContributionRepository extends CrudRepository<Contribution, Lon
     List<Contribution> findAllByMeetingFullnameAndState(String meetingFullname,String state);
     List<Contribution> findAllByMeetingFullnameAndEmployState(String meetingFullname,Boolean employState);
 
+    List<Contribution> findContributionsByUsernameAndStateAndEmployStateAndRebuttalState(String username,String state,Boolean employState,Boolean rebuttalState);
+    List<Contribution> findContributionsByMeetingFullnameAndStateAndEmployStateAndRebuttalState(String meetingFullname,String state,Boolean employState,Boolean rebuttalState);
+    List<Contribution> findContributionsByMeetingFullnameAndRebuttalState(String meetingFullname,Boolean rebuttalState);
+    List<Contribution> findContributionsByUsernameAndEmployState(String username,Boolean employState);
+    List<Contribution> findContributionsByUsernameAndStateAndEmployState(String username,String state,Boolean employState);
+
 }

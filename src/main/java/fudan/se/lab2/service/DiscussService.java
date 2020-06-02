@@ -245,13 +245,13 @@ public class DiscussService {
             logger.info(time);
             String username = discussion.getUsername();//得到主贴发帖人
             logger.info(username);
-            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndMainSub(contributionId, username, "2");
+            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndMainSubAndTime(contributionId, username, "2",time);//找到主贴的回复list
             for (Discussion value : discussionList1) { //找到当前讨论下，该用户在当前时间下的所有回帖
                 logger.info(value.getComment());
             }
-            allDiscussion.add(discussion);
-            allDiscussion.add(discussionList1);
-            allDiscussion1.add(allDiscussion);
+            allDiscussion.add(discussion);//将主贴添加进list
+            allDiscussion.add(discussionList1);//回复的list加紧list
+            allDiscussion1.add(allDiscussion);//将主贴+List<回复>加进最后返回的list
 
 
         }

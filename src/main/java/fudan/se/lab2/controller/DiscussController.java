@@ -48,7 +48,8 @@ public class DiscussController {
                                      @RequestParam("subcomment")String subcomment,
                                      @RequestParam("responseUsername")String responseUsername,
                                      @RequestParam("time")String time,
-                                     @RequestParam("subtime")String subtime){
+                                     @RequestParam("subtime")String subtime,
+                                     @RequestParam("mainOrSub")String mainOrSub){
         //public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,Date time,Date subtime)
         logger.info("contributionId:"+contributionId);
         logger.info("username:"+username);
@@ -60,7 +61,7 @@ public class DiscussController {
         logger.info("subtime:"+subtime);
 
 
-        return ResponseEntity.ok(discussService.discuss(contributionId,username,comment,subusername,subcomment,responseUsername,time,subtime));
+        return ResponseEntity.ok(discussService.discuss(contributionId,username,comment,subusername,subcomment,responseUsername,time,subtime,mainOrSub));
     }
 
     @PostMapping(value="/showDiscussionByMeetingFullnameAndUsername")

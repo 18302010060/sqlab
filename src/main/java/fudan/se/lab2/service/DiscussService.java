@@ -41,14 +41,14 @@ public class DiscussService {
         this.distributionRespository = distributionRespository;
     }
 //public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,Date time,String subcomment,String responseUsername,Date subtime)
-    public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,String time,String subtime){
+    public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,String time,String subtime,String mainOrSub){
         try{
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             String meetingFullname = contribution.getMeetingFullname();
             String title = contribution.getTitle();
             Boolean contributionState = contribution.getEmployState();
 
-            Discussion discussion1 = new Discussion(meetingFullname,username,comment,title,contributionId,contributionState,subusername,time,subcomment,responseUsername,subtime);
+            Discussion discussion1 = new Discussion(meetingFullname,username,comment,title,contributionId,contributionState,subusername,time,subcomment,responseUsername,subtime,mainOrSub);
             discussionRepository.save(discussion1);
             return true;}
         catch(Exception e){
@@ -113,6 +113,7 @@ public class DiscussService {
             return false;
         }
     }
+
     public Boolean ifAllContributionHasBeenConfirmed(String meetingFullname){
         try {
             Meeting meeting = meetingRepository.findByFullname(meetingFullname);
@@ -186,6 +187,7 @@ public class DiscussService {
    }
 
 
+
     public List<Contribution> showContributionByMeetingFullnameAndUsername(String meetingFullname,String username){
        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
        List<Contribution> contributionList1 = new ArrayList<>();
@@ -233,14 +235,20 @@ public class DiscussService {
     }
 
     public List<List> showDiscussion(Long contributionId){
-        List<Discussion> discussionList = discussionRepository.findAllBySubcomment("");//找出所有主贴，即回复内容为空的帖子
+        List<Discussion> discussionList = discussionRepository.findAllByMainSub("1");//找出所有主贴，即回复内容为空的帖子
 
         List<List> allDiscussion1 = new ArrayList<List>();
         for (Discussion discussion : discussionList) {//遍历主贴
+            logger.info(discussion.getComment());
             List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
             String time = discussion.getTime();//得到主贴时间
+            logger.info(time);
             String username = discussion.getUsername();//得到主贴发帖人
-            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndTime(contributionId, username, time);//找到当前讨论下，该用户在当前时间下的所有回帖
+            logger.info(username);
+            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndMainSub(contributionId, username, "2");
+            for (Discussion value : discussionList1) { //找到当前讨论下，该用户在当前时间下的所有回帖
+                logger.info(value.getComment());
+            }
             allDiscussion.add(discussion);
             allDiscussion.add(discussionList1);
             allDiscussion1.add(allDiscussion);
@@ -250,6 +258,7 @@ public class DiscussService {
 
         return allDiscussion1;
     }
+
     public List<Contribution> showContributionByMeetingFullnameAndState(String meetingFullname,String state){
         return contributionRepository.findAllByMeetingFullnameAndState(meetingFullname,state);
     }

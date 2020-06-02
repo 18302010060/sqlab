@@ -22,9 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * @author LBW
- */
 @RestController
 @RequestMapping
 public class DiscussController {
@@ -175,6 +172,15 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.showContributionsByMeetingfullnameAndRebuttalState(username,meetingFullname,rebuttalState));
     }
 
+    //  帖子中心展示  返回会议的第二次讨论完成
+    @PostMapping(value = "/showContributionsSecondConfirm")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> showContributionsSecondConfirm(@RequestParam("username") String username,
+                                                                             @RequestParam("meetingFullname") String meetingFullname) {
+        logger.info("meetingFullname：  "+meetingFullname);
+        return ResponseEntity.ok(discussService.showContributionsSecondConfirm(username,meetingFullname));
+    }
+
     //具体会议界面按钮开启发布审核结果
     @PostMapping(value="/releaseFinalResults")
     @ResponseBody
@@ -201,6 +207,14 @@ public class DiscussController {
     public ResponseEntity<List<Contribution>> getInRebuttalContributions(@RequestParam("username")String username){
         logger.info("username：  "+username);
         return ResponseEntity.ok(discussService.getInRebuttalContributions(username));
+    }
+
+    //得到当前用户所有不可编辑状态的稿件
+    @PostMapping(value="/getNonEditableContributions")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> getNonEditableContributions(@RequestParam("username")String username){
+        logger.info("username：  "+username);
+        return ResponseEntity.ok(discussService.getNonEditableContributions(username));
     }
 
 

@@ -26,7 +26,7 @@ public class Contribution {
 
     @Lob@Basic(fetch = FetchType.LAZY) @Column(columnDefinition = "text")
     private String rebuttal;
-    private Boolean rebuttalState;
+    private Boolean rebuttalState=false;
     private Boolean employState;
     /*@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "contribution_id")*/

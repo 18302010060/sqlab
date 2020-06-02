@@ -172,6 +172,15 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.showContributionsByMeetingfullnameAndRebuttalState(username,meetingFullname,rebuttalState));
     }
 
+    //  帖子中心展示  返回会议的第二次讨论完成
+    @PostMapping(value = "/showContributionsSecondConfirm")
+    @ResponseBody
+    public ResponseEntity<List<Contribution>> showContributionsSecondConfirm(@RequestParam("username") String username,
+                                                                             @RequestParam("meetingFullname") String meetingFullname) {
+        logger.info("meetingFullname：  "+meetingFullname);
+        return ResponseEntity.ok(discussService.showContributionsSecondConfirm(username,meetingFullname));
+    }
+
     //具体会议界面按钮开启发布审核结果
     @PostMapping(value="/releaseFinalResults")
     @ResponseBody

@@ -292,7 +292,33 @@ public class DiscussService {
                     Long contributionId=distribution.getContributionId();
                     contribution=contributionRepository.findContributionById(contributionId);
                     if(contribution.getState().equals("firstDiscussionResultReleased")&&contribution.getRebuttalState()==rebuttalState&&!contribution.getEmployState())
-                    contributions.add(contribution);
+                        contributions.add(contribution);
+                }
+                return contributions;
+            }
+
+        }catch (Exception e){
+            logger.info("error信息："+e.getMessage());
+            return null;
+        }
+
+    }
+    public List<Contribution> showContributionsSecondConfirm(String username,String meetingFullname){
+        try {
+            Optional<Meeting> meeting = Optional.ofNullable(meetingRepository.findMeetingByFullnameAndChair(meetingFullname,username));
+            if(meeting.isPresent()){//对于chair返回所有二轮讨论完成稿件
+                List<Contribution> contributionList=contributionRepository.findContributionsByMeetingFullnameAndState(meetingFullname,"secondConfirm");
+                return contributionList;
+            }
+            else {//对该会议的PCmember返回
+                List<Distribution> distributionList=distributionRespository.findAllByFullnameAndUsername(meetingFullname,username);
+                List<Contribution> contributions=new ArrayList<>();
+                Contribution contribution;
+                for (Distribution distribution:distributionList) {
+                    Long contributionId=distribution.getContributionId();
+                    contribution=contributionRepository.findContributionById(contributionId);
+                    if(contribution.getState().equals("secondConfirm"))
+                        contributions.add(contribution);
                 }
                 return contributions;
             }

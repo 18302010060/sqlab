@@ -50,8 +50,8 @@ public class DiscussController {
                                      @RequestParam("subusername")String subusername,
                                      @RequestParam("subcomment")String subcomment,
                                      @RequestParam("responseUsername")String responseUsername,
-                                     @RequestParam("time")Date time,
-                                     @RequestParam("subtime")Date subtime){
+                                     @RequestParam("time")String time,
+                                     @RequestParam("subtime")String subtime){
         //public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,Date time,Date subtime)
         logger.info("contributionId:"+contributionId);
         logger.info("username:"+username);

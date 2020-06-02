@@ -41,7 +41,7 @@ public class DiscussService {
         this.distributionRespository = distributionRespository;
     }
 //public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,Date time,String subcomment,String responseUsername,Date subtime)
-    public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,Date time,Date subtime){
+    public boolean discuss(Long contributionId,String username,String comment,String subusername,String subcomment,String responseUsername,String time,String subtime){
         try{
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             String meetingFullname = contribution.getMeetingFullname();
@@ -238,7 +238,7 @@ public class DiscussService {
         List<List> allDiscussion1 = new ArrayList<List>();
         for (Discussion discussion : discussionList) {//遍历主贴
             List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
-            Date time = discussion.getTime();//得到主贴时间
+            String time = discussion.getTime();//得到主贴时间
             String username = discussion.getUsername();//得到主贴发帖人
             List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndTime(contributionId, username, time);//找到当前讨论下，该用户在当前时间下的所有回帖
             allDiscussion.add(discussion);

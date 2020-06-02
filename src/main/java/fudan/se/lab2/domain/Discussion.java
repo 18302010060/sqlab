@@ -27,12 +27,12 @@ public class Discussion {
     private String subusername;//被回复人
     private String subcomment;
     private String responseUsername;
-    private Date time; //回复时间
-    private Date subtime;
+    private String time; //回复时间
+    private String subtime;
     public Discussion() {
     }
 
-    public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,Date time,String subcomment,String responseUsername,Date subtime) {
+    public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,String time,String subcomment,String responseUsername,String  subtime) {
         this.meetingFullname = meetingFullname;
         this.username = username;
         this.comment = comment;
@@ -114,11 +114,11 @@ public class Discussion {
         this.subusername = subusername;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String  time) {
         this.time = time;
     }
 
@@ -136,5 +136,13 @@ public class Discussion {
 
     public void setResponseUsername(String responseUsername) {
         this.responseUsername = responseUsername;
+    }
+
+    public String getSubtime() {
+        return subtime;
+    }
+
+    public void setSubtime(String subtime) {
+        this.subtime = subtime;
     }
 }

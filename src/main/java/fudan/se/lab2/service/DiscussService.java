@@ -71,7 +71,9 @@ public class DiscussService {
             if (distribution.getConfirmState().equals("firstConfirm")) {//如果已经确认过
                 logger.info("只能修改一次评审结果");
                 return false;
-            } else {//没有确认过
+            }
+            else if(!ifTheUserHasDiscussed(username,contributionId)){//发过言，没有确认过
+
                 distribution.setComment(comment);//改变评分
                 distribution.setConfidence(confidence);
                 distribution.setGrade(grade);
@@ -111,10 +113,22 @@ public class DiscussService {
                 }
                 return true;
             }
+            else{
+                logger.info("该用户还未进行讨论，不可以修改评分");
+                return false;
+            }
         }
         catch(Exception e){
             logger.info("还未进行讨论，不可确认评分");
             return false;
+        }
+    }
+    public boolean ifTheUserHasDiscussed(String username,Long contributionId) {
+        List<Discussion> discussionList = discussionRepository.findAllByContributionIdAndUsername(contributionId, username);
+        if (discussionList == null || discussionList.isEmpty()) {
+            return false;
+        } else {
+            return true;
         }
     }
 

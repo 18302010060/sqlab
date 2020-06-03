@@ -218,6 +218,12 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.getNonEditableContributions(username));
     }
 
+    @PostMapping(value = "/ifTheUserHasDiscussed")
+    @ResponseBody
+    public ResponseEntity<?> ifTheUserHasDiscussed(String username,Long contributionId){
+        return ResponseEntity.ok(discussService.ifTheUserHasDiscussed(username,contributionId));
+    }
+
 
 
 

@@ -98,14 +98,15 @@ public class DiscussController {
                                           @RequestParam("username")String username,
                                           @RequestParam("grade")String grade,
                                           @RequestParam("comment")String comment,
-                                          @RequestParam("confidence")String confidence){
+                                          @RequestParam("confidence")String confidence,
+                                          @RequestParam("discussionState")String discussionState){
         //Long contributionId,String username,String grade,String comment,String confidence
         logger.info("id:"+contributionId);
         logger.info("comment:"+ comment);
         logger.info("username:"+username);
         logger.info("grade:"+grade);
         logger.info("confidence:"+confidence);
-        return ResponseEntity.ok(discussService.firstConfirm(contributionId,username,grade,comment,confidence));
+        return ResponseEntity.ok(discussService.firstConfirm(contributionId,username,grade,comment,confidence,discussionState));
     }
 
     @PostMapping(value = "/openFirstDiscussion")
@@ -218,11 +219,6 @@ public class DiscussController {
         return ResponseEntity.ok(discussService.getNonEditableContributions(username));
     }
 
-    @PostMapping(value = "/ifTheUserHasDiscussed")
-    @ResponseBody
-    public ResponseEntity<?> ifTheUserHasDiscussed(String username,Long contributionId){
-        return ResponseEntity.ok(discussService.ifTheUserHasDiscussed(username,contributionId));
-    }
 
 
 

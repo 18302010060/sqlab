@@ -63,74 +63,84 @@ public class DiscussService {
     //初次确认 如果已确认过，无法再次确认，没有确认过则修改评价，distribution状态变为firstConfirm,
     // 如果3个distribution状态都为firstConfirm，则contribution状态变为firstConfirm，同时帖子状态变为firstConfirm
     // 如果会议的所有投稿状态都为firstConfirm，则会议状态变为firstConfirm，可以发布结果
-    public boolean firstConfirm(Long contributionId,String username,String grade,String comment,String confidence){
+    public boolean firstConfirm(Long contributionId,String username,String grade,String comment,String confidence,String discussionState){
         try {
             Distribution distribution = distributionRespository.findDistributionByContributionIdAndUsername(contributionId, username);
-            List<Discussion> discussion = discussionRepository.findAllByContributionId(contributionId);
             String meetingFullname = distribution.getFullname();//会议全称
-            if (distribution.getConfirmState().equals("firstConfirm")) {//如果已经确认过
+            if (distribution.getConfirmState().equals(discussionState)) {//如果已经确认过
                 logger.info("只能修改一次评审结果");
                 return false;
             }
-            else if(!ifTheUserHasDiscussed(username,contributionId)){//发过言，没有确认过
-
-                distribution.setComment(comment);//改变评分
-                distribution.setConfidence(confidence);
-                distribution.setGrade(grade);
-                distribution.setConfirmState("firstConfirm");//状态变为初次确认
-                distributionRespository.save(distribution);
-                logger.info("已修改评审结果");
-                List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);//得到该帖子的所有分配
-                int flag1 = 0;
-                int flag2 = 0;
-                for (Distribution value : distributionList) {
-                    if (value.getConfirmState().equals("firstConfirm")) {
-                        flag1++;
-                    }
-                }
-                if (flag1 == 3) {//如果该帖子所有负责人已确认结果,改变投稿状态为firstConfirm
-                    Contribution contribution = contributionRepository.findContributionById(contributionId);
-                    contribution.setState("firstConfirm");//初次确认
-                    contributionRepository.save(contribution);
-                    for (Discussion value : discussion) {
-                        value.setDiscussionState("firstConfirm");
-                        discussionRepository.save(value);
-                    }
-                    logger.info("改投稿全部审稿人已确认评审结果");
-                }
-                List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);//得到该会议全部投稿
-                for (Contribution contribution : contributionList) {
-                    if (contribution.getState().equals("firstConfirm")) {
-                        flag2++;
-                    }
-                }
-                if (flag2 == contributionList.size()) {//如果该会议全部投稿已经确认结果，则改变会议状态为firstConfirmFinished
-                    Meeting meeting = meetingRepository.findByFullname(meetingFullname);
-                    meeting.setState("firstConfirm");
-                    meetingRepository.save(meeting);
-
-                    logger.info("会议全部投稿结果已确认，可以发布初次结果");
-                }
-                return true;
-            }
             else{
-                logger.info("该用户还未进行讨论，不可以修改评分");
-                return false;
+                if(discussionState.equals("firstConfirm")&&ifConfirmIsAvailable(username,contributionId,"inFirstConfirm")){
+                    confirm(contributionId,grade,comment,confidence,discussionState,distribution);
+                    changeMeetingStateToFirstConfirm(discussionState,meetingFullname);
+                    return true;
+                }
+                else if(discussionState.equals("secondConfirm")&&ifConfirmIsAvailable(username,contributionId,"inSecondConfirm")){
+                    confirm(contributionId,grade,comment,confidence,discussionState,distribution);
+                    return true;
+                }
+                else{
+                    logger.info("您还没有参与过讨论，无法修改评分");
+                    return false;
+                }
             }
+
         }
         catch(Exception e){
             logger.info("还未进行讨论，不可确认评分");
             return false;
         }
     }
-    public boolean ifTheUserHasDiscussed(String username,Long contributionId) {
-        List<Discussion> discussionList = discussionRepository.findAllByContributionIdAndUsername(contributionId, username);
-        if (discussionList == null || discussionList.isEmpty()) {
-            return false;
-        } else {
-            return true;
+
+    public void changeMeetingStateToFirstConfirm(String discussionState, String meetingFullname) {
+        int flag2 = 0;
+        List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);//得到该会议全部投稿
+        for (Contribution contribution : contributionList) {
+            if (contribution.getState().equals(discussionState)) {
+                flag2++;
+            }
+        }
+        if (flag2 == contributionList.size()) {//如果该会议全部投稿已经确认结果，则改变会议状态为firstConfirmFinished
+            Meeting meeting = meetingRepository.findByFullname(meetingFullname);
+            meeting.setState(discussionState);
+            meetingRepository.save(meeting);
+
+            logger.info("会议全部投稿结果已确认，可以发布初次结果");
         }
     }
+
+    public void confirm(Long contributionId, String grade, String comment, String confidence, String discussionState, Distribution distribution) {
+        distribution.setComment(comment);//改变评分
+        distribution.setConfidence(confidence);
+        distribution.setGrade(grade);
+        distribution.setConfirmState(discussionState);//状态变为初次确认
+        distributionRespository.save(distribution);
+        logger.info("已修改评审结果");
+        List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);//得到该帖子的所有分配
+        int flag1 = 0;
+
+        for (Distribution value : distributionList) {
+            if (value.getConfirmState().equals(discussionState)) {
+                flag1++;
+            }
+        }
+        if (flag1 == 3) {//如果该帖子所有负责人已确认结果,改变投稿状态为firstConfirm
+            Contribution contribution = contributionRepository.findContributionById(contributionId);
+            contribution.setState(discussionState);//初次确认
+            contributionRepository.save(contribution);
+            logger.info("改投稿全部审稿人已确认评审结果");
+        }
+    }
+
+
+    public boolean ifConfirmIsAvailable(String username,Long contributionId,String discussionState){
+
+        List<Discussion> discussionList = discussionRepository.findAllByContributionIdAndUsernameAndDiscussionState(contributionId,username,discussionState);
+        return discussionList != null && !discussionList.isEmpty();
+    }
+
 
     public Boolean ifAllContributionHasBeenConfirmed(String meetingFullname){
         try {

@@ -32,11 +32,11 @@ public class Discussion {
     public Discussion() {
     }
 
-    public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,String time,String subcomment,String responseUsername,String  subtime,String mainOrSub) {
+    public Discussion(String meetingFullname, String username, String comment,String title,Long contributionId,Boolean employState,String subusername,String time,String subcomment,String responseUsername,String  subtime,String mainOrSub,String discussionState) {
         this.meetingFullname = meetingFullname;
         this.username = username;
         this.comment = comment;
-        this.discussionState = "inFirstDiscussion";
+        this.discussionState = discussionState;
         this.title = title;
         this.contributionId = contributionId;
         this.employState = employState;

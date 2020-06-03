@@ -120,8 +120,8 @@ public class DiscussController {
 
     @PostMapping(value = "/showDiscussion")
     @ResponseBody
-    public ResponseEntity<?> showDiscussion(@RequestParam("contributionId")Long contributionId){
-        return ResponseEntity.ok(discussService.showDiscussion(contributionId));
+    public ResponseEntity<?> showDiscussion(@RequestParam("contributionId")Long contributionId,@RequestParam("discussionState")String discussionState){
+        return ResponseEntity.ok(discussService.showDiscussion(contributionId,discussionState));
     }
     @PostMapping(value="/showContributionByMeetingFullnameAndState")
     @ResponseBody

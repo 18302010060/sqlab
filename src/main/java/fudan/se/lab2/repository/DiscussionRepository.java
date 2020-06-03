@@ -20,7 +20,9 @@ public interface DiscussionRepository extends CrudRepository<Discussion, Long> {
     List<Discussion> findAllByMeetingFullname(String meetingFullname);
     List<Discussion> findAllBySubcomment(String subcomment);
     List<Discussion> findAllByContributionIdAndUsernameAndMainSubAndTime(Long contributionId, String username,String mainOrSub,String time);
-    List<Discussion> findAllByMainSub(String mainSub);
+    List<Discussion> findAllByMainSubAndDiscussionState(String mainSub,String discussionState);
+    List<Discussion> findAllByContributionIdAndUsernameAndTime(Long contributoionId,String username,String time);
+
 
 
 

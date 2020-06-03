@@ -47,8 +47,12 @@ public class DiscussService {
             String meetingFullname = contribution.getMeetingFullname();
             String title = contribution.getTitle();
             Boolean contributionState = contribution.getEmployState();
+            String discussionState = "inFirstConfirm";
+            if(contribution.getRebuttalState()){
+                discussionState = "inSecondConfirm";
+            }
 
-            Discussion discussion1 = new Discussion(meetingFullname,username,comment,title,contributionId,contributionState,subusername,time,subcomment,responseUsername,subtime,mainOrSub);
+            Discussion discussion1 = new Discussion(meetingFullname,username,comment,title,contributionId,contributionState,subusername,time,subcomment,responseUsername,subtime,mainOrSub,discussionState);
             discussionRepository.save(discussion1);
             return true;}
         catch(Exception e){
@@ -234,24 +238,26 @@ public class DiscussService {
 
     }
 
-    public List<List> showDiscussion(Long contributionId){
-        List<Discussion> discussionList = discussionRepository.findAllByMainSub("1");//找出所有主贴，即回复内容为空的帖子
+    public List<List<Discussion>> showDiscussion(Long contributionId,String discussionState){
+        List<Discussion> discussionList = discussionRepository.findAllByMainSubAndDiscussionState("1",discussionState);//找出所有主贴，即回复内容为空的帖子
 
-        List<List> allDiscussion1 = new ArrayList<List>();
+        List<List<Discussion>> allDiscussion1 = new ArrayList<>();
         for (Discussion discussion : discussionList) {//遍历主贴
             logger.info(discussion.getComment());
-            List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
+            //List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
             String time = discussion.getTime();//得到主贴时间
             logger.info(time);
             String username = discussion.getUsername();//得到主贴发帖人
             logger.info(username);
-            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndMainSubAndTime(contributionId, username, "2",time);//找到主贴的回复list
+            List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndTime(contributionId,username,time);
             for (Discussion value : discussionList1) { //找到当前讨论下，该用户在当前时间下的所有回帖
                 logger.info(value.getComment());
             }
-            allDiscussion.add(discussion);//将主贴添加进list
-            allDiscussion.add(discussionList1);//回复的list加紧list
-            allDiscussion1.add(allDiscussion);//将主贴+List<回复>加进最后返回的list
+
+            //allDiscussion.add(discussionList1);//回复的list加紧list
+            allDiscussion1.add(discussionList1);//将主贴+List<回复>加进最后返回的list
+
+
 
 
         }

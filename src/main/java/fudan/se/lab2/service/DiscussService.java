@@ -165,15 +165,17 @@ public class DiscussService {
                 Long id = contribution.getId();
                 List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);
                 for (Distribution distribution : distributionList) {
-                    if (distribution.getGrade().equals("1") || distribution.getGrade().equals("2")) {
+                    if (distribution.getGrade().equals("2 points (accept)") || distribution.getGrade().equals("1 point (weak-accept)")) {
                         flag++;
                     }
                 }
                 if(flag==3){
                     contribution.setEmployState(true);
+                    contributionRepository.save(contribution);
                 }
                 else{
                     contribution.setEmployState(false);
+                    contributionRepository.save(contribution);
                 }
             }
         return true;}

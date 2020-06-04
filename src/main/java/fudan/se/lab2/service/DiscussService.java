@@ -63,34 +63,34 @@ public class DiscussService {
     //初次确认 如果已确认过，无法再次确认，没有确认过则修改评价，distribution状态变为firstConfirm,
     // 如果3个distribution状态都为firstConfirm，则contribution状态变为firstConfirm，同时帖子状态变为firstConfirm
     // 如果会议的所有投稿状态都为firstConfirm，则会议状态变为firstConfirm，可以发布结果
-    public boolean firstConfirm(Long contributionId,String username,String grade,String comment,String confidence,String discussionState){
+    public String firstConfirm(Long contributionId,String username,String grade,String comment,String confidence,String discussionState){
         try {
             Distribution distribution = distributionRespository.findDistributionByContributionIdAndUsername(contributionId, username);
             String meetingFullname = distribution.getFullname();//会议全称
             if (distribution.getConfirmState().equals(discussionState)) {//如果已经确认过
                 logger.info("只能修改一次评审结果");
-                return false;
+                return "只能修改一次评审结果";
             }
             else{
                 if(discussionState.equals("firstConfirm")&&ifConfirmIsAvailable(username,contributionId,"inFirstConfirm")){
                     confirm(contributionId,grade,comment,confidence,discussionState,distribution);
                     changeMeetingStateToFirstConfirm(discussionState,meetingFullname);
-                    return true;
+                    return "修改成功";
                 }
                 else if(discussionState.equals("secondConfirm")&&ifConfirmIsAvailable(username,contributionId,"inSecondConfirm")){
                     confirm(contributionId,grade,comment,confidence,discussionState,distribution);
-                    return true;
+                    return "修改成功";
                 }
                 else{
                     logger.info("您还没有参与过讨论，无法修改评分");
-                    return false;
+                    return "您还没有讨论过，无法修改评分";
                 }
             }
 
         }
         catch(Exception e){
             logger.info("还未进行讨论，不可确认评分");
-            return false;
+            return "非法操作";
         }
     }
 
@@ -120,7 +120,6 @@ public class DiscussService {
         logger.info("已修改评审结果");
         List<Distribution> distributionList = distributionRespository.findAllByContributionId(contributionId);//得到该帖子的所有分配
         int flag1 = 0;
-
         for (Distribution value : distributionList) {
             if (value.getConfirmState().equals(discussionState)) {
                 flag1++;
@@ -130,6 +129,20 @@ public class DiscussService {
             Contribution contribution = contributionRepository.findContributionById(contributionId);
             contribution.setState(discussionState);//初次确认
             contributionRepository.save(contribution);
+            int flag2 = 0;
+            for(int i = 0;i<distributionList.size();i++){
+                if (distribution.getGrade().equals("2 points (accept)") || distribution.getGrade().equals("1 point (weak-accept)")) {
+                    flag2++;
+                }
+            }
+            if(flag2==3){
+                contribution.setEmployState(true);
+                contributionRepository.save(contribution);
+            }
+            else{
+                contribution.setEmployState(false);
+                contributionRepository.save(contribution);
+            }
             logger.info("改投稿全部审稿人已确认评审结果");
         }
     }
@@ -159,24 +172,11 @@ public class DiscussService {
         meetingRepository.save(meeting);
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(meetingFullname);
             for (Contribution contribution : contributionList) {
-                int flag = 0;
+
                 contribution.setState("firstDiscussionResultReleased");
                 contributionRepository.save(contribution);
-                Long id = contribution.getId();
-                List<Distribution> distributionList = distributionRespository.findAllByContributionId(id);
-                for (Distribution distribution : distributionList) {
-                    if (distribution.getGrade().equals("2 points (accept)") || distribution.getGrade().equals("1 point (weak-accept)")) {
-                        flag++;
-                    }
-                }
-                if(flag==3){
-                    contribution.setEmployState(true);
-                    contributionRepository.save(contribution);
-                }
-                else{
-                    contribution.setEmployState(false);
-                    contributionRepository.save(contribution);
-                }
+
+
             }
         return true;}
         catch(Exception e){

@@ -28,10 +28,6 @@ class ContributionServiceTest {
     private MeetingService meetingService;
 
     @Autowired
-    private InitService initService;
-
-
-    @Autowired
     private InviteService inviteService;
 
     @Test

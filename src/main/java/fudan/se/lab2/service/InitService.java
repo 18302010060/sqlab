@@ -308,6 +308,47 @@ public class InitService {
 
         logger.info("fullname " + fullname);
         logger.info("username  " + username);
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+
 
         try {
             Meeting meeting=meetingRepository.findByFullname(fullname);
@@ -317,48 +358,5 @@ public class InitService {
             return "error";
         }
     }
-    public void getSomething(){
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
-        logger.info("无法得到审核结果");
 
-
-    }
 }

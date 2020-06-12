@@ -2,7 +2,6 @@ package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.request.ApplyRequest;
 import fudan.se.lab2.controller.request.AuditRequest;
-import fudan.se.lab2.controller.request.RegisterRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ class MeetingServiceTest {
 
     @Test
     void ApplyAndAduitTest() throws Exception {
-        //注册
-        //Boolean result=authService.register(new RegisterRequest("asdqwe","qwe123","145246@163.com","fudan","shanghai","Lucy"));
-        //assertTrue(result);
         //登录
         String token1 = authService.login("asdqwe", "qwe123");
         assertNotNull(token1);

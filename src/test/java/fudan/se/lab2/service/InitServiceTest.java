@@ -3,10 +3,8 @@ package fudan.se.lab2.service;
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.*;
 import fudan.se.lab2.domain.*;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ class InitServiceTest {
     @Test
     void Test() {
 
-
+        initService.showDashboard();
         prepare();
 
         //测试根据username得到该用户信息
@@ -362,7 +360,7 @@ class InitServiceTest {
         initRequest.setFullname("The SoftWare Meeting4");
         state = initService.getMeetingStatee(initRequest);
         assertEquals("passed", state);
-        initService.getSomething();
+
         //错误的会议名称
         initRequest.setFullname("The SoftWare Meeting4sdssd");
         state = initService.getMeetingStatee(initRequest);

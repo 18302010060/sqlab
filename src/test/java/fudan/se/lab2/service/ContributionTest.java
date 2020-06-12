@@ -19,9 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ContributionTest {//集成测试：论⽂投稿和修改模块
     @Autowired
-    private AuthService authService;
-
-    @Autowired
     private ContributionService contributionService;
 
     @Autowired
@@ -37,7 +34,8 @@ class ContributionTest {//集成测试：论⽂投稿和修改模块
         //正确投稿
         Contribution contribution=contributionService.submit(new Contribution("b", "a", "The SoftWare Meetingvxv", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds",new ArrayList<>(), "['a','b','c']", ""));
         assertNotNull(contribution);
-       // assertNotNull(contributionService.submit(new Contribution("b", "a", "The SoftWare Meetingvxvdfdffd", "The SoftWare Meetingxbcxvc", "The SoftWare Meetinggfgds",new ArrayList<>(), "['a','b','c']", "")));
+        assertTrue(contributionService.addAuthor(contribution.getId(),"asdqr","Fudan University","Shanghai","12ewr3456@dfsd.sdd",(long)2));
+        assertTrue(contributionService.addAuthor(contribution.getId(),"asd","Fudan University","Shanghai","123456@dfsd.sdd",(long)1));
 
         //更改稿件信息
         Boolean result=contributionService.changeContribute(contribution.getId(),"newPath","newTitle","new summary","b","a", new ArrayList<>(), "['a','b','c']", "");

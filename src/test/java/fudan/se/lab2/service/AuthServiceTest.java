@@ -1,7 +1,6 @@
 package fudan.se.lab2.service;
 
 import fudan.se.lab2.controller.request.RegisterRequest;
-import fudan.se.lab2.exception.UsernameHasBeenRegisteredException;
 import fudan.se.lab2.exception.WrongPasswordException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

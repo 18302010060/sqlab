@@ -1,6 +1,5 @@
 package fudan.se.lab2.service;
 
-//import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import fudan.se.lab2.controller.request.*;
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,13 +19,7 @@ class InviteServiceTest {
     private AuthService authService;
 
     @Autowired
-    private ContributionService contributionService;
-
-    @Autowired
     private MeetingService meetingService;
-
-    @Autowired
-    private InitService initService;
 
     @Autowired
     private InviteService inviteService;
@@ -82,7 +73,7 @@ class InviteServiceTest {
         //用户接受
         Boolean accept4 = inviteService.acceptInvitation(new AcceptInviteRequest("The SoftWare Meeting", "accepted", "Jackjds000", "['a','b','c']"));
         assertTrue(accept4);
-        initService.getSomething();;
+
 
 
     }

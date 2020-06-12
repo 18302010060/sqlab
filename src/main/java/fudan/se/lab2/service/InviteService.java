@@ -84,7 +84,8 @@ public class InviteService {
 
        if(invitation2.isPresent()){
            Invitations invitation = invitationRepository.findByUsernameAndFullname(username,fullname);
-           if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")){
+           if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")||meeting.getState().equals("inFirstDiscussion")||
+                   meeting.getState().equals("firstDiscussionResultReleased")||meeting.getState().equals("firstConfirm")||meeting.getState().equals("secondDiscussionResultReleased")){
                logger.info("会议已在审稿阶段，不能接受邀请");
                invitationRepository.delete(invitation);
                return false;

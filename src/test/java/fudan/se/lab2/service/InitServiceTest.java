@@ -3,6 +3,7 @@ package fudan.se.lab2.service;
 import fudan.se.lab2.controller.InviteController;
 import fudan.se.lab2.controller.request.*;
 import fudan.se.lab2.domain.*;
+import fudan.se.lab2.repository.MeetingAuthorityRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,6 +37,8 @@ class InitServiceTest {
 
     @Autowired
     private InviteService inviteService;
+    @Autowired
+    private MeetingAuthorityRepository meetingAuthorityRepository;
 
     @Test
     void Test() {
@@ -330,6 +333,11 @@ class InitServiceTest {
 
     //根据username和fullname得到是否为PCmember
     void judgeWhetherPcmemberr() {
+        List<String> list=new ArrayList<>();
+        meetingAuthorityRepository.save(new MeetingAuthority("aaaaaa","meeting","chair",list,""));
+        InitRequest initRequest4 = new InitRequest("", "aaaaaa");
+        initRequest4.setFullname("meeting");
+        assertFalse(initService.judgeWhetherPcmemberr(initRequest4));
         //正常情况
         InitRequest initRequest = new InitRequest("", "aaa");
         initRequest.setFullname("The SoftWare Meeting2");

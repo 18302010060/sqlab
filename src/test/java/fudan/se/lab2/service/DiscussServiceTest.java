@@ -110,9 +110,16 @@ class DiscussServiceTest {
         assertNotEquals(null, discussService.getInRebuttalContributions("bbbbb"));
         discussService.getNonEditableContributions("wrong");
         discussService.getInRebuttalContributions("wrong");
+        //二轮讨论
+        discussionRepository.save(new Discussion("meeting","ddddd","comment","title",id,contribution.getEmployState(),"","","","","","","inSecondConfirm"));
+        discussionRepository.save(new Discussion("meeting","eeeee","comment","title",id,contribution.getEmployState(),"","","","","","","inSecondConfirm"));
+        discussionRepository.save(new Discussion("meeting","ccccc","comment","title",id,contribution.getEmployState(),"","","","","","","inSecondConfirm"));
 
-        contribution.setState("secondConfirm");
-        contributionRepository.save(contribution);
+        assertEquals( "修改成功",discussService.firstConfirm(id,"ccccc","grade","comment","confidence","secondConfirm"));
+        assertEquals( "修改成功",discussService.firstConfirm(id,"ddddd","grade","comment","confidence","secondConfirm"));
+        assertEquals( "修改成功",discussService.firstConfirm(id,"eeeee","grade","comment","confidence","secondConfirm"));
+
+
         assertTrue(discussService.releaseResults("meeting"));
         assertNotEquals(null, discussService.showContributionsSecondConfirm("ccccc", "meeting"));
         assertNotEquals(null, discussService.showContributionsSecondConfirm("aaaaa", "meeting"));

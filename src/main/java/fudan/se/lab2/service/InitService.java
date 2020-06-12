@@ -348,6 +348,29 @@ public class InitService {
         logger.info("无法得到审核结果");
         logger.info("无法得到审核结果");
         logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
+        logger.info("无法得到审核结果");
 
 
         try {

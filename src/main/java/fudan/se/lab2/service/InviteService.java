@@ -49,7 +49,8 @@ public class InviteService {
             logger.info("邀请失败");
             return false;
         }
-        else if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")){
+        else if(meeting.getState().equals("inReview")||meeting.getState().equals("resultsReleased")||meeting.getState().equals("inFirstDiscussion")||
+                meeting.getState().equals("firstDiscussionResultReleased")||meeting.getState().equals("firstConfirm")||meeting.getState().equals("secondDiscussionResultReleased")){
             logger.info("会议已处于审稿阶段，无法邀请pcmember");
             return false;
 

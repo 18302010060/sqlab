@@ -265,23 +265,29 @@ public class DiscussService {
     }
 
     public List<List<Discussion>> showDiscussion(Long contributionId,String discussionState){
-        List<Discussion> discussionList = discussionRepository.findAllByMainSubAndDiscussionState("1",discussionState);//找出所有主贴，即回复内容为空的帖子
-
+        List<Discussion> discussionList = discussionRepository.findAllByContributionIdAndMainSubAndDiscussionState(contributionId,"1",discussionState);//找出所有主贴，即回复内容为空的帖子
         List<List<Discussion>> allDiscussion1 = new ArrayList<>();
         for (Discussion discussion : discussionList) {//遍历主贴
-            logger.info(discussion.getComment());
             //List allDiscussion = new ArrayList<>();//创建一个新的list以保存主贴和主贴的回复list
             String time = discussion.getTime();//得到主贴时间
-            logger.info(time);
+
             String username = discussion.getUsername();//得到主贴发帖人
-            logger.info(username);
+
             List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndUsernameAndTime(contributionId,username,time);
-            for (Discussion value : discussionList1) { //找到当前讨论下，该用户在当前时间下的所有回帖
-                logger.info(value.getComment());
-            }
 
             //allDiscussion.add(discussionList1);//回复的list加紧list
             allDiscussion1.add(discussionList1);//将主贴+List<回复>加进最后返回的list
+            for (List<Discussion> list : allDiscussion1) {
+                for (Discussion discussion1 : list) {
+                    logger.info("评论： " + discussion1.getComment());
+                    logger.info("发帖人： " + discussion1.getUsername());
+                    logger.info("时间： " + discussion1.getTime());
+                    logger.info("回帖： " + discussion1.getSubcomment());
+                    logger.info("回帖人： " + discussion1.getSubusername());
+                    logger.info("回帖时间： " + discussion1.getSubtime());
+
+                }
+            }
 
 
 

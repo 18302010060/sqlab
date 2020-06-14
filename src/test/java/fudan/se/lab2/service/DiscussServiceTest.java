@@ -44,7 +44,6 @@ class DiscussServiceTest {
     String firstDiscussionResultReleased="firstDiscussionResultReleased";
     String inFirstConfirm="inFirstConfirm";
     String nothing="";
-    String subusername="subusername";
     List<String> list = new ArrayList<>();
 
     @Autowired

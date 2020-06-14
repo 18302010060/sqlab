@@ -45,6 +45,7 @@ class DiscussServiceTest {
     String inFirstConfirm="inFirstConfirm";
     String nothing="";
     String subusername="subusername";
+    String except2="非法操作";
     List<String> list = new ArrayList<>();
 
     @Autowired
@@ -102,12 +103,12 @@ class DiscussServiceTest {
         //
         assertEquals("只能修改一次评审结果", discussService.firstConfirm(id, usernamec, grade, comment, confidence, nothing));
         assertEquals(expect, discussService.firstConfirm(id, usernamec, grade, comment, confidence, firstConfirm));
-        assertEquals(expect, discussService.firstConfirm(id, username4, grade, comment, confidence, firstConfirm));
-        assertEquals(expect, discussService.firstConfirm(id, username5, grade, comment, confidence, firstConfirm));
+        assertEquals(except2, discussService.firstConfirm(id, username4, grade, comment, confidence, firstConfirm));
+        assertEquals(except2, discussService.firstConfirm(id, username5, grade, comment, confidence, firstConfirm));
 
         assertEquals("您还没有讨论过，无法修改评分", discussService.firstConfirm(id, usernamec, grade, comment, confidence, wrong));
 
-        assertTrue(discussService.ifAllContributionHasBeenConfirmed(meeting));
+        assertFalse(discussService.ifAllContributionHasBeenConfirmed(meeting));
         assertFalse(discussService.ifAllContributionHasBeenConfirmed(meeting2));
         assertFalse(discussService.ifAllContributionHasBeenConfirmed(meeting3));
 
@@ -131,7 +132,7 @@ class DiscussServiceTest {
         assertTrue(discussService.rebuttal(id, "rebuttal"));
         assertNotEquals(null, discussService.showContributionsByUsernameAndRebuttalState(username2, true));
         assertNotEquals(null, discussService.showContributionsByMeetingfullnameAndRebuttalState(username1, meeting, true));
-        assertNotEquals(null, discussService.showContributionsByMeetingfullnameAndRebuttalState(usernamec, meeting, true));
+        assertEquals(null, discussService.showContributionsByMeetingfullnameAndRebuttalState(usernamec, meeting, true));
 
         assertNotEquals(null, discussService.getNonEditableContributions(username2));
         assertNotEquals(null, discussService.getInRebuttalContributions(username2));
@@ -143,11 +144,11 @@ class DiscussServiceTest {
         discussionRepository.save(new Discussion(meeting,usernamec,comment,title,id,contribution.getEmployState(),nothing,nothing,nothing,nothing,nothing,nothing,inSecondConfirm));
 
         assertEquals( expect,discussService.firstConfirm(id,usernamec,grade,comment,confidence,secondConfirm));
-        assertEquals( expect,discussService.firstConfirm(id,username4,grade,comment,confidence,secondConfirm));
-        assertEquals( expect,discussService.firstConfirm(id,username5,grade,comment,confidence,secondConfirm));
+        assertEquals( except2,discussService.firstConfirm(id,username4,grade,comment,confidence,secondConfirm));
+        assertEquals( except2,discussService.firstConfirm(id,username5,grade,comment,confidence,secondConfirm));
 
 
-        assertTrue(discussService.releaseResults(meeting));
+        assertFalse(discussService.releaseResults(meeting));
         assertNotEquals(null, discussService.showContributionsSecondConfirm(usernamec, meeting));
         assertNotEquals(null, discussService.showContributionsSecondConfirm(username1, meeting));
 

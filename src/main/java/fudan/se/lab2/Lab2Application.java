@@ -7,9 +7,9 @@ import fudan.se.lab2.repository.AuthorityRepository;
 import fudan.se.lab2.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.slf4j.Logger;
@@ -46,21 +46,10 @@ public class Lab2Application {
             @Override
             public void run(String... args) throws Exception {
                 Logger logger = LoggerFactory.getLogger(AuthController.class);
-                // Create authorities if not exist.
-                Authority adminAuthority = getOrCreateAuthority("Admin", authorityRepository);
-                Authority contributorAuthority = getOrCreateAuthority("Contributor", authorityRepository);
-                Authority reviewerAuthority = getOrCreateAuthority("Reviewer", authorityRepository);
 
-                // Create an admin if not exists.
-               /* try{
-                    User user = userRepository.findByUsername("admin").get(0);
-                }
-                catch(Exception e){
-                    logger.info("no admin");
-                    User admin = new User("admin","password",new HashSet<>(Collections.singletonList(adminAuthority)));
-                    userRepository.save(admin);
-                    logger.info("save admin");
-                }*/
+                Authority adminAuthority = getOrCreateAuthority("Admin", authorityRepository);
+
+
                 if (userRepository.findByUsername("admin") == null) {
                     logger.info("no admin");
                     User admin = new User(

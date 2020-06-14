@@ -33,14 +33,15 @@ public class InitService {
         this.userRepository = userRepository;
         this.contributionRepository = contributionRepository;
     }
+    List empty = new ArrayList();
 
     //查询状态为passed和inManuscript的会议信息
     public List<Meeting> showDashboard() {
         try {
             return meetingRepository.findAllByStateEqualsOrStateEquals("passed", "inManuscript");
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！1");
+            return empty;
         }
     }
 
@@ -53,8 +54,8 @@ public class InitService {
             logger.info("state  "+state);
             return meetingRepository.findAllByChairEqualsAndStateEquals(username, state);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！2");
+            return empty;
         }
     }
 
@@ -76,8 +77,8 @@ public class InitService {
             logger.info("authority  "+authority);
             return meetings;
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！3");
+            return empty;
         }
     }
 
@@ -89,22 +90,15 @@ public class InitService {
 
             return invitationRepository.findAllByUsernameEqualsAndInviteStateEquals(username, "invited");
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！4");
+            return empty;
         }
     }
 
     //根据fullname得到所有的邀请信息 List<User>
     public List<User> PCMemberInvitations(InitRequest request) {
         try {
-         /*   Iterable<User> it = userRepository.findAll();
 
-            List<User> user = new ArrayList<>();
-            while (it.iterator().hasNext()) {
-                String username = ;
-                user.add(it.iterator().next());
-            }
-            return user;*/
             String fullname = request.getFullname();
             List<User> user1 = userRepository.findAll();
             List<User> user = new ArrayList<>();
@@ -120,8 +114,8 @@ public class InitService {
             }
             return user;
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！5");
+            return empty;
         }
     }
 
@@ -142,8 +136,8 @@ public class InitService {
 
             return users;
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！6");
+            return empty;
         }
     }
 
@@ -154,8 +148,8 @@ public class InitService {
             logger.info("fullname  "+fullname );
             return meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！7");
+            return empty;
         }
     }
 
@@ -164,8 +158,8 @@ public class InitService {
         try {
             return meetingRepository.findAllByStateEquals("inAudit");
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！8");
+            return empty;
         }
     }
 
@@ -179,8 +173,8 @@ public class InitService {
 
             return meetingRepository.findAllByStateEquals(state);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！9");
+            return empty;
         }
     }
 
@@ -195,8 +189,8 @@ public class InitService {
 
 
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！10");
+            return empty;
         }
     }
 
@@ -209,7 +203,7 @@ public class InitService {
 
             return userRepository.findByUsername(username);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
+            logger.info("空指针错误！！11");
             return null;
         }
 
@@ -223,8 +217,8 @@ public class InitService {
 
             return meetingRepository.findAllByFullname(fullname);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！12");
+            return empty;
         }
     }
 
@@ -238,8 +232,8 @@ public class InitService {
 
             return contributionRepository.findAllByMeetingFullname(fullname);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！13");
+            return empty;
         }
     }
 
@@ -254,8 +248,8 @@ public class InitService {
 
             return contributionRepository.findAllContributionByUsernameAndMeetingFullname(username,fullname);
         } catch (Exception e) {
-            logger.info("空指针错误！！");
-            return null;
+            logger.info("空指针错误！！14");
+            return empty;
         }
     }
 

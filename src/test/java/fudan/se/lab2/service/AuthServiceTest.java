@@ -14,6 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 class AuthServiceTest {
+    String username1="asdqwe";
+    String passwor1="qwe123";
+    String username2="asdq01";
+    String fullname="Lucy";
+    String area="fudan";
+    String unit="shanghai";
+    String email1="145246@163.com";
     @Autowired
     private AuthService authService;
 
@@ -21,23 +28,23 @@ class AuthServiceTest {
     @Test
     void register() throws UsernameNotFoundException {
         //正常注册
-        String result = authService.register(new RegisterRequest("asdqwe", "qwe123", "145246@163.com", "fudan", "shanghai", "Lucy"));
+        String result = authService.register(new RegisterRequest(username1, passwor1, email1, area, unit, fullname));
         assertEquals("注册成功", result);
         //用户名已注册
-        String result1 = authService.register(new RegisterRequest("asdqwe", "qwecd123", "1452df46@163.com", "fudan", "shanghai", "Lucy"));
+        String result1 = authService.register(new RegisterRequest(username1, "qwecd123", "1452df46@163.com", area, unit, fullname));
         assertEquals("用户名已存在", result1);
 
         //"该邮箱已被注册过"
-        String result2 = authService.register(new RegisterRequest("asdq01", "qwe123", "145246@163.com", "fudan", "shanghai", "Lucy"));
+        String result2 = authService.register(new RegisterRequest(username2, passwor1, email1, area, unit, fullname));
         assertEquals("该邮箱已被注册过", result2);
 
         //正常登陆
-        String token1 = authService.login("asdqwe", "qwe123");
+        String token1 = authService.login(username1, passwor1);
         assertNotNull(token1);
 
         //用户名不存在情况
         try {
-            authService.login("iibnuyjsh", "qwe123");
+            authService.login(unit, passwor1);
         } catch (UsernameNotFoundException e) {
             System.out.print("用户名不存在！！");
         }
@@ -49,7 +56,7 @@ class AuthServiceTest {
     void login() throws WrongPasswordException {
 
         try {
-            authService.login("asdqwe", "e123");
+            authService.login(username1, "e123");
         } catch (WrongPasswordException e) {
             System.out.print("密码错误！！");
         }

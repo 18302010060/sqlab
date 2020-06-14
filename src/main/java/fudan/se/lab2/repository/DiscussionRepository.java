@@ -25,6 +25,7 @@ public interface DiscussionRepository extends CrudRepository<Discussion, Long> {
     List<Discussion> findAllByContributionIdAndUsername(Long contributionId,String username);
     List<Discussion> findAllByContributionIdAndUsernameAndDiscussionState(Long contributionId,String username,String discussionState);
     List<Discussion> findAllByContributionIdAndMainSubAndDiscussionState(Long id,String mainSub,String discussionState);
+    List<Discussion> findAllByContributionIdAndSubusernameAndAndDiscussionState(Long id,String subUsername,String discussionState);
 
 
 

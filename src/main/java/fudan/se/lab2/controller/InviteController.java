@@ -1,9 +1,7 @@
 package fudan.se.lab2.controller;
 
 import fudan.se.lab2.controller.request.*;
-import fudan.se.lab2.domain.Invitations;
-import fudan.se.lab2.domain.Meeting;
-import fudan.se.lab2.domain.User;
+
 import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.service.InviteService;
@@ -34,7 +32,7 @@ public class InviteController {
 
     @PostMapping(value="/invite")
     @ResponseBody
-    public ResponseEntity<?> invite(@RequestBody InviteRequest request){
+    public ResponseEntity<Boolean> invite(@RequestBody InviteRequest request){
 
 
 
@@ -43,7 +41,7 @@ public class InviteController {
 
     @PostMapping(value="/acceptinvite")
     @ResponseBody
-    public ResponseEntity<?> acceptInvite(@RequestBody AcceptInviteRequest request){
+    public ResponseEntity<Boolean> acceptInvite(@RequestBody AcceptInviteRequest request){
 
 
 

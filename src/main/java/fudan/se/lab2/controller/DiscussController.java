@@ -1,16 +1,16 @@
 package fudan.se.lab2.controller;
 
 
-import fudan.se.lab2.controller.request.*;
+
 import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.DiscussionRepository;
 import fudan.se.lab2.repository.InvitationRepository;
 import fudan.se.lab2.repository.UserRepository;
 import fudan.se.lab2.service.DiscussService;
-import fudan.se.lab2.service.InviteService;
 
 
-import fudan.se.lab2.service.DiscussService;
+
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -41,7 +40,7 @@ public class DiscussController {
 
     @PostMapping(value="/discuss")
     @ResponseBody
-    public ResponseEntity<?> discuss(@RequestParam("contributionId")Long contributionId,
+    public ResponseEntity<Boolean> discuss(@RequestParam("contributionId")Long contributionId,
                                      @RequestParam("username")String username,
                                      @RequestParam("comment")String comment,
                                      @RequestParam("subusername")String subusername,
@@ -66,7 +65,7 @@ public class DiscussController {
 
     @PostMapping(value="/showDiscussionByMeetingFullnameAndUsername")
     @ResponseBody
-    public ResponseEntity<?> showDiscussion(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<List<Contribution>> showDiscussion(@RequestParam("meetingFullname")String meetingFullname,
                                             @RequestParam("username")String username){
         logger.info("meetingFullname:"+meetingFullname);
         logger.info("username:"+username);
@@ -75,7 +74,7 @@ public class DiscussController {
 
     @PostMapping(value = "/showDiscussionByMeetingFullnameAndEmployState")
     @ResponseBody
-    public ResponseEntity<?> showDiscussionByMeetingFullnameAndEmployState(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<List<Contribution>> showDiscussionByMeetingFullnameAndEmployState(@RequestParam("meetingFullname")String meetingFullname,
                                                              @RequestParam("state")Boolean employState){
         logger.info("meetingFullname:"+meetingFullname);
         logger.info("state:"+employState);
@@ -83,7 +82,7 @@ public class DiscussController {
     }
     @PostMapping(value = "/showDiscussionByMeetingFullnameAndState")
     @ResponseBody
-    public ResponseEntity<?> showDiscussionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<List<Contribution>> showDiscussionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
                                                              @RequestParam("username")String username,
                                                              @RequestParam("state")String state){
         logger.info("meetingFullname:"+meetingFullname);
@@ -94,7 +93,7 @@ public class DiscussController {
 
     @PostMapping(value = "/firstConfirm")
     @ResponseBody
-    public ResponseEntity<?> firstConfirm(@RequestParam("contributionId")Long contributionId,
+    public ResponseEntity<String> firstConfirm(@RequestParam("contributionId")Long contributionId,
                                           @RequestParam("username")String username,
                                           @RequestParam("grade")String grade,
                                           @RequestParam("comment")String comment,
@@ -111,7 +110,7 @@ public class DiscussController {
 
     @PostMapping(value = "/openFirstDiscussion")
     @ResponseBody
-    public ResponseEntity<?> openFirstDiscussion(@RequestParam("meetingFullname")String meetingFullname) {
+    public ResponseEntity<Boolean> openFirstDiscussion(@RequestParam("meetingFullname")String meetingFullname) {
         logger.info("会议全称：  "+meetingFullname);
 
         return ResponseEntity.ok(discussService.openFirstDiscussion(meetingFullname));
@@ -121,24 +120,24 @@ public class DiscussController {
 
     @PostMapping(value = "/showDiscussion")
     @ResponseBody
-    public ResponseEntity<?> showDiscussion(@RequestParam("contributionId")Long contributionId,@RequestParam("discussionState")String discussionState){
+    public ResponseEntity<List<List<Discussion>>> showDiscussion(@RequestParam("contributionId")Long contributionId,@RequestParam("discussionState")String discussionState){
         return ResponseEntity.ok(discussService.showDiscussion(contributionId,discussionState));
     }
     @PostMapping(value="/showContributionByMeetingFullnameAndState")
     @ResponseBody
-    public ResponseEntity<?> showContributionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
+    public ResponseEntity<List<Contribution>> showContributionByMeetingFullnameAndState(@RequestParam("meetingFullname")String meetingFullname,
                                                                        @RequestParam("state")String state){
         return ResponseEntity.ok(discussService.showContributionByMeetingFullnameAndState(meetingFullname,state));
 
     }
     @PostMapping(value = "/ifAllContributionHasBeenConfirmed")
     @ResponseBody
-    public ResponseEntity<?> ifAllContributionHasBeenConfirmed(@RequestParam("meetingFullname")String meetingFullname){
+    public ResponseEntity<Boolean> ifAllContributionHasBeenConfirmed(@RequestParam("meetingFullname")String meetingFullname){
         return ResponseEntity.ok(discussService.ifAllContributionHasBeenConfirmed(meetingFullname));
     }
     @PostMapping(value = "/releaseFirstResult")
     @ResponseBody
-    public ResponseEntity<?> releaseFirstResult(@RequestParam("meetingFullname")String meetingFullname){
+    public ResponseEntity<Boolean> releaseFirstResult(@RequestParam("meetingFullname")String meetingFullname){
         return ResponseEntity.ok(discussService.releaseFirstResult(meetingFullname));
     }
 

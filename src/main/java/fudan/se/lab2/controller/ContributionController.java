@@ -1,16 +1,16 @@
 package fudan.se.lab2.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.support.odps.udf.CodecCheck;
+
 import fudan.se.lab2.controller.request.IdRequest;
 import fudan.se.lab2.domain.Author;
 import fudan.se.lab2.domain.Contribution;
-import fudan.se.lab2.domain.Meeting;
+
 import fudan.se.lab2.repository.AuthorRepository;
 import fudan.se.lab2.repository.ContributionRepository;
 import fudan.se.lab2.service.ContributionService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.hibernate.mapping.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
-import java.sql.Blob;
+
 import java.util.*;
 
 @RestController

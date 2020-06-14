@@ -2,17 +2,17 @@ package fudan.se.lab2.service;
 
 import com.alibaba.fastjson.JSONArray;
 import fudan.se.lab2.controller.InviteController;
-import fudan.se.lab2.controller.request.InitRequest4;
+
 import fudan.se.lab2.domain.*;
 import fudan.se.lab2.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +26,8 @@ public class OperationService {
     DistributionRespository distributionRespository;
     AuthorRepository authorRepository;
     Logger logger = LoggerFactory.getLogger(InviteController.class);
+    Random random = new Random();
+
     @Autowired
     public OperationService(MeetingRepository meetingRepository,MeetingAuthorityRepository meetingAuthorityRepository,InvitationRepository invitationRepository,UserRepository userRepository,ContributionRepository contributionRepository, DistributionRespository distributionRespository,AuthorRepository authorRepository){
         this.meetingAuthorityRepository = meetingAuthorityRepository;
@@ -83,7 +85,7 @@ public class OperationService {
                 }
             }
             else{
-                //distributeContributionsByAverage(fullname);
+
                 if(distributeContributionsByAverage(fullname)){
                     meeting.setState("inReview");
                     //更改该会议的稿件状态为inReview
@@ -204,6 +206,7 @@ public class OperationService {
     //根据topic相关度分配稿件
     public Boolean distibuteContibutionsByTopicsRelevancy(String fullname) {
         logger.info("fullname"+fullname);
+
         boolean state = true;
         try{
         List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的投稿
@@ -226,6 +229,8 @@ public class OperationService {
                     } } }
             for (int j = 0; j < reviewers.size(); j++) {
                 for (Author author : authorList) {
+
+
                     if (author.getUsername().equals(reviewers.get(j).getUsername())||contribution.getUsername().equals(reviewers.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                         reviewers.remove(j);
                     } } }
@@ -234,6 +239,7 @@ public class OperationService {
             }
             for (int j = 0; j < meetingAuthorityList.size(); j++) {
                 for (Author author : authorList) {
+
                     if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())||contribution.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                         meetingAuthorityList.remove(j);
                     } } }
@@ -251,7 +257,7 @@ public class OperationService {
                         distributionRespository.deleteById(distribution.getId());
                     }state = false;
                 } else {
-                    Random random = new Random();//随机分配
+                    //随机分配
                     while (list.size() != 3) {
                         int num = random.nextInt(meetingAuthorityList.size());//生成0-pcmember个数的不同随机数
                         if (!list.contains(num)) {
@@ -266,7 +272,7 @@ public class OperationService {
                     distributionRespository.save(distribution3);
                     logger.info(contribution.getId() + "  分配成功");
                 } } else {//在负责该topic的pcmember中分配
-                Random random = new Random();
+
                 while (list.size() != 3) {
                     int num = random.nextInt(reviewers.size());//生成0-reviewers个数的随机数
                     if (!list.contains(num)) {
@@ -290,6 +296,7 @@ public class OperationService {
         public boolean distributeContributionsByAverage(String fullname){ //平均分配稿件
         boolean state = true;
         logger.info("fullname:  "+fullname);
+
         try {
             List<Contribution> contributionList = contributionRepository.findAllByMeetingFullname(fullname);//得到该会议的所有投稿
             List<MeetingAuthority> meetingAuthorityList = meetingAuthorityRepository.findAllByFullnameAndAuthority(fullname, "PCmember");//得到该会议的pcmember和chair
@@ -298,6 +305,7 @@ public class OperationService {
                 List<Author> authorList = authorRepository.findAllById(contribution.getId());
                 for (int j = 0; j < meetingAuthorityList.size(); j++) {
                     for (Author author : authorList) {
+
                         if (author.getUsername().equals(meetingAuthorityList.get(j).getUsername())||contribution.getUsername().equals(meetingAuthorityList.get(j).getUsername())) {//如果审稿人为这篇投稿的作者，将他从审稿人中去除
                             meetingAuthorityList.remove(j); } } }
                 if (meetingAuthorityList.size() < 3) {
@@ -305,7 +313,7 @@ public class OperationService {
                     state = false;
                 } else {
                     List<Integer> list = new ArrayList();
-                    Random random = new Random();
+
                     while (list.size() != 3) {
                         int num = random.nextInt(meetingAuthorityList.size());//生成0-reviewers个数的随机数
                         if (!list.contains(num)) {

@@ -130,8 +130,8 @@ public class DiscussService {
             contribution.setState(discussionState);//初次确认
             contributionRepository.save(contribution);
             int flag2 = 0;
-            for(int i = 0;i<distributionList.size();i++){
-                if (distribution.getGrade().equals("2 points (accept)") || distribution.getGrade().equals("1 point (weak-accept)")) {
+            for (Distribution value : distributionList) {
+                if (value.getGrade().equals("2 points (accept)") || value.getGrade().equals("1 point (weak-accept)")) {
                     flag2++;
                 }
             }
@@ -151,6 +151,9 @@ public class DiscussService {
     public boolean ifConfirmIsAvailable(String username,Long contributionId,String discussionState){
 
         List<Discussion> discussionList = discussionRepository.findAllByContributionIdAndUsernameAndDiscussionState(contributionId,username,discussionState);
+        List<Discussion> discussionList1 = discussionRepository.findAllByContributionIdAndSubusernameAndAndDiscussionState(contributionId,username,discussionState);
+        discussionList.addAll(discussionList1);
+
         return discussionList != null && !discussionList.isEmpty();
     }
 
@@ -402,8 +405,15 @@ public class DiscussService {
     public List<Contribution> getEmployContributions(String username,Boolean employState){
         try {
             if(employState){
-            List<Contribution> contributionList=contributionRepository.findContributionsByUsernameAndEmployState(username,true);
-            return contributionList;
+                List<Contribution> contributionList=contributionRepository.findContributionsByUsernameAndEmployState(username,true);
+                List<Contribution> contributionList1= new ArrayList<>();
+                for(Contribution contribution:contributionList){
+                    if(contribution.getState().equals("secondDiscussionResultReleased")||contribution.getState().equals("firstDiscussionResultReleased")){
+                        contributionList1.add(contribution);
+
+                    }
+                }
+                return contributionList1;
             }
             else {
                 List<Contribution> contributionList=contributionRepository.findContributionsByUsernameAndStateAndEmployState(username,"secondDiscussionResultReleased",false);
